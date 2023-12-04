@@ -1,0 +1,5 @@
+usuario1;clave123;JuanPerez;555-1234;Calle123,Ciudad;1990-05-15;Mexicana;imagen_1.jpg;123456789;México;2025-05-15;imagen_licencia_1.jpg;Visa;1234 5678 9012 3456;06/25
+clienteA;pass456;MariaGarcia;555-5678;AvenidaPrincipal,Pueblo;1985-09-20;Española;imagen_2.jpg;987654321;España;2026-09-20;imagen_licencia_2.jpg;MasterCard;5678 9012 3456 7890;08/27
+john_doe;secret789;JohnDoe;555-9876;Street456,Town;1988-12-10;Estadounidense;imagen_3.jpg;555555555;Estados Unidos;2024-12-10;imagen_licencia_3.jpg;American Express;4321 8765 0987 1234;09/24
+usr_cliente;mypass123;AnaSánchez;555-4321;Carrera789,Villa;1995-03-25;Colombiana;imagen_4.jpg;1111222233334444;Colombia;2023-03-25;imagen_licencia_4.jpg;Visa;9876 5432 2109 8765;07/26
+usr_test;testpass;CarlosRamirez;555-8765;Calle567,Ciudad;1992-08-03;Mexicana;imagen_5.jpg;9999888877776666;México;2027-08-03;imagen_licencia_5.jpg;MasterCard;5432 1098 7654 3210;11/28
