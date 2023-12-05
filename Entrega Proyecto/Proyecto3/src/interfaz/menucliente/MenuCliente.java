@@ -36,7 +36,7 @@ public class MenuCliente extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-				SesionCliente sesion = new SesionCliente(SA.getContenedorDeDatos(), sistemaAlquiler);
+				SesionCliente sesion = new SesionCliente(SA.getContenedorDeDatos(), SA);
 			}
 		});
 

@@ -21,7 +21,7 @@ import clases.Usuario;
 
 public class CrearReservaFrame extends JFrame{
 	
-	public CrearReservaFrame (Usuario cliente, SistemaAlquiler SA) {
+	public CrearReservaFrame (Cliente cliente, SistemaAlquiler SA) {
 		
 		JPanel panel=new JPanel();
 		panel.setLayout(new FlowLayout());
@@ -67,7 +67,12 @@ public class CrearReservaFrame extends JFrame{
 				LocalDateTime fechaEntregaTarde = LocalDateTime.parse((CharSequence) entregaTarde, formatter);
 				Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaTemprano,fechaEntregaTarde);
 				
-				SA.crearReserva(categoria.getText(), fechaRecogida,ubicacionR.getText(), ubicacionE.getText(), rangoEntrega, cliente, null);
+				try {
+					SA.crearReserva(categoria.getText(), fechaRecogida,ubicacionR.getText(), ubicacionE.getText(), rangoEntrega, cliente, null);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 			

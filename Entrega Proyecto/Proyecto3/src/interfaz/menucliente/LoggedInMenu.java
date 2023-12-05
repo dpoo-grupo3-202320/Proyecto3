@@ -7,12 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import clases.Cliente;
 import clases.SistemaAlquiler;
 import clases.Usuario;
 
 public class LoggedInMenu {
 	
-	public LoggedInMenu(Usuario cliente, SistemaAlquiler SA) {
+	public LoggedInMenu(Cliente cliente, SistemaAlquiler SA) {
 		JPanel panel= new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		

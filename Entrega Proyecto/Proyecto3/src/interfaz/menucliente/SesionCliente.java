@@ -52,12 +52,12 @@ public class SesionCliente extends JFrame {
 					spassword+=String.valueOf(i);
 				}
 				
-				Usuario logInUser= CD.getUsuario(user, spassword);
+				Cliente logInUser= CD.getCliente( spassword);
 				
 				if (logInUser==null) {
 					advertenciaUsuario lookOut= new advertenciaUsuario();
 				}else {
-					LoggedInMenu menu= new LoggedInMenu(LogInUser,SA);
+					LoggedInMenu menu= new LoggedInMenu(logInUser,SA);
 				}
 			}});
 	}
