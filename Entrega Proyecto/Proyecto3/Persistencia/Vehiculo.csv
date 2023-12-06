@@ -1,5 +1,5 @@
-GHI789;Chevrolet;Negro;Automática;Camioneta;2023-11-12T12:15;Necesitamantenimiento;Fueradeservicio
-XYZ789;Honda;Rojo;Manual;SUV;2023-11-10T14:30;Sincomentarios;Disponible
-DEF456;Ford;Blanco;Automática;Hatchback;2023-11-11T08:45;Pequeñosrasguños;Alquilado
-ABC123;Toyota;Azul;Automatica;Sedan;2023-11-09T10:00;Buenestado;Disponible
-JKL012;Nissan;Gris;Manual;Coupe;2023-11-13T09:30;Sincomentarios;Disponible
+GHI789;Chevrolet;Negro;Automática;Camioneta;SedeA;2023-11-12T12:15;Necesitamantenimiento;Fueradeservicio
+XYZ789;Honda;Rojo;Manual;SUV;SedeB;2023-11-10T14:30;Sincomentarios;Disponible
+DEF456;Ford;Blanco;Automática;Hatchback;SedeC;2023-11-11T08:45;Pequeñosrasguños;Alquilado
+ABC123;Toyota;Azul;Automatica;Sedan;SedeA;2023-11-09T10:00;Buenestado;Disponible
+JKL012;Nissan;Gris;Manual;Coupe;SedeB;2023-11-13T09:30;Sincomentarios;Disponible

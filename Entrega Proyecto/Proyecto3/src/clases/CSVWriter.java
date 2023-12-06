@@ -23,7 +23,7 @@ public class CSVWriter {
         try (PrintWriter writer = new PrintWriter(new FileWriter(archivoEmpleados))) {
             for (Map.Entry<String, Empleado> entry : empleados.entrySet()) {
                 Empleado empleado = entry.getValue();
-                String linea = String.format("%s,%s,%s", empleado.getUsuario(), empleado.getContraseña(), empleado.getSede().getNombre());
+                String linea = String.format("%s;%s;%s", empleado.getUsuario(), empleado.getContraseña(), empleado.getSede().getNombre());
                 writer.println(linea);
             }
         } catch (IOException e) {
@@ -54,16 +54,20 @@ public class CSVWriter {
     }
 
 	private static void guardarAdmins(Map<String, Admin> admins) {
-        String rutaArchivo = "archivoAdmins";
+		
+        String rutaArchivo = archivoAdmins;
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(rutaArchivo))) {
             for (Map.Entry<String, Admin> entry : admins.entrySet()) {
                 Admin admin = entry.getValue();
-                String linea = String.format(
-                        "%s;%s;%s",
-                        admin.getUsuario(), admin.getContraseña(), admin.getSede()
-                );
-                writer.println(linea);
+                if (admin.getNombreUsuario() != "AdministradorGen")
+                {
+	                String linea = String.format(
+	                        "%s;%s;%s",
+	                        admin.getUsuario(), admin.getContraseña(), admin.getSede()
+	                );
+	                writer.println(linea);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,9 +105,9 @@ public class CSVWriter {
             for (Vehiculo vehiculo : vehiculos) {
                 String fechaFormateada = vehiculo.getFechaDisponible().toString();
                 String linea = String.format(
-                        "%s;%s;%s;%s;%s;%s;%s;%s",
+                        "%s;%s;%s;%s;%s;%s;%s;%s;%s",
                         vehiculo.getPlaca(), vehiculo.getMarca(), vehiculo.getColor(),
-                        vehiculo.getTransmision(), vehiculo.getCategoria(), fechaFormateada,
+                        vehiculo.getTransmision(), vehiculo.getCategoria(),vehiculo.getSede(), fechaFormateada,
                         vehiculo.getComentarios(), vehiculo.getEstado()
                 );
                 writer.println(linea);
