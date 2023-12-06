@@ -299,6 +299,11 @@ public class SistemaAlquiler {
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
 		nuevaReserva(r);
 	}
+	
+	public void setReserva( Map<String, Reserva> reser) {
+		Map<String, Reserva> reservas= this.inventario.getReservaMap() ;
+		reservas=reser;
+	}
 
 	public void modificarReserva(String idReserva, LocalDateTime fechaRecogida, Range<LocalDateTime> rangoEntrega)
 			throws Exception {
@@ -311,6 +316,18 @@ public class SistemaAlquiler {
 		}
 		r.setFechaRecogida(fechaRecogida);
 		r.setRangoEntrega(rangoEntrega);
+	}
+	
+	public ArrayList<Reserva> consultarHistorialVehiculoInventario(String placa) throws Exception {
+		if (!inventario.vehiculoExiste(placa)) {
+			throw new Exception("El vehiculo seleccionado no existe");
+		}
+		Vehiculo v = getVehiculo(placa);
+		ArrayList<Reserva> historial = v.getHistorial();
+		if (historial.isEmpty()) {
+			throw new Exception("El vehiculo seleccionado no tiene historial");
+		}
+		return historial;
 	}
 	
 	//Creacion Alquileres
