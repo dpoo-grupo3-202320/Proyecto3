@@ -99,7 +99,7 @@ public class SistemaAlquiler {
 	
 	//Getters estruturas
 	public ArrayList<Sede> getSedes() {
-		return (ArrayList<Sede>) sedes.values();
+		return new ArrayList<Sede>( sedes.values());
 	}
 	
 	public Map<String, Usuario> getUsuarios() {
