@@ -7,6 +7,26 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="tests"/>
+	<classpathentry kind="src" path="lib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/barcodes-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/bouncy-castle-adapter-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/bouncy-castle-connector-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/bouncy-castle-fips-adapter-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/commons-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/font-asian-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/forms-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/hyph-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/io-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/kernel-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/layout-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/pdfa-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/pdftest-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/sign-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/styled-xml-parser-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-Core-8.0.2-only-jars/svg-8.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/iText-pdfHtml-5.0.2-only-jars/html2pdf-5.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.36/slf4j-api-1.7.36.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.36/slf4j-simple-1.7.36.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
