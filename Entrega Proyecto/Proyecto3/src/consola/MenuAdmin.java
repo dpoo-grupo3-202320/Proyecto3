@@ -178,9 +178,8 @@ public class MenuAdmin {
 					System.out.println("Para agregar un empleado ingrese la siguiente informacion: ");
 					String usuario = input("Nombre usuario");
 					String constraseña = input("Clave usuario");
-					String rol = input("Rol del usuario");
 					try {
-						sistemaAlquiler.registroEmpleado(usuario, constraseña, rol, sistemaAlquiler.getSede(sedeAdmin));
+						sistemaAlquiler.registroEmpleado(usuario, constraseña, sistemaAlquiler.getSede(sedeAdmin));
 						System.out.println("Empleado registrado");
 					} catch (Exception e) {
 						System.out.println(e.getMessage());

@@ -2,6 +2,7 @@ package clases;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +17,7 @@ public class Inventario implements Serializable {
 			.asList(new String[] { "Pequeños", "SUV", "Vans", "Lujo", "Otros" });
 	// TODO: sedes?
 	public static final String[] categorias = new String[] { "Pequeños", "SUV", "Vans", "Lujo", "Otros" };
-	public static final String[] sedes = new String[] { "SedeA", "SedeB",
-			"SedeC", "SedeD" };
+
 	public static final String[] seguros = new String[] { "Seguro 1", "Seguro 2",
 			"Seguro 3", "Seguro 4" };
 	public static final Map<String, Tarifa> tarifas = new HashMap<String, Tarifa>() {
@@ -49,11 +49,11 @@ public class Inventario implements Serializable {
 	/*
 	 * getters
 	 */
-	public Map<String, Vehiculo> getVehiculo() {
+	public Map<String, Vehiculo> getVehiculoMap() {
 		return this.vehiculos;
 	}
 
-	public Map<String, Reserva> getReserva() {
+	public Map<String, Reserva> getReservaMap() {
 		return this.reservas;
 	}
 
@@ -75,4 +75,63 @@ public class Inventario implements Serializable {
 	public void getCalendario(Map<String, List<Range<LocalDateTime>>> calen) {
 		this.calendario = calen;
 	}
+	
+	//Metodos utiles
+	
+	public Vehiculo getVehiculo(String placa) {
+		return vehiculos.get(placa);
+	}
+
+	public ArrayList<Vehiculo> getVehiculos() {
+		return new ArrayList<Vehiculo> (vehiculos.values());
+	}
+	
+	public boolean vehiculoExiste(String nombreVehiculo) {
+		return vehiculos.containsKey(nombreVehiculo);
+	}
+
+	public void nuevoVehiculo(Vehiculo v) throws Exception {
+		if (vehiculoExiste(v.getPlaca())) {
+			throw new Exception("Ya existe un vehiculo con esta placa.");
+		}
+		vehiculos.put(v.getPlaca(), v);
+	}
+	
+	public void agregarVehiculo(String placa, String marca, String color, String transmision, String categoria,
+			String sede, String estado) throws Exception {
+		
+		LocalDateTime fechaDisponible = null;
+		String comentarios = "vehiculo nuevo";
+		ArrayList<Reserva> historial = null;
+
+		Vehiculo nuevoVehiculo = new Vehiculo(placa, marca, color, transmision, categoria, sede, fechaDisponible,
+				comentarios, estado, historial);
+		nuevoVehiculo(nuevoVehiculo);
+	}
+	
+	public String consultarUbicacionVehiculo(String placa) throws Exception {
+		if (!vehiculoExiste(placa)) {
+			throw new Exception("El vehiculo seleccionado no existe");
+		}
+		Vehiculo v = getVehiculo(placa);
+		if (v.getUbicacion() == null) {
+			throw new Exception("El vehiculo esta actualmente alquilado");
+		}
+		return v.getUbicacion();
+	}
+	
+	
+	public ArrayList<Reserva> consultarHistorialVehiculo(String placa) throws Exception {
+		if (!vehiculoExiste(placa)) {
+			throw new Exception("El vehiculo seleccionado no existe");
+		}
+		Vehiculo v = getVehiculo(placa);
+		ArrayList<Reserva> historial = v.getHistorial();
+		if (historial.isEmpty()) {
+			throw new Exception("El vehiculo seleccionado no tiene historial");
+		}
+		return historial;
+	}
+	
+	
 }

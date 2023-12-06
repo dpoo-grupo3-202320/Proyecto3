@@ -12,143 +12,180 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import clases.CSVReader;
+import clases.CSVWriter;
 
 public class SistemaAlquiler {
-	private ContenedorDeDatos datos;
-
-	// FIXME: no deberia haber accesso directo al contenedor
-	// de datos
-	public ContenedorDeDatos getContenedorDeDatos() {
-		return this.datos;
-	}
-
-	public ArrayList<Reserva> getReservas() {
-		return datos.getReservas();
-	}
-
-	public SistemaAlquiler() throws FileNotFoundException, IOException, ClassNotFoundException {
+	private CSVReader csv = new CSVReader(this);
+	private Admin adminGeneral;
+	private Usuario usuarioActual;
+	private Inventario inventario = new Inventario();
+	
+	//llave es login 
+	private HashMap<String, Cliente> clientes = new HashMap<String, Cliente>();
+	private HashMap<String, Admin> admins = new HashMap<String, Admin>();
+	private HashMap<String, Empleado> empleados =  new HashMap<String, Empleado>();
+	
+	//llave es nombre 
+	private HashMap<String, Sede> sedes = new HashMap<String, Sede>();
+	
+	// llave es id reserva
+	private HashMap<String, Reserva> reservas = new HashMap<String, Reserva>();
+	
+	private ArrayList<Seguro> seguros = new ArrayList<Seguro>();
+	
+	// se utiliza como id para las reservas
+	private int contadorReservas = 0;
+	
+	//Builder 
+	public SistemaAlquiler() throws FileNotFoundException, IOException, ClassNotFoundException 
+	{
 		cargarDatos();
+		this.adminGeneral = new Admin("AdministradorGen", "SenecaDPOO");
+		this.admins.put(adminGeneral.getNombreUsuario(), adminGeneral);
 	}
 
-	public boolean sesionIniciada() {
-		return datos.sesionIniciada();
-	}
-
-	public void establecerUsuario(Usuario u) {
-		datos.establecerUsuario(u);
-	}
-
-	public void cerrarSesion() {
-		datos.cerrarSesion();
-	}
-
-	public Usuario getUsuarioActual() {
-		return datos.getUsuarioActual();
-	}
-
-	/*
-	 * funciones
-	 */
-	/**
-	 * si se lanza error, significa que no se pudieron cargar los datos los datos se
-	 * cargan automaticamente, si no existe un archivo de
-	 * 
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
+	//Carga de datos 
 	public void cargarDatos() throws IOException, ClassNotFoundException {
-		// cargar bytes de archivo
-		File archivoDatos = new File("./Datos/datos");
-		if (archivoDatos.exists()) {
-			byte[] bytes = Files.readAllBytes(archivoDatos.toPath());
-			// convertir bytes a objeto
-			ByteArrayInputStream bs = new ByteArrayInputStream(bytes); // bytes es el byte[]
-			ObjectInputStream is = new ObjectInputStream(bs);
-			datos = (ContenedorDeDatos) is.readObject();
-			is.close();
-		} else {
-			datos = new ContenedorDeDatos();
-			// CSVReader r = new CSVReader(this, datos);
-		}
-		CSVReader r = new CSVReader(this, datos);
-
+		csv.cargarDatos();	
 	}
-
-	/**
-	 * si lanza un error, significa que no se pudieron guardar datos
-	 * 
-	 * @throws IOException
-	 */
-	public void guardarDatos() throws IOException {
-		// convertir objeto de datos a bytes
-		ByteArrayOutputStream bs = new ByteArrayOutputStream();
-		ObjectOutputStream os = new ObjectOutputStream(bs);
-		os.writeObject(datos);
-		os.close();
-		byte[] bytes = bs.toByteArray();
-		// guardar bytes en archivo
-		File archivoDatos = new File("./Datos/datos");
-		if (!archivoDatos.exists()) {
-			if (!archivoDatos.createNewFile())
-				throw new FileNotFoundException("no se pudo crear el archivo");
-		}
-		try (FileOutputStream outputStream = new FileOutputStream(archivoDatos)) {
-			outputStream.write(bytes);
-			System.out.println("datos guardados");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+	
+	//Guardar Datos
+	
+	public void guardarDatos() 
+	{
+		CSVWriter.guardarDatos(empleados, clientes, admins, sedes, inventario.getVehiculos());
 	}
-
+	
+	
+	//Getters individuales
 	public Empleado getEmpleado(String usuario) {
-		return datos.getEmpleado(usuario);
+		return empleados.get(usuario);
 	}
 
 	public Cliente getCliente(String usuario) {
-		return datos.getCliente(usuario);
+		return clientes.get(usuario);
 	}
-
-	public Usuario getUsuario(String usuario, String clave) {
-		Usuario usuarioInteres = datos.getUsuario(usuario, clave);
-		return usuarioInteres;
-	}
-
-	public ArrayList<Sede> getSedes() {
-		return datos.listaDeSedes();
-	}
-
+	
 	public Sede getSede(String nombre) {
-		return datos.getSede(nombre);
+		return sedes.get(nombre);
 	}
-
+	 
+	public Usuario getUsuario(String usuario, String clave) 
+	{
+		Map<String, Usuario> usuarios = getUsuarios();
+		Usuario usuarioInteres = usuarios.get(usuario);
+		
+		if (clave.equals(usuarioInteres.getContraseña())){
+			return usuarioInteres;
+		} else {
+			return null;
+		}
+	}
+	
+	public Reserva getReserva(String id) {
+		return reservas.get(id);
+	}
+	
+	public Usuario getUsuarioActual() {
+		return usuarioActual;
+	}
+	
+	
+	//Getters Estructuras
+	
+	//Getters estruturas
+	public ArrayList<Sede> getSedes() {
+		return (ArrayList<Sede>) sedes.values();
+	}
+	
+	public Map<String, Usuario> getUsuarios() {
+		Map<String, Usuario> usuarios = new HashMap<String, Usuario>();
+		usuarios.putAll(admins);
+		usuarios.putAll(empleados);
+		usuarios.putAll(clientes);
+		return usuarios;
+	}
+	
+	public ArrayList<Seguro> getSeguros() {
+		return seguros;
+	}
+	
+	public ArrayList<Reserva> getReservas() {
+		return new ArrayList<Reserva>(reservas.values());
+	}
+	
+	
+	
+	//Metodos 
+	
+	//Registro de nuevos admins
+	public void nuevoAdmin(Admin admin) throws Exception {
+		if (adminExiste(admin.usuario))
+			throw new Exception("Ya existe un admin con este usuario");
+		admins.put(admin.usuario, admin);
+	}
+	
+	public boolean adminExiste(String usuario) {
+		return admins.containsKey(usuario);
+	}
+	
 	public void registroAdmin(String usuario, String clave, String sede) throws Exception {
-		if (!datos.adminExiste(usuario)) {
+		if (adminExiste(usuario)) {
 			throw new Exception("El nombre de usuario ya esta en uso. Intenta con otro");
 		}
 		// El admin no existe, agregarlo
 		Admin nuevoAdmin = new Admin(usuario, clave, sede);
-		datos.nuevoAdmin(nuevoAdmin);
+		nuevoAdmin(nuevoAdmin);
+	}
+	
+	//Registro de nuevos empleados
+	public boolean empleadoExiste(String usuario) {
+		return empleados.containsKey(usuario);
 	}
 
-	public Empleado registroEmpleado(String usuario, String clave, String rol, Sede sede) throws Exception {
-		if (datos.empleadoExiste(usuario)) {
-			throw new Exception("Ya existe un usuario con este nombre, intente con otro");
-		}
-		Empleado empleado = new Empleado(usuario, clave, rol, sede);
-		datos.nuevoEmpleado(empleado);
-		return empleado;
+	public void nuevoEmpleado(Empleado empleado) throws Exception {
+		if (empleadoExiste(empleado.usuario))
+			throw new Exception("Ya existe un empleado con este usuario");
+		this.empleados.put(empleado.usuario, empleado);
 	}
 
 	public void eliminarEmpleado(String usuario) throws Exception {
-		datos.eliminarEmpleado(usuario);
+		if (!empleadoExiste(usuario)) {
+			throw new Exception("El empleado seleccionado no existe");
+		}
+		this.empleados.remove(usuario);
+	}
+	
+	public Empleado registroEmpleado(String usuario, String clave, Sede sede) throws Exception {
+		if (empleadoExiste(usuario)) {
+			throw new Exception("Ya existe un usuario con este nombre, intente con otro");
+		}
+		Empleado empleado = new Empleado(usuario, clave, sede);
+		nuevoEmpleado(empleado);
+		return empleado;
+	}
+	
+	//Registro nuevos clientes
+	public boolean clienteExiste(String usuario) {
+		return clientes.containsKey(usuario);
 	}
 
+	public void nuevoCliente(Cliente cliente) throws Exception {
+		if (clienteExiste(cliente.usuario)) {
+			throw new Exception("El nombre de usuario ya esta en uso. Intenta con otro");
+		}
+		clientes.put(cliente.usuario, cliente);
+	}
+	
 	public void registroCliente(String usuario, String clave, String nombres, String numeroTelefono, String direccion,
 			String fechaNacimiento, String nacionalidad, String imagenDocumentoIdentidad, String numeroLicencia,
 			String paisExpedicion, String fechaVencimientoLicencia, String imagen, String numeroTarjeta,
 			String fechaVencimientoTarjeta, String cvv) throws Exception {
-		if (datos.clienteExiste(usuario)) {
+		if (clienteExiste(usuario)) {
 			throw new Exception("El nombre de usuario ya esta en uso. Intenta con otro");
 		}
 
@@ -158,9 +195,21 @@ public class SistemaAlquiler {
 		TarjetaDeCredito tarjetaDeCredito = new TarjetaDeCredito(numeroTarjeta, fechaVencimientoTarjeta, cvv);
 		Cliente nuevoCliente = new Cliente(usuario, clave, nombres, numeroTelefono, direccion, fechaNacimiento,
 				nacionalidad, imagenDocumentoIdentidad, licencia, tarjetaDeCredito);
-		datos.nuevoCliente(nuevoCliente);
+		nuevoCliente(nuevoCliente);
 	}
-
+	
+	//Creacion y modificacion de sedes
+	public boolean sedeExiste(String nombreSede) {
+		return sedes.containsKey(nombreSede);
+	}
+	
+	public void nuevaSede(Sede sede) throws Exception {
+		if (sedeExiste(sede.getNombre())) {
+			throw new Exception("Ya existe una sede con este nombre. Intenta con otro.");
+		}
+		sedes.put(sede.getNombre(), sede);
+	}
+	
 	public void crearSede(String nomSede, String ubiSede, int hrsASede, int hrsCSede)
 			throws IllegalArgumentException, Exception {
 		Range<Integer> rangeHrs = new Range<Integer>(hrsASede, hrsCSede);
@@ -171,84 +220,121 @@ public class SistemaAlquiler {
 
 		// La sede no existe, agregarla
 		Sede nuevaSede = new Sede(nomSede, ubiSede, hrs, empleados);
-		datos.nuevaSede(nuevaSede);
+		nuevaSede(nuevaSede);
 
 	}
-
+	
 	public void modificarNombreSede(String nuevoNomSede, String actNomSede) throws Exception {
-		datos.modificarNombreSede(nuevoNomSede, actNomSede);
+		if (sedeExiste(actNomSede)) {
+			Sede sedeActual = getSede(actNomSede);
+			sedes.remove(actNomSede);
+			sedeActual.setNombre(nuevoNomSede);
+			sedes.put(actNomSede, sedeActual);
+		} else {
+			throw new Exception("La sede ingresada no fue encontrada ");
+		}
 	}
 
 	public void modificarHorarioSede(String nomSede, int hrsASede, int hrsCSede) throws Exception {
-		datos.modificarHorarioSede(nomSede, hrsASede, hrsCSede);
+		if (sedes.containsKey(nomSede)) {
+			Sede sedeActual = sedes.get(nomSede);
+			Range<Integer> rangeHrs = new Range<Integer>(hrsASede, hrsCSede);
+			HorarioDeAtencion hrs = new HorarioDeAtencion(rangeHrs);
+			sedeActual.setHorariosDeAtencion(hrs);
+		} else {
+			throw new Exception("La sede ingresada no fue encontrada ");
+		}
+	}
+	
+	//Creacion de vehiculos
+	
+	//FIXME Todos estos metodos deben ser parte de Inventario
+	
+	public Vehiculo getVehiculo(String placa) {
+		return inventario.getVehiculo(placa);
 	}
 
+	public ArrayList<Vehiculo> getVehiculos() {
+		return inventario.getVehiculos();
+	}
+	
+	
+	public void agregarVehiculo(String placa, String marca, String color, String transmision, String categoria,
+			String sede, String estado) throws Exception {
+		inventario.agregarVehiculo(placa, marca, color, transmision, categoria, sede, estado);
+	}
+	
 	public String consultarUbicacionVehiculo(String placa) throws Exception {
-		if (!datos.vehiculoExiste(placa)) {
-			throw new Exception("El vehiculo seleccionado no existe");
-		}
-		Vehiculo v = datos.getVehiculo(placa);
-		if (v.getUbicacion() == null) {
-			throw new Exception("El vehiculo esta actualmente alquilado");
-		}
-		return v.getUbicacion();
+		return inventario.consultarUbicacionVehiculo(placa);
 	}
 
 	public ArrayList<Reserva> consultarHistorialVehiculo(String placa) throws Exception {
-		if (!datos.vehiculoExiste(placa)) {
-			throw new Exception("El vehiculo seleccionado no existe");
+		return inventario.consultarHistorialVehiculo(placa);
+	}
+	
+	//Creacion y modificación de reservas
+	
+	public boolean reservaExiste(String id) {
+		return reservas.containsKey(id);
+	}
+	
+	public String nuevoIdReservas() {
+		String nuevoId = String.valueOf(this.contadorReservas);
+		this.contadorReservas += 1;
+		return nuevoId;
+	}
+
+	public void nuevaReserva(Reserva r) throws Exception {
+		if (reservaExiste(r.getId())) {
+			throw new Exception("El id de la reserva ya esta en uso.");
 		}
-		Vehiculo v = datos.getVehiculo(placa);
-		ArrayList<Reserva> historial = v.getHistorial();
-		if (historial.isEmpty()) {
-			throw new Exception("El vehiculo seleccionado no tiene historial");
-		}
-		return historial;
+		reservas.put(r.getId(), r);
 	}
 
 	public void crearReserva(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
 			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
-		Reserva r = new Reserva(datos.nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
+		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
-		datos.nuevaReserva(r);
+		nuevaReserva(r);
 	}
 
 	public void modificarReserva(String idReserva, LocalDateTime fechaRecogida, Range<LocalDateTime> rangoEntrega)
 			throws Exception {
-		if (!datos.reservaExiste(idReserva)) {
+		if (!reservaExiste(idReserva)) {
 			throw new Exception("La reserva seleccionada no existe");
 		}
-		Reserva r = datos.getReserva(idReserva);
+		Reserva r = getReserva(idReserva);
 		if (r.getVehiculo() != null) {
 			throw new Exception("Esta reserva ya es un alquiler en curso, no se puede modificar");
 		}
 		r.setFechaRecogida(fechaRecogida);
 		r.setRangoEntrega(rangoEntrega);
 	}
-
+	
+	//Creacion Alquileres
 	public void crearAlquiler(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
 			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
 
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
-		Reserva r = new Reserva(datos.nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
+		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
-		datos.nuevaReserva(r);
+		nuevaReserva(r);
 		formalizarAlquiler(r.getId());
 	}
 
 	public void formalizarAlquiler(String idReserva) throws Exception {
-		if (!datos.reservaExiste(idReserva)) {
+		if (!reservaExiste(idReserva)) {
 			throw new Exception("La reserva seleccionada no existe");
 		}
-		Reserva r = datos.getReserva(idReserva);
+		Reserva r = getReserva(idReserva);
 		// encontrar vehiculo disponible
 		String categoria = r.getCategoriaSolicitada();
 		Vehiculo vehiculoEncontrado = null;
 		while (vehiculoEncontrado == null) {
-			for (Vehiculo v : datos.getVehiculos()) {
+			for (Vehiculo v : getVehiculos()) {
 				if (v.getCategoria() == categoria
 						&& (v.getFechaDisponible().compareTo(r.getRangoEntrega().getLow()) <= 0)) {
 					// actualizar vehiculo
@@ -267,17 +353,18 @@ public class SistemaAlquiler {
 			categoria = Inventario.prioridadCategoria.get(i);
 		}
 	}
+	
+	
+	//Inicio de sesion 
+	public boolean sesionIniciada() {
+		return usuarioActual != null;
+	}
 
-	public void agregarVehiculo(String placa, String marca, String color, String transmision, String categoria,
-			String sede, String estado) throws Exception {
-		// La sede no existe, agregarla
-		LocalDateTime fechaDisponible = null;
-		String comentarios = "vehiculo nuevo";
-		ArrayList<Reserva> historial = null;
+	public void establecerUsuario(Usuario u) {
+		this.usuarioActual = u;
+	}
 
-		Vehiculo nuevoVehiculo = new Vehiculo(placa, marca, color, transmision, categoria, sede, fechaDisponible,
-				comentarios, estado, historial);
-		datos.nuevoVehiculo(nuevoVehiculo);
-
+	public void cerrarSesion() {
+		this.usuarioActual = null;
 	}
 }

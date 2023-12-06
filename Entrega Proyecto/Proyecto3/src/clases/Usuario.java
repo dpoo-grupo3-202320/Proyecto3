@@ -18,9 +18,7 @@ public abstract class Usuario implements Serializable {
 		}
 
 
-	/*
-	 * getters
-	 */
+	//Getters
 	public String getUsuario() {
 		return this.usuario;
 	}
@@ -33,9 +31,7 @@ public abstract class Usuario implements Serializable {
 		return this.tipo;
 	}
 	
-	/*
-	 * setters
-	 */
+	//setters
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
