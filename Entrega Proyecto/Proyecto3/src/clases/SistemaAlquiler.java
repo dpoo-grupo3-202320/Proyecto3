@@ -1,67 +1,54 @@
 package clases;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import clases.CSVReader;
-import clases.CSVWriter;
 
 public class SistemaAlquiler {
 	private CSVReader csv = new CSVReader(this);
 	private Admin adminGeneral;
 	private Usuario usuarioActual;
 	private Inventario inventario = new Inventario();
-	
-	//llave es login 
+
+	// llave es login
 	private HashMap<String, Cliente> clientes = new HashMap<String, Cliente>();
 	private HashMap<String, Admin> admins = new HashMap<String, Admin>();
-	private HashMap<String, Empleado> empleados =  new HashMap<String, Empleado>();
-	
-	//llave es nombre 
+	private HashMap<String, Empleado> empleados = new HashMap<String, Empleado>();
+
+	// llave es nombre
 	private HashMap<String, Sede> sedes = new HashMap<String, Sede>();
-	
+
 	// llave es id reserva
 	private HashMap<String, Reserva> reservas = new HashMap<String, Reserva>();
-	
+
 	private ArrayList<Seguro> seguros = new ArrayList<Seguro>();
-	
+
 	// se utiliza como id para las reservas
 	private int contadorReservas = 0;
-	
-	//Builder 
-	public SistemaAlquiler() throws FileNotFoundException, IOException, ClassNotFoundException 
-	{
+
+	// Builder
+	public SistemaAlquiler() throws FileNotFoundException, IOException, ClassNotFoundException {
 		cargarDatos();
 		this.adminGeneral = new Admin("AdministradorGen", "SenecaDPOO");
 		this.admins.put(adminGeneral.getNombreUsuario(), adminGeneral);
 	}
 
-	//Carga de datos 
+	// Carga de datos
 	public void cargarDatos() throws IOException, ClassNotFoundException {
-		csv.cargarDatos();	
+		csv.cargarDatos();
 	}
-	
-	//Guardar Datos
-	
-	public void guardarDatos() 
-	{
+
+	// Guardar Datos
+
+	public void guardarDatos() {
 		CSVWriter.guardarDatos(empleados, clientes, admins, sedes, inventario.getVehiculos());
+
 	}
-	
-	
-	//Getters individuales
+
+	// Getters individuales
 	public Empleado getEmpleado(String usuario) {
 		return empleados.get(usuario);
 	}
@@ -69,39 +56,40 @@ public class SistemaAlquiler {
 	public Cliente getCliente(String usuario) {
 		return clientes.get(usuario);
 	}
-	
+
 	public Sede getSede(String nombre) {
 		return sedes.get(nombre);
 	}
-	 
-	public Usuario getUsuario(String usuario, String clave) 
-	{
+
+	public Usuario getUsuario(String usuario, String clave) {
 		Map<String, Usuario> usuarios = getUsuarios();
 		Usuario usuarioInteres = usuarios.get(usuario);
-		
-		if (clave.equals(usuarioInteres.getContraseña())){
+		if (usuarioInteres == null) {
+			return null;
+		}
+
+		if (clave.equals(usuarioInteres.getClave())) {
 			return usuarioInteres;
 		} else {
 			return null;
 		}
 	}
-	
+
 	public Reserva getReserva(String id) {
 		return reservas.get(id);
 	}
-	
+
 	public Usuario getUsuarioActual() {
 		return usuarioActual;
 	}
-	
-	
-	//Getters Estructuras
-	
-	//Getters estruturas
+
+	// Getters Estructuras
+
+	// Getters estruturas
 	public ArrayList<Sede> getSedes() {
-		return new ArrayList<Sede>( sedes.values());
+		return new ArrayList<Sede>(sedes.values());
 	}
-	
+
 	public Map<String, Usuario> getUsuarios() {
 		Map<String, Usuario> usuarios = new HashMap<String, Usuario>();
 		usuarios.putAll(admins);
@@ -110,30 +98,28 @@ public class SistemaAlquiler {
 		usuarios.put(adminGeneral.getNombreUsuario(), adminGeneral);
 		return usuarios;
 	}
-	
+
 	public ArrayList<Seguro> getSeguros() {
 		return seguros;
 	}
-	
+
 	public ArrayList<Reserva> getReservas() {
 		return new ArrayList<Reserva>(reservas.values());
 	}
-	
-	
-	
-	//Metodos 
-	
-	//Registro de nuevos admins
+
+	// Metodos
+
+	// Registro de nuevos admins
 	public void nuevoAdmin(Admin admin) throws Exception {
 		if (adminExiste(admin.usuario))
 			throw new Exception("Ya existe un admin con este usuario");
 		admins.put(admin.usuario, admin);
 	}
-	
+
 	public boolean adminExiste(String usuario) {
 		return admins.containsKey(usuario);
 	}
-	
+
 	public void registroAdmin(String usuario, String clave, String sede) throws Exception {
 		if (adminExiste(usuario)) {
 			throw new Exception("El nombre de usuario ya esta en uso. Intenta con otro");
@@ -142,8 +128,8 @@ public class SistemaAlquiler {
 		Admin nuevoAdmin = new Admin(usuario, clave, sede);
 		nuevoAdmin(nuevoAdmin);
 	}
-	
-	//Registro de nuevos empleados
+
+	// Registro de nuevos empleados
 	public boolean empleadoExiste(String usuario) {
 		return empleados.containsKey(usuario);
 	}
@@ -160,7 +146,7 @@ public class SistemaAlquiler {
 		}
 		this.empleados.remove(usuario);
 	}
-	
+
 	public Empleado registroEmpleado(String usuario, String clave, Sede sede) throws Exception {
 		if (empleadoExiste(usuario)) {
 			throw new Exception("Ya existe un usuario con este nombre, intente con otro");
@@ -169,8 +155,8 @@ public class SistemaAlquiler {
 		nuevoEmpleado(empleado);
 		return empleado;
 	}
-	
-	//Registro nuevos clientes
+
+	// Registro nuevos clientes
 	public boolean clienteExiste(String usuario) {
 		return clientes.containsKey(usuario);
 	}
@@ -181,7 +167,7 @@ public class SistemaAlquiler {
 		}
 		clientes.put(cliente.usuario, cliente);
 	}
-	
+
 	public void registroCliente(String usuario, String clave, String nombres, String numeroTelefono, String direccion,
 			String fechaNacimiento, String nacionalidad, String imagenDocumentoIdentidad, String numeroLicencia,
 			String paisExpedicion, String fechaVencimientoLicencia, String imagen, String numeroTarjeta,
@@ -198,19 +184,19 @@ public class SistemaAlquiler {
 				nacionalidad, imagenDocumentoIdentidad, licencia, tarjetaDeCredito);
 		nuevoCliente(nuevoCliente);
 	}
-	
-	//Creacion y modificacion de sedes
+
+	// Creacion y modificacion de sedes
 	public boolean sedeExiste(String nombreSede) {
 		return sedes.containsKey(nombreSede);
 	}
-	
+
 	public void nuevaSede(Sede sede) throws Exception {
 		if (sedeExiste(sede.getNombre())) {
 			throw new Exception("Ya existe una sede con este nombre. Intenta con otro.");
 		}
 		sedes.put(sede.getNombre(), sede);
 	}
-	
+
 	public void crearSede(String nomSede, String ubiSede, int hrsASede, int hrsCSede)
 			throws IllegalArgumentException, Exception {
 		Range<Integer> rangeHrs = new Range<Integer>(hrsASede, hrsCSede);
@@ -224,7 +210,7 @@ public class SistemaAlquiler {
 		nuevaSede(nuevaSede);
 
 	}
-	
+
 	public void modificarNombreSede(String nuevoNomSede, String actNomSede) throws Exception {
 		if (sedeExiste(actNomSede)) {
 			Sede sedeActual = getSede(actNomSede);
@@ -246,9 +232,8 @@ public class SistemaAlquiler {
 			throw new Exception("La sede ingresada no fue encontrada ");
 		}
 	}
-	
-	//Creacion de vehiculos
-	
+
+	// Creacion de vehiculos
 
 	public Vehiculo getVehiculo(String placa) {
 		return inventario.getVehiculo(placa);
@@ -257,17 +242,16 @@ public class SistemaAlquiler {
 	public ArrayList<Vehiculo> getVehiculos() {
 		return inventario.getVehiculos();
 	}
-		
+
 	public void agregarVehiculo(String placa, String marca, String color, String transmision, String categoria,
 			String sede, String estado) throws Exception {
 		inventario.agregarVehiculo(placa, marca, color, transmision, categoria, sede, estado);
 	}
-	
-	public boolean eliminarVehiculo(String placa) 
-	{
+
+	public boolean eliminarVehiculo(String placa) {
 		return inventario.eliminarVehiculo(placa);
 	}
-	
+
 	public String consultarUbicacionVehiculo(String placa) throws Exception {
 		return inventario.consultarUbicacionVehiculo(placa);
 	}
@@ -275,13 +259,13 @@ public class SistemaAlquiler {
 	public ArrayList<Reserva> consultarHistorialVehiculo(String placa) throws Exception {
 		return inventario.consultarHistorialVehiculo(placa);
 	}
-	
-	//Creacion y modificación de reservas
-	
+
+	// Creacion y modificación de reservas
+
 	public boolean reservaExiste(String id) {
 		return reservas.containsKey(id);
 	}
-	
+
 	public String nuevoIdReservas() {
 		String nuevoId = String.valueOf(this.contadorReservas);
 		this.contadorReservas += 1;
@@ -303,11 +287,6 @@ public class SistemaAlquiler {
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
 		nuevaReserva(r);
 	}
-	
-	public void setReserva( Map<String, Reserva> reser) {
-		Map<String, Reserva> reservas= this.inventario.getReservaMap() ;
-		reservas=reser;
-	}
 
 	public void modificarReserva(String idReserva, LocalDateTime fechaRecogida, Range<LocalDateTime> rangoEntrega)
 			throws Exception {
@@ -321,7 +300,7 @@ public class SistemaAlquiler {
 		r.setFechaRecogida(fechaRecogida);
 		r.setRangoEntrega(rangoEntrega);
 	}
-	
+
 	public ArrayList<Reserva> consultarHistorialVehiculoInventario(String placa) throws Exception {
 		if (!inventario.vehiculoExiste(placa)) {
 			throw new Exception("El vehiculo seleccionado no existe");
@@ -333,8 +312,8 @@ public class SistemaAlquiler {
 		}
 		return historial;
 	}
-	
-	//Creacion Alquileres
+
+	// Creacion Alquileres
 	public void crearAlquiler(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
 			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
@@ -351,12 +330,14 @@ public class SistemaAlquiler {
 			throw new Exception("La reserva seleccionada no existe");
 		}
 		Reserva r = getReserva(idReserva);
+		System.out.println("reserva: " + r);
+		System.out.println("reserva.getRango(): " + r.getRangoEntrega());
 		// encontrar vehiculo disponible
 		String categoria = r.getCategoriaSolicitada();
 		Vehiculo vehiculoEncontrado = null;
 		while (vehiculoEncontrado == null) {
 			for (Vehiculo v : getVehiculos()) {
-				if (v.getCategoria() == categoria
+				if (v.getCategoria().equals(categoria)
 						&& (v.getFechaDisponible().compareTo(r.getRangoEntrega().getLow()) <= 0)) {
 					// actualizar vehiculo
 					v.setUbicacion(null);
@@ -374,9 +355,8 @@ public class SistemaAlquiler {
 			categoria = Inventario.prioridadCategoria.get(i);
 		}
 	}
-	
-	
-	//Inicio de sesion 
+
+	// Inicio de sesion
 	public boolean sesionIniciada() {
 		return usuarioActual != null;
 	}

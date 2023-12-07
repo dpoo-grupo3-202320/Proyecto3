@@ -45,6 +45,7 @@ public class CSVReader {
 			cargarSedes();
 			cargarAdmins();
 			cargarEmpleados();
+			System.out.println("Datos Cargados");
 		}
 		catch (Exception e)
 		{

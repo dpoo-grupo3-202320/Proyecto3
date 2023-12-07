@@ -31,7 +31,7 @@ public class RegistrarEmpleado extends JPanel {
     TText rol = new TText("rol", true);
     TButton aceptar = new TButton("Aceptar", () -> {
       try {
-        Usuario u = sistemaAlquiler.registroEmpleado(usuario.getText(), clave.getText(), rol.getText(),
+        Usuario u = sistemaAlquiler.registroEmpleado(usuario.getText(), clave.getText(), //rol.getText(),
             sistemaAlquiler.getSede(sede.getSelectedItem()));
         sistemaAlquiler.establecerUsuario(u);
         nav.paginaAnterior();

@@ -27,8 +27,8 @@ public class IniciarSesion extends JPanel {
 			nav.paginaAnterior();
 			return null;
 		});
-		TText nombreUsuario = new TText("Nombre Usuario", true);
-		TText clave = new TText("Contraseña", true);
+		TText nombreUsuario = new TText("", true);
+		TText clave = new TText("", true);
 		add(devolver);
 		add(new JLabel("Nombre Usuario"));
 		add(nombreUsuario);

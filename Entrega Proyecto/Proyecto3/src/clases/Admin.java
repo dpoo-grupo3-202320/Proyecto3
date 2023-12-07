@@ -26,7 +26,7 @@ public class Admin extends Usuario {
 		return this.usuario;
 	}
 
-	public String getContraseña() {
+	public String getClave() {
 		return this.contraseña;
 	}
 
