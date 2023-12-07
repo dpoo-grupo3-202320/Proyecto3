@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import clases.Empleado;
 import clases.SistemaAlquiler;
 import interfaz.Navegador;
-import interfaz.componentes.Boton;
+import interfaz.componentes.TButton;
 
 public class MenuEmpleado extends JPanel {
   private final Navegador nav;
@@ -23,15 +23,15 @@ public class MenuEmpleado extends JPanel {
     setLayout(new GridLayout(0, 1));
     // rojo
     setBackground(new Color(255, 0, 0));
-    add(new Boton("Formalizar Alquiler", () -> {
+    add(new TButton("Formalizar Alquiler", () -> {
       nav.agregarPagina(new FormalizarAlquiler(nav, sistemaAlquiler));
       return null;
     }));
-    add(new Boton("Crear Alquiler", () -> {
+    add(new TButton("Crear Alquiler", () -> {
       nav.agregarPagina(new CrearAlquiler(nav, sistemaAlquiler));
       return null;
     }));
-    add(new Boton("Cerrar Sesion", () -> {
+    add(new TButton("Cerrar Sesion", () -> {
       nav.cerrarSesion();
       return null;
     }));

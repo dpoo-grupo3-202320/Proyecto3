@@ -9,9 +9,9 @@ import clases.Inventario;
 import clases.SistemaAlquiler;
 import clases.Usuario;
 import interfaz.Navegador;
-import interfaz.componentes.Boton;
-import interfaz.componentes.Combo;
-import interfaz.componentes.Texto;
+import interfaz.componentes.TButton;
+import interfaz.componentes.TCombo;
+import interfaz.componentes.TText;
 
 public class RegistrarEmpleado extends JPanel {
   private final Navegador nav;
@@ -21,15 +21,15 @@ public class RegistrarEmpleado extends JPanel {
     this.nav = nav;
     this.sistemaAlquiler = sistemaAlquiler;
     setLayout(new GridLayout(0, 1));
-    Boton devolver = new Boton("Atras", () -> {
+    TButton devolver = new TButton("Atras", () -> {
       nav.paginaAnterior();
       return null;
     });
-    Texto usuario = new Texto("", true);
-    Texto clave = new Texto("", true);
-    Combo sede = new Combo(Inventario.sedes, true);
-    Texto rol = new Texto("rol", true);
-    Boton aceptar = new Boton("Aceptar", () -> {
+    TText usuario = new TText("", true);
+    TText clave = new TText("", true);
+    TCombo sede = new TCombo(Inventario.sedes, true);
+    TText rol = new TText("rol", true);
+    TButton aceptar = new TButton("Aceptar", () -> {
       try {
         Usuario u = sistemaAlquiler.registroEmpleado(usuario.getText(), clave.getText(), rol.getText(),
             sistemaAlquiler.getSede(sede.getSelectedItem()));

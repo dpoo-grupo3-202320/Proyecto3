@@ -12,9 +12,9 @@ import clases.Inventario;
 import clases.SistemaAlquiler;
 import clases.TarjetaDeCredito;
 import interfaz.Navegador;
-import interfaz.componentes.Boton;
-import interfaz.componentes.Combo;
-import interfaz.componentes.Texto;
+import interfaz.componentes.TButton;
+import interfaz.componentes.TCombo;
+import interfaz.componentes.TText;
 import interfaz.registro.ObtenerTarjeta;
 
 public class CrearAlquiler extends JPanel {
@@ -34,19 +34,19 @@ public class CrearAlquiler extends JPanel {
                 setLayout(new GridLayout(0, 2));
                 // categorias
                 add(new JLabel("Categoria:"));
-                Combo comboCategoria = new Combo(Inventario.categorias, false);
+                TCombo comboCategoria = new TCombo(Inventario.categorias, false);
                 add(comboCategoria);
                 // sede de recogida
                 add(new JLabel("Sede de recogida:"));
-                Combo comboRecogida = new Combo((String[]) Inventario.sedes, false);
+                TCombo comboRecogida = new TCombo((String[]) Inventario.sedes, false);
                 add(comboRecogida);
                 // sede de entrega
                 add(new JLabel("Sede de entrega:"));
-                Combo comboEntrega = new Combo((String[]) Inventario.sedes, false);
+                TCombo comboEntrega = new TCombo((String[]) Inventario.sedes, false);
                 add(comboEntrega);
                 // sede de entrega
                 add(new JLabel("Tarjeta de Credito:"));
-                add(new Boton("Seleccionar", () -> {
+                add(new TButton("Seleccionar", () -> {
                         obtenerTarjeta = new ObtenerTarjeta(() -> {
                                 tarjeta = solicitarInfo();
                                 if (tarjeta == null) {
@@ -60,22 +60,22 @@ public class CrearAlquiler extends JPanel {
                 }));
                 // fecha recogida
                 add(new JLabel("Fecha de Recogida:"));
-                Texto fechaRecogida = new Texto("", true);
+                TText fechaRecogida = new TText("", true);
                 add(fechaRecogida);
                 // fecha entrega
                 add(new JLabel("Fecha de Entrega:"));
-                Texto fechaEntrega = new Texto("", true);
+                TText fechaEntrega = new TText("", true);
                 add(fechaEntrega);
                 // usuario
                 add(new JLabel("Cliente (ID):"));
-                Texto idCliente = new Texto("", true);
+                TText idCliente = new TText("", true);
                 add(idCliente);
                 // seguro
                 add(new JLabel("Seguro:"));
-                Combo seguro = new Combo(Inventario.seguros, true);
+                TCombo seguro = new TCombo(Inventario.seguros, true);
                 add(seguro);
                 // crear
-                add(new Boton("Crear Reserva", () -> {
+                add(new TButton("Crear Reserva", () -> {
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                         LocalDateTime entrega = LocalDateTime.parse(fechaEntrega.getText(), formatter);
                         LocalDateTime recogida = LocalDateTime.parse(fechaRecogida.getText(), formatter);
@@ -89,7 +89,7 @@ public class CrearAlquiler extends JPanel {
                                         null);
                         return null;
                 }));
-                add(new Boton("Atras", () -> {
+                add(new TButton("Atras", () -> {
                         nav.paginaAnterior();
                         return null;
                 }));

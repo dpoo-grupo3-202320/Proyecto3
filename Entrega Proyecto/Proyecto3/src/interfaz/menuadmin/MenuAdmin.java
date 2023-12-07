@@ -9,7 +9,7 @@ import clases.Admin;
 import clases.Empleado;
 import clases.SistemaAlquiler;
 import interfaz.Navegador;
-import interfaz.componentes.Boton;
+import interfaz.componentes.TButton;
 import interfaz.menuempleado.FormalizarAlquiler;
 
 import java.awt.*;
