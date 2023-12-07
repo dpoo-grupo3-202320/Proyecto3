@@ -58,11 +58,13 @@ public class MenuAdmin {
 		System.out.println("2. Eliminar empleado");
 	}
 
-	public void ejecutarOpcion(int opcionSeleccionada)
-			throws FileNotFoundException, IOException, ClassNotFoundException {
+	public void ejecutarOpcion(int opcionSeleccionada) throws FileNotFoundException, IOException, ClassNotFoundException {
 		boolean continuar = true;
 		while (continuar) {
 			try {
+				//Menu Admin General
+				
+				//Crear Vehiculo
 				if (opcionSeleccionada == 1 && sedeAdmin == null) {
 					System.out.println("Para agregar un vehiculo nuevo ingrese la siguiente informacion: ");
 
@@ -99,17 +101,30 @@ public class MenuAdmin {
 
 					try {
 						sistemaAlquiler.agregarVehiculo(placa, marca, color, transmision, categoria, sede, estado);
-						System.out.println("Nuevo vehiculo creada");
+						System.out.println("Nuevo vehiculo creado");
 					} catch (Exception e) {
 						System.out.println(e.getMessage());
 					}
 
 					opcionSeleccionada = 0;
-				} else if (opcionSeleccionada == 2 && sedeAdmin == null) {
+				}
+				//Eliminar Vehiculo
+				else if (opcionSeleccionada == 2 && sedeAdmin == null) {
 					System.out.println("Para dar de baja un vehiculo nuevo ingrese la siguiente informacion: ");
 					// ToDo call eliminar carro
+					String placaElim = input("Placa del vehiculo que desea eliminar");
+					boolean ans = sistemaAlquiler.eliminarVehiculo(placaElim);
+					if(ans == true) {
+						System.out.println("Vehiculo eliminado exitosamente");
+					}
+					else {
+						System.out.println("No se pudo eliminar el vehiculo");
+						
+					}
 					opcionSeleccionada = 0;
-				} else if (opcionSeleccionada == 3 && sedeAdmin == null) {
+				} 
+				//Agregar Sede
+				else if (opcionSeleccionada == 3 && sedeAdmin == null) {
 					System.out.println("Para crear una sede nueva ingrese la siguiente informacion: ");
 					String nomSede = input("Nombre de la sede");
 					String ubiSede = input("Ubicación de la sede");
@@ -128,7 +143,9 @@ public class MenuAdmin {
 					}
 
 					opcionSeleccionada = 0;
-				} else if (opcionSeleccionada == 4 && sedeAdmin == null) {
+				} 
+				//Modificar Sede
+				else if (opcionSeleccionada == 4 && sedeAdmin == null) {
 					System.out.println("Para modificar una sede ingrese la siguiente informacion: ");
 
 					// Mostrar Sedes existentes y pedir una
@@ -173,20 +190,27 @@ public class MenuAdmin {
 					}
 
 					opcionSeleccionada = 0;
-				} else if (opcionSeleccionada == 1 && sedeAdmin != null) {
-					// registrar empleado
+					
+				
+				} 
+				//Menu admin local
+				
+				// registrar empleado
+				else if (opcionSeleccionada == 1 && sedeAdmin != null) {
 					System.out.println("Para agregar un empleado ingrese la siguiente informacion: ");
 					String usuario = input("Nombre usuario");
 					String constraseña = input("Clave usuario");
 					try {
 						sistemaAlquiler.registroEmpleado(usuario, constraseña, sistemaAlquiler.getSede(sedeAdmin));
-						System.out.println("Empleado registrado");
+						System.out.println("Empleado registrado a la sede: " + sedeAdmin);
 					} catch (Exception e) {
 						System.out.println(e.getMessage());
 					}
-					// agregar usuario a inventario
 					opcionSeleccionada = 0;
-				} else if (opcionSeleccionada == 2 && sedeAdmin != null) {
+				} 
+				
+				//eliminar Empleado
+				else if (opcionSeleccionada == 2 && sedeAdmin != null) {
 					// eliminar empleado
 					System.out.println("Para remover un empleado ingrese la siguiente informacion: ");
 					String usuario = input("Nombre usuario");
@@ -197,7 +221,9 @@ public class MenuAdmin {
 						System.out.println(e.getMessage());
 					}
 					opcionSeleccionada = 0;
-				} else if (opcionSeleccionada == 5) {
+				} 
+				//Opciones para ambos
+				else if (opcionSeleccionada == 5) {
 					// call consultar ubicacion vehiculo (pedir parametros y llamar funcion)
 					System.out.println("Para consultar la ubicacion de un vehiculo ingrese la siguiente informacion: ");
 					String placa = input("Placa");

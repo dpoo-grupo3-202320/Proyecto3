@@ -107,6 +107,7 @@ public class SistemaAlquiler {
 		usuarios.putAll(admins);
 		usuarios.putAll(empleados);
 		usuarios.putAll(clientes);
+		usuarios.put(adminGeneral.getNombreUsuario(), adminGeneral);
 		return usuarios;
 	}
 	
@@ -248,8 +249,7 @@ public class SistemaAlquiler {
 	
 	//Creacion de vehiculos
 	
-	//FIXME Todos estos metodos deben ser parte de Inventario
-	
+
 	public Vehiculo getVehiculo(String placa) {
 		return inventario.getVehiculo(placa);
 	}
@@ -257,11 +257,15 @@ public class SistemaAlquiler {
 	public ArrayList<Vehiculo> getVehiculos() {
 		return inventario.getVehiculos();
 	}
-	
-	
+		
 	public void agregarVehiculo(String placa, String marca, String color, String transmision, String categoria,
 			String sede, String estado) throws Exception {
 		inventario.agregarVehiculo(placa, marca, color, transmision, categoria, sede, estado);
+	}
+	
+	public boolean eliminarVehiculo(String placa) 
+	{
+		return inventario.eliminarVehiculo(placa);
 	}
 	
 	public String consultarUbicacionVehiculo(String placa) throws Exception {
@@ -355,7 +359,7 @@ public class SistemaAlquiler {
 				if (v.getCategoria() == categoria
 						&& (v.getFechaDisponible().compareTo(r.getRangoEntrega().getLow()) <= 0)) {
 					// actualizar vehiculo
-					v.setSede(null);
+					v.setUbicacion(null);
 					v.setEstado("alquilado");
 					v.setFechaDisponible(r.getFechaRecogida());
 					r.setVehiculo(v);

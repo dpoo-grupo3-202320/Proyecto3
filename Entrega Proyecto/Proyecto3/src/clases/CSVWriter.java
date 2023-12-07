@@ -107,7 +107,7 @@ public class CSVWriter {
                 String linea = String.format(
                         "%s;%s;%s;%s;%s;%s;%s;%s;%s",
                         vehiculo.getPlaca(), vehiculo.getMarca(), vehiculo.getColor(),
-                        vehiculo.getTransmision(), vehiculo.getCategoria(),vehiculo.getSede(), fechaFormateada,
+                        vehiculo.getTransmision(), vehiculo.getCategoria(),vehiculo.getUbicacion(), fechaFormateada,
                         vehiculo.getComentarios(), vehiculo.getEstado()
                 );
                 writer.println(linea);

@@ -100,7 +100,7 @@ public class Inventario implements Serializable {
 	public void agregarVehiculo(String placa, String marca, String color, String transmision, String categoria,
 			String sede, String estado) throws Exception {
 		
-		LocalDateTime fechaDisponible = null;
+		LocalDateTime fechaDisponible = LocalDateTime.now();
 		String comentarios = "vehiculo nuevo";
 		ArrayList<Reserva> historial = null;
 
@@ -131,6 +131,18 @@ public class Inventario implements Serializable {
 			throw new Exception("El vehiculo seleccionado no tiene historial");
 		}
 		return historial;
+	}
+
+	public boolean eliminarVehiculo(String placa) {
+		
+		//Vehiculo vehiculoInteres = getVehiculo(placa);
+		if (vehiculoExiste(placa))
+		{
+		vehiculos.remove(placa);
+		return true;
+		}
+		else {return false;}
+		
 	}
 	
 	

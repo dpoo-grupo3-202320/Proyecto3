@@ -15,7 +15,7 @@ public class Admin extends Usuario {
 	}
 
 	public Admin(String usuario, String contraseña, String sede) {
-		super(usuario, contraseña, "Empleado");
+		super(usuario, contraseña, "Administrador");
 		this.sede = sede;
 	}
 

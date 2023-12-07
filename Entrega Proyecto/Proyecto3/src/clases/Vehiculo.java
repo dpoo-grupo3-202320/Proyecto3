@@ -11,8 +11,6 @@ public class Vehiculo implements Serializable {
 	private String color;
 	private String transmision;
 	private String categoria;
-	private String sede;
-	//
 	private String ubicacion;
 	private LocalDateTime fechaDisponible;
 	private String comentarios;
@@ -20,7 +18,7 @@ public class Vehiculo implements Serializable {
 	private String estado;
 	private ArrayList<Reserva> historial;
 
-	public Vehiculo(String placa, String marca, String color, String transmision, String categoria, String sede,
+	public Vehiculo(String placa, String marca, String color, String transmision, String categoria, String ubicacion,
 			LocalDateTime fechaDisponible, String comentarios, String estado,
 			ArrayList<Reserva> historial) {
 		this.placa = placa;
@@ -28,7 +26,7 @@ public class Vehiculo implements Serializable {
 		this.color = color;
 		this.transmision = transmision;
 		this.categoria = categoria;
-		this.sede = sede;
+		this.ubicacion = ubicacion;
 		this.fechaDisponible = fechaDisponible;
 		this.comentarios = comentarios;
 		this.estado = estado;
@@ -57,10 +55,6 @@ public class Vehiculo implements Serializable {
 
 	public String getCategoria() {
 		return categoria;
-	}
-
-	public String getSede() {
-		return sede;
 	}
 
 	public String getUbicacion() {
@@ -105,10 +99,6 @@ public class Vehiculo implements Serializable {
 
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
-	}
-
-	public void setSede(String sede) {
-		this.sede = sede;
 	}
 
 	public void setUbicacion(String ubicacion) {

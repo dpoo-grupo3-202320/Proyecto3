@@ -184,14 +184,14 @@ public class CSVReader {
 				String color = info[2];
 				String transmision = info[3];
 				String clasificacion = info[4];
-				String sede = info[5];
+				String ubicacion = info[5];
 				LocalDateTime fechadisponible = LocalDateTime.parse(info[6]);
 				String comentarios = info[7];
 				String estado = info[8];
 
 				try 
 				{
-					sa.agregarVehiculo(placa, marca, color, transmision, clasificacion, sede, estado);
+					sa.agregarVehiculo(placa, marca, color, transmision, clasificacion, ubicacion, estado);
 					Vehiculo elVehiculo = sa.getVehiculo(placa);
 					elVehiculo.setFechaDisponible(fechadisponible);
 					elVehiculo.setComentarios(comentarios);
