@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +54,7 @@ public class CSVReader {
 			cargarSedes();
 			cargarAdmins();
 			cargarEmpleados();
+			cargarReservas();
 			System.out.println("Datos Cargados");
 		}
 		catch (Exception e)
@@ -223,9 +225,10 @@ public class CSVReader {
 				String[] info = line.split(";");
 				try 
 				{
-					sa.registroEmpleado(info[0], info[1], sa.getSede(info[2]));
-					Empleado elEmpleado = sa.getEmpleado(info[0]);
-					sa.getSede(info[2]).agregarEmpleado(elEmpleado);
+					//TODO Falta implementar logica de carga	
+					
+					
+					
 				} 
 				catch (Exception e) 
 				{
@@ -238,22 +241,56 @@ public class CSVReader {
 	
 	private void cargarReservas() throws FileNotFoundException, IOException
 	{
+		int numReservas = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader(archivoReservas))) 
 		{
 			String line;
+			
 			while ((line = br.readLine()) != null) 
 			{
 				String[] info = line.split(";");
+				String id = info[0];
+				String categoria = info[1];
+				String nombreCliente = info[2];
+				String placa = info[3];
+				String sedeEntrega = info[4];
+				String sedeRecogida = info[5];
+				String tarifa = info[6];
+				LocalDateTime fechaRecogida = LocalDateTime.parse(info[7]);
+				LocalDateTime fechaEntregaMin = LocalDateTime.parse(info[8]);
+				LocalDateTime fechaEntregaMax = LocalDateTime.parse(info[9]);
+				Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaMin,fechaEntregaMax);
+				
+
+				String[] licenciasExtra = info[10].split("\\|");
+				
+				ArrayList<Cliente> clientes = sa.getClientes();
+				ArrayList <LicenciaDeConduccion> conductoresExtra = new ArrayList<LicenciaDeConduccion>();
+				for (String licencia : licenciasExtra) 
+				{
+					for (Cliente cliente: clientes) 
+					{
+						LicenciaDeConduccion licenciaActual = cliente.getLicenciaDeConduccion();
+						if (licenciaActual.getNumero().equals(licencia)) 
+						{
+							conductoresExtra.add(licenciaActual);
+						}
+					}
+				}
 				try 
 				{
-					//TODO Falta implementar logica de carga
+					sa.cargarReserva(id, categoria, fechaRecogida, sedeRecogida, sedeEntrega, rangoEntrega, sa.getCliente(nombreCliente), conductoresExtra);		
 				} 
 				catch (Exception e) 
 				{
 					e.printStackTrace();
 				}
+				
+				numReservas++;
 			}
+			
 		}
+		sa.setIdReservas(numReservas);
 	}
 
 }

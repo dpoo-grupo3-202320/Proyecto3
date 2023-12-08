@@ -106,6 +106,11 @@ public class SistemaAlquiler {
 	public ArrayList<Reserva> getReservas() {
 		return new ArrayList<Reserva>(reservas.values());
 	}
+	
+	public ArrayList<Cliente> getClientes() {
+		return new ArrayList<Cliente>(clientes.values());
+	}
+	
 
 	// Metodos
 
@@ -265,6 +270,10 @@ public class SistemaAlquiler {
 	public boolean reservaExiste(String id) {
 		return reservas.containsKey(id);
 	}
+	
+	public void setIdReservas(int numIds) {
+		this.contadorReservas = numIds;
+	}
 
 	public String nuevoIdReservas() {
 		String nuevoId = String.valueOf(this.contadorReservas);
@@ -287,6 +296,17 @@ public class SistemaAlquiler {
 		//FIXME Crear metodo get tarifas- Mejorar encapsulamiento
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
+				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
+		nuevaReserva(r);
+	}
+	
+	public void cargarReserva(String id, String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
+			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
+			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception 
+	{
+		//FIXME Crear metodo get tarifas- Mejorar encapsulamiento
+		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
+		Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida,
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
 		nuevaReserva(r);
 	}
