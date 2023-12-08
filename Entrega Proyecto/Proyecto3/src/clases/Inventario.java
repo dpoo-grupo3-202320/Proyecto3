@@ -17,13 +17,10 @@ public class Inventario implements Serializable {
 			"patineta electrica", "bicicleta", "Lujo", "SUV", "Vans", "automovil", "Pequeños", "moto", "Otros" });
 	// TODO: sedes?
 	public static final String[] sedes = new String[] { "SedeA", "SedeB", "SedeC", "SedeD", "SedeE", "SedeH" };
-<<<<<<< HEAD
-	public static final String[] categorias = new String[] { "automóvil", "moto", "atv", "bicicleta",
-			"bicicleta eléctrica", "patineta eléctrica", "Pequeños", "SUV", "Vans", "Lujo","Camionetas", "Otros" };
-=======
+	
 	public static final String[] categorias = new String[] { "atv", "bicicleta electrica", "patineta electrica",
-			"bicicleta", "Lujo", "SUV", "Vans", "automovil", "Pequeños", "moto", "Otros" };
->>>>>>> branch 'main' of https://github.com/dpoo-grupo3-202320/Proyecto3.git
+			"bicicleta", "Lujo", "SUV", "Vans","Camionetas", "automovil", "Pequeños", "moto", "Otros" };
+
 
 	public static final String[] seguros = new String[] { "Seguro 1", "Seguro 2", "Seguro 3", "Seguro 4" };
 	public static final Map<String, Tarifa> tarifas = new HashMap<String, Tarifa>() {
