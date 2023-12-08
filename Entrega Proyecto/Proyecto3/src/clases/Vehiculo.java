@@ -82,6 +82,16 @@ public class Vehiculo implements Serializable {
 	public ArrayList<Reserva> getHistorial() {
 		return historial;
 	}
+	
+	public String getDescripcion() {
+		String descripcion="";
+		descripcion+=this.marca+"\n";
+		descripcion+=this.color+"\n";
+		descripcion+=this.categoria+"\n";
+		descripcion+=this.transmision+"\n";
+		
+		return descripcion;
+	}
 
 	/*
 	 * setters
