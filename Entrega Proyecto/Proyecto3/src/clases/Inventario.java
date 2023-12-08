@@ -13,15 +13,21 @@ public class Inventario implements Serializable {
 	/**
 	 * 
 	 */
-	public static final List<String> prioridadCategoria = Arrays
-			.asList(new String[] { "Pequeños", "SUV", "Vans", "Lujo", "Otros" });
+	public static final List<String> prioridadCategoria = Arrays.asList(new String[] { "atv", "bicicleta electrica",
+			"patineta electrica", "bicicleta", "Lujo", "SUV", "Vans", "automovil", "Pequeños", "moto", "Otros" });
 	// TODO: sedes?
 	public static final String[] sedes = new String[] { "SedeA", "SedeB", "SedeC", "SedeD", "SedeE", "SedeH" };
+<<<<<<< HEAD
 	public static final String[] categorias = new String[] { "automóvil", "moto", "atv", "bicicleta",
 			"bicicleta eléctrica", "patineta eléctrica", "Pequeños", "SUV", "Vans", "Lujo","Camionetas", "Otros" };
+=======
+	public static final String[] categorias = new String[] { "atv", "bicicleta electrica", "patineta electrica",
+			"bicicleta", "Lujo", "SUV", "Vans", "automovil", "Pequeños", "moto", "Otros" };
+>>>>>>> branch 'main' of https://github.com/dpoo-grupo3-202320/Proyecto3.git
 
 	public static final String[] seguros = new String[] { "Seguro 1", "Seguro 2", "Seguro 3", "Seguro 4" };
 	public static final Map<String, Tarifa> tarifas = new HashMap<String, Tarifa>() {
+
 		{
 			//TODO toca añadir todas las categorias que se vayan a usar 
 			put("Pequeños", new Tarifa(25000L, 50000L, 25000L));

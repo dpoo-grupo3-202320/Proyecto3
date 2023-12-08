@@ -3,9 +3,13 @@ package clases;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Vehiculo implements Serializable {
 	private static final long serialVersionUID = -4570371102516863918L;
+	private final List<String> estadosPosibles = Arrays
+			.asList(new String[] { "Disponible", "Alquilado", "Fueradeservicio" });
 	private String placa;
 	private String marca;
 	private String color;
@@ -19,8 +23,7 @@ public class Vehiculo implements Serializable {
 	private ArrayList<Reserva> historial;
 
 	public Vehiculo(String placa, String marca, String color, String transmision, String categoria, String ubicacion,
-			LocalDateTime fechaDisponible, String comentarios, String estado,
-			ArrayList<Reserva> historial) {
+			LocalDateTime fechaDisponible, String comentarios, String estado, ArrayList<Reserva> historial) {
 		this.placa = placa;
 		this.marca = marca;
 		this.color = color;
@@ -113,16 +116,21 @@ public class Vehiculo implements Serializable {
 		this.comentarios = comentarios;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(String estado) throws Exception {
+		if (! this.estadosPosibles.contains(estado)) {
+			throw new Exception("estado invalido,\n  estados posibles: " + this.estadosPosibles + "  \nestado recibido: " + estado);
+		}
 		this.estado = estado;
 	}
 
 	public void setHistorial(ArrayList<Reserva> historial) {
 		this.historial = historial;
 	}
-	
-	public void addReserva(Reserva r) 
-	{
+
+	public void addReserva(Reserva r) {
+		if (historial == null) {
+			this.historial = new ArrayList<Reserva>();
+		}
 		historial.add(r);
 	}
 

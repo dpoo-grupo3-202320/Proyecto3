@@ -1,54 +1,44 @@
 package interfaz.menucliente;
 
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
+import java.awt.GridLayout;
 import javax.swing.JPanel;
 
-import clases.Cliente;
 import clases.SistemaAlquiler;
-import clases.Usuario;
+import interfaz.Navegador;
+import interfaz.componentes.TButton;
 
-public class LoggedInMenu {
+public class LoggedInMenu extends JPanel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3355054884650790372L;
 	
-	public LoggedInMenu(Cliente cliente, SistemaAlquiler SA) {
-		JPanel panel= new JPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
-		JButton crear=new JButton("Crear Reserva");
-		
-		crear.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            	CrearReservaFrame reserva= new CrearReservaFrame(cliente,SA);
-            }
-        });
-		panel.add(crear);
-		
-		JButton modificar=new JButton("Modificar Reserva");
-		
-		crear.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            	CrearReservaFrame reserva= new CrearReservaFrame(cliente,SA);
-            }
-        });
-		panel.add(modificar);
-		
-		JButton salir=new JButton("Salir");
-		
-		crear.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            	System.exit(0);;
-            }
-        });
-		panel.add(crear);
-	}
+	private final Navegador nav;
+	private final SistemaAlquiler sistemaAlquiler;
 
+	public LoggedInMenu(Navegador nav, SistemaAlquiler sistemaAlquiler) {
+		this.nav = nav;
+		this.sistemaAlquiler = sistemaAlquiler;
+		
+		setLayout(new GridLayout(0, 1));
+
+		TButton crear = new TButton("Crear Reserva", () -> {
+			nav.agregarPagina(new CrearReservaPanel(nav, sistemaAlquiler));
+			return null;
+		});
+		add(crear);
+
+		TButton modificar = new TButton("Modificar Reserva", () -> {
+			nav.agregarPagina(new ModificarReservaPanel(nav, sistemaAlquiler));
+			return null;
+		});
+		add(modificar);
+
+		TButton salir = new TButton("Cerrar Sesion", () -> {
+			nav.paginaAnterior();
+			return null;
+		});
+		add(salir);
+	}
 }
