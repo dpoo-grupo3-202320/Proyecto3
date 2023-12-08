@@ -13,12 +13,12 @@ public class Inventario implements Serializable {
 	/**
 	 * 
 	 */
-	public static final List<String> prioridadCategoria = Arrays
-			.asList(new String[] { "Pequeños", "SUV", "Vans", "Lujo", "Otros" });
+	public static final List<String> prioridadCategoria = Arrays.asList(new String[] { "automovil", "moto", "atv",
+			"bicicleta", "bicicleta electrica", "patineta electrica", "Pequeños", "SUV", "Vans", "Lujo", "Otros" });
 	// TODO: sedes?
 	public static final String[] sedes = new String[] { "SedeA", "SedeB", "SedeC", "SedeD", "SedeE", "SedeH" };
-	public static final String[] categorias = new String[] { "automóvil", "moto", "atv", "bicicleta",
-			"bicicleta eléctrica", "patineta eléctrica", "Pequeños", "SUV", "Vans", "Lujo", "Otros" };
+	public static final String[] categorias = new String[] { "automovil", "moto", "atv", "bicicleta",
+			"bicicleta electrica", "patineta electrica", "Pequenos", "SUV", "Vans", "Lujo", "Otros" };
 
 	public static final String[] seguros = new String[] { "Seguro 1", "Seguro 2", "Seguro 3", "Seguro 4" };
 	public static final Map<String, Tarifa> tarifas = new HashMap<String, Tarifa>() {
