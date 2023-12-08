@@ -120,5 +120,10 @@ public class Vehiculo implements Serializable {
 	public void setHistorial(ArrayList<Reserva> historial) {
 		this.historial = historial;
 	}
+	
+	public void addReserva(Reserva r) 
+	{
+		historial.add(r);
+	}
 
 }

@@ -44,7 +44,7 @@ public class SistemaAlquiler {
 	// Guardar Datos
 
 	public void guardarDatos() {
-		CSVWriter.guardarDatos(empleados, clientes, admins, sedes, inventario.getVehiculos());
+		CSVWriter.guardarDatos(empleados, clientes, admins, sedes, inventario.getVehiculos(),reservas);
 
 	}
 
@@ -273,7 +273,8 @@ public class SistemaAlquiler {
 	}
 
 	public void nuevaReserva(Reserva r) throws Exception {
-		if (reservaExiste(r.getId())) {
+		if (reservaExiste(r.getId()))
+		{
 			throw new Exception("El id de la reserva ya esta en uso.");
 		}
 		reservas.put(r.getId(), r);
@@ -281,7 +282,9 @@ public class SistemaAlquiler {
 
 	public void crearReserva(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
-			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
+			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception 
+	{
+		//FIXME Crear metodo get tarifas- Mejorar encapsulamiento
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
@@ -343,7 +346,9 @@ public class SistemaAlquiler {
 					v.setUbicacion(null);
 					v.setEstado("alquilado");
 					v.setFechaDisponible(r.getFechaRecogida());
+					v.addReserva(r);
 					r.setVehiculo(v);
+					
 					return;
 				}
 			}

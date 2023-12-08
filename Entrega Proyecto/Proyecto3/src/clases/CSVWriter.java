@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class CSVWriter {
 	
@@ -15,7 +17,9 @@ public class CSVWriter {
 			//archivo carga sedes
 	static String archivoSedes = "./Persistencia/Sedes.csv";
 			//archivo carga vehiculos
-	static String archivoVehiculos = "./Persistencia/Vehiculo.csv";		 
+	static String archivoVehiculos = "./Persistencia/Vehiculo.csv";	
+	//archivos carga Reservas´
+	static String archivoReservas = "./Persistencia/Reservas.csv";
 	
 	private static void guardarEmpleados(Map<String, Empleado> empleados) {
         
@@ -117,18 +121,59 @@ public class CSVWriter {
             e.printStackTrace();
         }
     }
+	
+private static void guardarReservas(Map<String, Reserva> reservas) {
+		
+        String rutaArchivo = archivoReservas;
+        
+        
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaArchivo))) {
+        	for (Entry<String, Reserva> entry : reservas.entrySet()) {
+        		Reserva reserva = entry.getValue();
+        		String conductoresExtra = reserva.getConductoresExtra()
+        		        .stream()
+        		        .map(LicenciaDeConduccion::getNumero)
+        		        .collect(Collectors.joining("|"));
+        		String placa = null;
+        		if (reserva.getVehiculo()!=null) {
+        			placa = reserva.getVehiculo().getPlaca();
+        		}
+                String linea = String.format(
+                		"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s",
+                		reserva.getId(),
+                        reserva.getCategoriaSolicitada(),
+                        reserva.getCliente().getUsuario(),
+                        placa,
+                        reserva.getUbicacionRecogida(),
+                        reserva.getUbicacionEntrega(),
+                        reserva.getTarifa().getPrecioCategoria(),
+                        reserva.getFechaRecogida().toString(),
+                        reserva.getRangoEntrega().getLow().toString(),
+                        reserva.getRangoEntrega().getHigh().toString(),
+                        conductoresExtra
+                 );
+                writer.println(linea);
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 	public static void guardarDatos(
 			Map<String, Empleado> empleados,
             Map<String, Cliente> clientes,
             Map<String, Admin> admins,
             Map<String, Sede> sedes,
-            ArrayList<Vehiculo> vehiculos
+            ArrayList<Vehiculo> vehiculos,
+            Map<String, Reserva> reservas
     ) {
         guardarClientes(clientes);
         guardarAdmins(admins);
         guardarSedes(sedes);
         guardarVehiculos(vehiculos);
         guardarEmpleados(empleados);
+        guardarReservas(reservas);
     }
 }

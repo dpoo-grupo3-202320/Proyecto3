@@ -17,6 +17,10 @@ public class CSVReader {
 	String archivoSedes;
 	//archivo carga vehiculos
 	String archivoVehiculos;
+	//archivo carga seguros
+	String archivoSeguros;
+	//archivo carga Reservas
+	String archivoReservas;
 	
 	SistemaAlquiler sa; 
 
@@ -31,6 +35,10 @@ public class CSVReader {
 		archivoSedes = "./Persistencia/Sedes.csv";
 		//archivo carga vehiculos
 		archivoVehiculos = "./Persistencia/Vehiculo.csv";
+		//archivo carga Seguros
+		archivoSeguros = "./Persistencia/Seguros.csv";
+		//archivos carga Reservas´
+		archivoReservas = "./Persistencia/Reservas.csv";
 		
 		sa = sistemaAlquiler; 
 		
@@ -196,6 +204,49 @@ public class CSVReader {
 					Vehiculo elVehiculo = sa.getVehiculo(placa);
 					elVehiculo.setFechaDisponible(fechadisponible);
 					elVehiculo.setComentarios(comentarios);
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	private void cargarSeguros() throws FileNotFoundException, IOException
+	{
+		try (BufferedReader br = new BufferedReader(new FileReader(archivoSeguros))) 
+		{
+			String line;
+			while ((line = br.readLine()) != null) 
+			{
+				String[] info = line.split(";");
+				try 
+				{
+					sa.registroEmpleado(info[0], info[1], sa.getSede(info[2]));
+					Empleado elEmpleado = sa.getEmpleado(info[0]);
+					sa.getSede(info[2]).agregarEmpleado(elEmpleado);
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	
+	private void cargarReservas() throws FileNotFoundException, IOException
+	{
+		try (BufferedReader br = new BufferedReader(new FileReader(archivoReservas))) 
+		{
+			String line;
+			while ((line = br.readLine()) != null) 
+			{
+				String[] info = line.split(";");
+				try 
+				{
+					//TODO Falta implementar logica de carga
 				} 
 				catch (Exception e) 
 				{
