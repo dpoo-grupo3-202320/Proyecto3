@@ -328,6 +328,7 @@ public class SistemaAlquiler {
 		formalizarAlquiler(r.getId());
 	}
 
+	// convierte alquiler en reserva; le asigna un vehiculo
 	public void formalizarAlquiler(String idReserva) throws Exception {
 		if (!reservaExiste(idReserva)) {
 			throw new Exception("La reserva seleccionada no existe");
@@ -344,11 +345,10 @@ public class SistemaAlquiler {
 						&& (v.getFechaDisponible().compareTo(r.getRangoEntrega().getLow()) <= 0)) {
 					// actualizar vehiculo
 					v.setUbicacion(null);
-					v.setEstado("alquilado");
+					v.setEstado("Alquilado");
 					v.setFechaDisponible(r.getFechaRecogida());
 					v.addReserva(r);
 					r.setVehiculo(v);
-					
 					return;
 				}
 			}
