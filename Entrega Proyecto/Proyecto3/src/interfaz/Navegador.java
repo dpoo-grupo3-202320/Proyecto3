@@ -33,8 +33,7 @@ public class Navegador extends JPanel {
   private CardLayout card;
 
   public Navegador(
-      SistemaAlquiler sistemaAlquiler,
-      ContenedorDeDatos contenedorDatos) {
+      SistemaAlquiler sistemaAlquiler) {
 
     this.sistemaAlquiler = sistemaAlquiler;
     paneles = new ArrayList<JPanel>();
@@ -72,6 +71,7 @@ public class Navegador extends JPanel {
 
   public void cerrarSesion() {
     paginaAnterior();
+    sistemaAlquiler.guardarDatos();
     sistemaAlquiler.cerrarSesion();
   }
 

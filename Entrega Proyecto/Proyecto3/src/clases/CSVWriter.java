@@ -111,7 +111,7 @@ public class CSVWriter {
                         vehiculo.getComentarios(), vehiculo.getEstado()
                 );
                 writer.println(linea);
-        		System.out.println("Datos Guardados");
+        		//System.out.println("Datos Guardados");
             }
         } catch (IOException e) {
             e.printStackTrace();

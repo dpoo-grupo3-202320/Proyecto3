@@ -79,7 +79,7 @@ public class MenuAdmin extends JPanel {
             addButton(buttonPanel, "Cerrar Sesión", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   // nav.agregarPagina(new AgregarVehiculo());
+                   nav.cerrarSesion();
                 }
             });
             

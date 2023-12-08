@@ -27,7 +27,6 @@ public class PaginaPrincipal extends JFrame {
 
 	private final Navegador nav;
 	private final SistemaAlquiler sistemaAlquiler;
-	private final ContenedorDeDatos contenedorDatos;
 
 	public PaginaPrincipal() throws FileNotFoundException, ClassNotFoundException, IOException {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -36,16 +35,14 @@ public class PaginaPrincipal extends JFrame {
 		setBackground(new Color(255, 192, 203));
 		setOpacity(1f);
 		sistemaAlquiler = new SistemaAlquiler();
-		contenedorDatos = new ContenedorDeDatos();
 
-		sistemaAlquiler.cargarDatos();
-		nav = new Navegador(sistemaAlquiler, contenedorDatos);
+		nav = new Navegador(sistemaAlquiler);
 		add(nav, BorderLayout.CENTER);
 	}
 
 	@Override
 	public void dispose() {
-		sistemaAlquiler.guardarDatos();
+		
 		super.dispose();
 	}
 
