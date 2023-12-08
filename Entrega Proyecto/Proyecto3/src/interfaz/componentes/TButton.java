@@ -8,8 +8,8 @@ import java.util.concurrent.Callable;
 import javax.swing.JButton;
 import javax.swing.border.Border;
 
-public class Boton extends JButton {
-  public Boton(String texto, Callable<Void> action) {
+public class TButton extends JButton {
+  public TButton(String texto, Callable<Void> action) {
     Font f = getFont();
     f = f.deriveFont(Font.BOLD);
     f = f.deriveFont(27.5f);

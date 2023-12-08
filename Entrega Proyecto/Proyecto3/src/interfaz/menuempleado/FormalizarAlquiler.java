@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import clases.Reserva;
 import clases.SistemaAlquiler;
 import interfaz.Navegador;
-import interfaz.componentes.Boton;
-import interfaz.componentes.Combo;
+import interfaz.componentes.TButton;
+import interfaz.componentes.TCombo;
 
 public class FormalizarAlquiler extends JPanel {
   private final Navegador nav;
@@ -35,16 +35,16 @@ public class FormalizarAlquiler extends JPanel {
 
     setLayout(new GridLayout(0, 1));
 
-    add(new Boton("Atras", () -> {
+    add(new TButton("Atras", () -> {
       nav.paginaAnterior();
       return null;
     }));
     // reserva
     add(new JLabel("Seleccionar Reserva:"));
-    Combo reserva = new Combo(reservasString, false);
+    TCombo reserva = new TCombo(reservasString, false);
     add(reserva);
     // reserva
-    add(new Boton("Asignar Vehiculo", () -> {
+    add(new TButton("Asignar Vehiculo", () -> {
       try {
         sistemaAlquiler.formalizarAlquiler(reservas.get(reserva.getSelectedIndex()).getId());
         System.out.println("Reserva Formalizada exitosamente");

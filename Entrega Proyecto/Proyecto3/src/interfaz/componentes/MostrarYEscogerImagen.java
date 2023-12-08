@@ -19,7 +19,7 @@ public class MostrarYEscogerImagen extends JPanel {
     setLayout(new BorderLayout());
     JLabel label = new JLabel();
     add(label, BorderLayout.CENTER);
-    add(new Boton("Escoger Imagen", () -> {
+    add(new TButton("Escoger Imagen", () -> {
       final JFileChooser fc = new JFileChooser();
       fc.setFileFilter(new FileNameExtensionFilter("jpg", "jpeg", "png"));
       int returnVal = fc.showOpenDialog(this);

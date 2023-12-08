@@ -25,45 +25,38 @@ import clases.Usuario;
  */
 public class PaginaPrincipal extends JFrame {
 
-  private final Navegador nav;
-  private final SistemaAlquiler sistemaAlquiler;
-  private final ContenedorDeDatos contenedorDatos;
+	private final Navegador nav;
+	private final SistemaAlquiler sistemaAlquiler;
 
-  public PaginaPrincipal() throws FileNotFoundException, ClassNotFoundException, IOException {
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    setLayout(new BorderLayout());
-    // rosado
-    setBackground(new Color(255, 192, 203));
-    setOpacity(1f);
-    sistemaAlquiler = new SistemaAlquiler();
-    contenedorDatos = new ContenedorDeDatos();
+	public PaginaPrincipal() throws FileNotFoundException, ClassNotFoundException, IOException {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLayout(new BorderLayout());
+		// rosado
+		setBackground(new Color(255, 192, 203));
+		setOpacity(1f);
+		sistemaAlquiler = new SistemaAlquiler();
 
-    sistemaAlquiler.cargarDatos();
-    nav = new Navegador(sistemaAlquiler, contenedorDatos);
-    add(nav, BorderLayout.CENTER);
-  }
+		nav = new Navegador(sistemaAlquiler);
+		add(nav, BorderLayout.CENTER);
+	}
 
-  @Override
-  public void dispose() {
-    try {
-      sistemaAlquiler.guardarDatos();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    super.dispose();
-  }
+	@Override
+	public void dispose() {
+		
+		super.dispose();
+	}
 
-  public static void main(String[] args) {
-    try {
-      PaginaPrincipal pp = new PaginaPrincipal();
-      // pp.setExtendedState(JFrame.MAXIMIZED_BOTH);
-      pp.setResizable(true);
-      pp.setSize(new Dimension(500, 500));
-      pp.setVisible(true);
-      // pp.setUndecorated(true);
-    } catch (ClassNotFoundException | IOException e) {
-      System.out.println("Carga de datos fallida");
-      e.printStackTrace();
-    }
-  }
+	public static void main(String[] args) {
+		try {
+			PaginaPrincipal pp = new PaginaPrincipal();
+			// pp.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			pp.setResizable(true);
+			pp.setSize(new Dimension(500, 500));
+			pp.setVisible(true);
+			// pp.setUndecorated(true);
+		} catch (ClassNotFoundException | IOException e) {
+			System.out.println("Carga de datos fallida");
+			e.printStackTrace();
+		}
+	}
 }

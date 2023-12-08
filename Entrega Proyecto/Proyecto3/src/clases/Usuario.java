@@ -23,7 +23,7 @@ public abstract class Usuario implements Serializable {
 		return this.usuario;
 	}
 
-	public String getContraseña() {
+	public String getClave() {
 		return this.contraseña;
 	}
 

@@ -16,10 +16,11 @@ public class Inventario implements Serializable {
 	public static final List<String> prioridadCategoria = Arrays
 			.asList(new String[] { "Pequeños", "SUV", "Vans", "Lujo", "Otros" });
 	// TODO: sedes?
-	public static final String[] categorias = new String[] { "Pequeños", "SUV", "Vans", "Lujo", "Otros" };
+	public static final String[] sedes = new String[] { "SedeA", "SedeB", "SedeC", "SedeD", "SedeE", "SedeH" };
+	public static final String[] categorias = new String[] { "automóvil", "moto", "atv", "bicicleta",
+			"bicicleta eléctrica", "patineta eléctrica", "Pequeños", "SUV", "Vans", "Lujo", "Otros" };
 
-	public static final String[] seguros = new String[] { "Seguro 1", "Seguro 2",
-			"Seguro 3", "Seguro 4" };
+	public static final String[] seguros = new String[] { "Seguro 1", "Seguro 2", "Seguro 3", "Seguro 4" };
 	public static final Map<String, Tarifa> tarifas = new HashMap<String, Tarifa>() {
 		{
 			put("Pequeños", new Tarifa(25000L, 50000L, 25000L));
@@ -75,17 +76,17 @@ public class Inventario implements Serializable {
 	public void getCalendario(Map<String, List<Range<LocalDateTime>>> calen) {
 		this.calendario = calen;
 	}
-	
-	//Metodos utiles
-	
+
+	// Metodos utiles
+
 	public Vehiculo getVehiculo(String placa) {
 		return vehiculos.get(placa);
 	}
 
 	public ArrayList<Vehiculo> getVehiculos() {
-		return new ArrayList<Vehiculo> (vehiculos.values());
+		return new ArrayList<Vehiculo>(vehiculos.values());
 	}
-	
+
 	public boolean vehiculoExiste(String nombreVehiculo) {
 		return vehiculos.containsKey(nombreVehiculo);
 	}
@@ -96,11 +97,11 @@ public class Inventario implements Serializable {
 		}
 		vehiculos.put(v.getPlaca(), v);
 	}
-	
+
 	public void agregarVehiculo(String placa, String marca, String color, String transmision, String categoria,
 			String sede, String estado) throws Exception {
-		
-		LocalDateTime fechaDisponible = null;
+
+		LocalDateTime fechaDisponible = LocalDateTime.now();
 		String comentarios = "vehiculo nuevo";
 		ArrayList<Reserva> historial = null;
 
@@ -108,7 +109,7 @@ public class Inventario implements Serializable {
 				comentarios, estado, historial);
 		nuevoVehiculo(nuevoVehiculo);
 	}
-	
+
 	public String consultarUbicacionVehiculo(String placa) throws Exception {
 		if (!vehiculoExiste(placa)) {
 			throw new Exception("El vehiculo seleccionado no existe");
@@ -119,8 +120,7 @@ public class Inventario implements Serializable {
 		}
 		return v.getUbicacion();
 	}
-	
-	
+
 	public ArrayList<Reserva> consultarHistorialVehiculo(String placa) throws Exception {
 		if (!vehiculoExiste(placa)) {
 			throw new Exception("El vehiculo seleccionado no existe");
@@ -132,6 +132,17 @@ public class Inventario implements Serializable {
 		}
 		return historial;
 	}
-	
-	
+
+	public boolean eliminarVehiculo(String placa) {
+
+		// Vehiculo vehiculoInteres = getVehiculo(placa);
+		if (vehiculoExiste(placa)) {
+			vehiculos.remove(placa);
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 }

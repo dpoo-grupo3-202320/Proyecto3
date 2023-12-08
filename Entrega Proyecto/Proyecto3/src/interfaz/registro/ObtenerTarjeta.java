@@ -7,21 +7,21 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import clases.TarjetaDeCredito;
-import interfaz.componentes.Boton;
-import interfaz.componentes.Texto;
+import interfaz.componentes.TButton;
+import interfaz.componentes.TText;
 
 public class ObtenerTarjeta extends JFrame {
-  Texto numero;
-  Texto fecha;
-  Texto cvv;
-  Boton aceptar;
+  TText numero;
+  TText fecha;
+  TText cvv;
+  TButton aceptar;
 
   public ObtenerTarjeta(Callable<Void> callback) {
     setLayout(new GridLayout(0, 1));
-    numero = new Texto("", true);
-    fecha = new Texto("", true);
-    cvv = new Texto("", true);
-    aceptar = new Boton("aceptar", () -> {
+    numero = new TText("", true);
+    fecha = new TText("", true);
+    cvv = new TText("", true);
+    aceptar = new TButton("aceptar", () -> {
       callback.call();
       return null;
     });

@@ -23,7 +23,7 @@ public class CSVWriter {
         try (PrintWriter writer = new PrintWriter(new FileWriter(archivoEmpleados))) {
             for (Map.Entry<String, Empleado> entry : empleados.entrySet()) {
                 Empleado empleado = entry.getValue();
-                String linea = String.format("%s;%s;%s", empleado.getUsuario(), empleado.getContraseña(), empleado.getSede().getNombre());
+                String linea = String.format("%s;%s;%s", empleado.getUsuario(), empleado.getClave(), empleado.getSede().getNombre());
                 writer.println(linea);
             }
         } catch (IOException e) {
@@ -39,7 +39,7 @@ public class CSVWriter {
                 Cliente cliente = entry.getValue();
                 String linea = String.format(
                         "%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s",
-                        cliente.getUsuario(), cliente.getContraseña(), cliente.getNombres(),
+                        cliente.getUsuario(), cliente.getClave(), cliente.getNombres(),
                         cliente.getNumeroTelefono(), cliente.getDireccion(), cliente.getFechaNacimiento(),
                         cliente.getNacionalidad(), cliente.getImagenDocumentoIdentidad(), cliente.getLicenciaDeConduccion().getNumero(),
                         cliente.getLicenciaDeConduccion().getPaisExpedicion(), cliente.getLicenciaDeConduccion().getFechaVencimiento(),
@@ -64,7 +64,7 @@ public class CSVWriter {
                 {
 	                String linea = String.format(
 	                        "%s;%s;%s",
-	                        admin.getUsuario(), admin.getContraseña(), admin.getSede()
+	                        admin.getUsuario(), admin.getClave(), admin.getSede()
 	                );
 	                writer.println(linea);
                 }
@@ -84,7 +84,7 @@ public class CSVWriter {
 
 	                StringBuilder empleadosStr = new StringBuilder();
 	                for (Empleado empleado : sede.getEmpleados()) {
-	                    empleadosStr.append(String.format("%s,%s|", empleado.getUsuario(), empleado.getContraseña()));
+	                    empleadosStr.append(String.format("%s,%s|", empleado.getUsuario(), empleado.getClave()));
 	                }
 
 	                String linea = String.format(
@@ -107,10 +107,11 @@ public class CSVWriter {
                 String linea = String.format(
                         "%s;%s;%s;%s;%s;%s;%s;%s;%s",
                         vehiculo.getPlaca(), vehiculo.getMarca(), vehiculo.getColor(),
-                        vehiculo.getTransmision(), vehiculo.getCategoria(),vehiculo.getSede(), fechaFormateada,
+                        vehiculo.getTransmision(), vehiculo.getCategoria(),vehiculo.getUbicacion(), fechaFormateada,
                         vehiculo.getComentarios(), vehiculo.getEstado()
                 );
                 writer.println(linea);
+        		//System.out.println("Datos Guardados");
             }
         } catch (IOException e) {
             e.printStackTrace();
