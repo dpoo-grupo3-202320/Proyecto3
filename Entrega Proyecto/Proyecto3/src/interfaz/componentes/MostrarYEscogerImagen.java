@@ -15,11 +15,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class MostrarYEscogerImagen extends JPanel {
   private File image;
 
-  public MostrarYEscogerImagen() {
+  public MostrarYEscogerImagen(String texto) {
     setLayout(new BorderLayout());
     JLabel label = new JLabel();
     add(label, BorderLayout.CENTER);
-    add(new TButton("Escoger Imagen", () -> {
+    add(new TButton(texto, () -> {
       final JFileChooser fc = new JFileChooser();
       fc.setFileFilter(new FileNameExtensionFilter("jpg", "jpeg", "png"));
       int returnVal = fc.showOpenDialog(this);

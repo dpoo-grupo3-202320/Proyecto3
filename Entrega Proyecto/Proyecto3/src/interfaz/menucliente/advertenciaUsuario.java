@@ -14,5 +14,4 @@ public class advertenciaUsuario extends JFrame{
 		mensaje.add(mensaje);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
 }

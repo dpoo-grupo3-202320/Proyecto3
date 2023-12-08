@@ -84,6 +84,9 @@ public class Reserva implements Serializable {
 	}
 
 	public ArrayList<LicenciaDeConduccion> getConductoresExtra() {
+		if (this.conductoresExtra == null) {
+			this.conductoresExtra = new ArrayList<LicenciaDeConduccion>();
+		}
 		return conductoresExtra;
 	}
 

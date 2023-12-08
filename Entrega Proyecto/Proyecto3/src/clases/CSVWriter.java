@@ -175,5 +175,6 @@ private static void guardarReservas(Map<String, Reserva> reservas) {
         guardarVehiculos(vehiculos);
         guardarEmpleados(empleados);
         guardarReservas(reservas);
+        System.out.println("Datos guardados");
     }
 }

@@ -45,7 +45,6 @@ public class SistemaAlquiler {
 
 	public void guardarDatos() {
 		CSVWriter.guardarDatos(empleados, clientes, admins, sedes, inventario.getVehiculos(),reservas);
-
 	}
 
 	// Getters individuales
@@ -326,6 +325,8 @@ public class SistemaAlquiler {
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
 		nuevaReserva(r);
 		formalizarAlquiler(r.getId());
+		System.out.println("Alquiler creado y formalizado, guardando datos");
+		guardarDatos();
 	}
 
 	// convierte alquiler en reserva; le asigna un vehiculo

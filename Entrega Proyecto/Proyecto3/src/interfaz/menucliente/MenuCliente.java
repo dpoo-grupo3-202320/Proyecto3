@@ -1,6 +1,7 @@
 package interfaz.menucliente;
 
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,7 +23,7 @@ public class MenuCliente extends JPanel {
 		titleLabel.setFont(new Font("Helvetica", Font.BOLD, 16));
 
 		JPanel buttonPanel = new JPanel();
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new GridLayout(0, 1));
 
 		JButton inicio;
 		JButton registro;

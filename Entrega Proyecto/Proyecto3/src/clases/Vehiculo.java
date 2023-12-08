@@ -128,6 +128,9 @@ public class Vehiculo implements Serializable {
 	}
 
 	public void addReserva(Reserva r) {
+		if (historial == null) {
+			this.historial = new ArrayList<Reserva>();
+		}
 		historial.add(r);
 	}
 
