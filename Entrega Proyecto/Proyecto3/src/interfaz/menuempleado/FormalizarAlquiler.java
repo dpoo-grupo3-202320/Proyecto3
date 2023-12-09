@@ -13,6 +13,7 @@ import interfaz.Navegador;
 import interfaz.componentes.TButton;
 import interfaz.componentes.TCombo;
 
+@SuppressWarnings("serial")
 public class FormalizarAlquiler extends JPanel {
   private final Navegador nav;
   private final SistemaAlquiler sistemaAlquiler;

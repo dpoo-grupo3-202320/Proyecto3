@@ -32,7 +32,7 @@ public class PaginaPrincipal extends JFrame {
 
 	@Override
 	public void dispose() {
-
+		sistemaAlquiler.guardarDatos();
 		super.dispose();
 	}
 

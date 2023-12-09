@@ -32,7 +32,7 @@ public class TMensajeUsuario extends JDialog {
 
 		Window window = SwingUtilities.getWindowAncestor(positionReference);
 		int xcoord = window.getLocationOnScreen().x + window.getWidth() / 2 - getWidth() / 2;
-		int ycoord = window.getLocationOnScreen().y + (int) ((double) window.getHeight() * 0.75) - getHeight() / 2;
+		int ycoord = window.getLocationOnScreen().y + (int) ((double) window.getHeight()) - 35 - getHeight();
 		setLocation(xcoord, ycoord);
 		setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
 		setVisible(true);
