@@ -112,7 +112,7 @@ public class SistemaAlquiler {
 	public ArrayList<Reserva> getReservas() {
 		return new ArrayList<Reserva>(reservas.values().stream().filter(r -> r.getVehiculo() == null).toList());
 	}
-	
+
 	public ArrayList<Reserva> getAlquileres() {
 		return new ArrayList<Reserva>(reservas.values().stream().filter(r -> r.getVehiculo() != null).toList());
 	}
@@ -379,27 +379,34 @@ public class SistemaAlquiler {
 		System.out.println("reserva.getRango(): " + r.getRangoEntrega());
 		// encontrar vehiculo disponible
 		String categoria = r.getCategoriaSolicitada();
+		// indice de categoria solicitada
+		int i = Inventario.prioridadCategoria.indexOf(categoria);
 		Vehiculo vehiculoEncontrado = null;
 		while (vehiculoEncontrado == null) {
+			// si se supera limite de categorias, no hay vehiculos disponibles para las fechas escogidas
+			if (i >= Inventario.prioridadCategoria.size()) {
+				throw new Exception("No existen vehiculos disponibles en este momento para las fechas establecidas");
+			}
+			// establecer categoria en la cual se buscara un carro
+			categoria = Inventario.prioridadCategoria.get(i);
 			for (Vehiculo v : getVehiculos()) {
 				if (v.getCategoria().equals(categoria)
 						&& (v.getFechaDisponible().compareTo(r.getRangoEntrega().getLow()) <= 0)) {
-					// actualizar vehiculo
-					v.setUbicacion(null);
-					v.setEstado("Alquilado");
-					v.setFechaDisponible(r.getFechaRecogida());
-					v.addReserva(r);
-					r.setVehiculo(v);
-					return;
+					// establecer vehiculo
+					vehiculoEncontrado = v;
+					// salir de for loop
+					break;
+					// en la proxima iteracion no se cumple v == null; tambien
+					// se sale del while loop
 				}
 			}
-			int i = Inventario.prioridadCategoria.indexOf(categoria);
 			i += 1;
-			if (i >= Inventario.prioridadCategoria.size()) {
-				throw new Exception("No existen vehiculos disponibles en este momento");
-			}
-			categoria = Inventario.prioridadCategoria.get(i);
 		}
+		// actualizar vehiculo		vehiculoEncontrado.setUbicacion(null);		vehiculoEncontrado.setEstado("Alquilado");
+		vehiculoEncontrado.setFechaDisponible(r.getRangoEntrega().getHigh());
+		vehiculoEncontrado.addReserva(r);
+		r.setVehiculo(vehiculoEncontrado);
+		System.out.println("Vehiculo encontrado, asignando a reserva");
 	}
 
 	// --------------Inicio de sesion---------------

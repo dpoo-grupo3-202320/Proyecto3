@@ -14,7 +14,7 @@ public class Inventario implements Serializable {
 	 * 
 	 */
 	// TODO: sedes?
-	public static final String[] sedes = new String[] { "SedeA", "SedeB", "SedeC", "SedeD", "SedeE", "SedeH" };
+	public static final String[] sedes = new String[] { "SedeA", "SedeB", "SedeC", "SedeD", "SedeE", "SedeF" };
 
 	public static final String[] categorias = new String[] { "atv", "bicicleta electrica", "patineta electrica",
 			"bicicleta", "Lujo", "SUV", "Vans", "Camionetas", "automovil", "Pequeños", "moto", "Otros" };

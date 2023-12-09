@@ -36,7 +36,7 @@ public class FormalizarAlquiler extends JPanel {
 			nav.paginaAnterior();
 			return null;
 		}));
-		// seleccionar
+		// seleccionar reserva
 		add(new TLabel("Seleccionar Reserva:"));
 		TCombo reserva = new TCombo(reservasString, false);
 		add(reserva);
