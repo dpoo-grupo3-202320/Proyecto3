@@ -310,7 +310,7 @@ public class SistemaAlquiler {
 		nuevaReserva(r);
 	}
 
-	public void modificarReserva(String idReserva, LocalDateTime fechaRecogida, Range<LocalDateTime> rangoEntrega)
+	public Reserva modificarReserva(String idReserva, LocalDateTime fechaRecogida, Range<LocalDateTime> rangoEntrega)
 			throws Exception {
 		if (!reservaExiste(idReserva)) {
 			throw new Exception("La reserva seleccionada no existe");
@@ -321,6 +321,7 @@ public class SistemaAlquiler {
 		}
 		r.setFechaRecogida(fechaRecogida);
 		r.setRangoEntrega(rangoEntrega);
+		return r;
 	}
 
 	public ArrayList<Reserva> consultarHistorialVehiculoInventario(String placa) throws Exception {
@@ -345,7 +346,7 @@ public class SistemaAlquiler {
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa, seguros);
 		nuevaReserva(r);
 		formalizarAlquiler(r.getId());
-		System.out.println("Alquiler creado y formalizado, guardando datos");
+		System.out.println("Alquiler creado y formalizado");
 		return r;
 	}
 
