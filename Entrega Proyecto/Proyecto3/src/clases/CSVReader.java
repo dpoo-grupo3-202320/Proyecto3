@@ -225,10 +225,7 @@ public class CSVReader {
 				String[] info = line.split(";");
 				try 
 				{
-					//TODO Falta implementar logica de carga	
-					
-					
-					
+					//TODO Falta implementar logica de carga		
 				} 
 				catch (Exception e) 
 				{
@@ -261,34 +258,48 @@ public class CSVReader {
 				LocalDateTime fechaEntregaMax = LocalDateTime.parse(info[9]);
 				Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaMin,fechaEntregaMax);
 				
-
-				String[] licenciasExtra = info[10].split("\\|");
-				
-				ArrayList<Cliente> clientes = sa.getClientes();
 				ArrayList <LicenciaDeConduccion> conductoresExtra = new ArrayList<LicenciaDeConduccion>();
-				for (String licencia : licenciasExtra) 
+				if (info.length>10) 
 				{
-					for (Cliente cliente: clientes) 
+					String[] licenciasExtra = info[10].split("\\|");
+					ArrayList<Cliente> clientes = sa.getClientes();
+					
+					for (String licencia : licenciasExtra) 
 					{
-						LicenciaDeConduccion licenciaActual = cliente.getLicenciaDeConduccion();
-						if (licenciaActual.getNumero().equals(licencia)) 
+						for (Cliente cliente: clientes) 
 						{
-							conductoresExtra.add(licenciaActual);
+							LicenciaDeConduccion licenciaActual = cliente.getLicenciaDeConduccion();
+							if (licenciaActual.getNumero().equals(licencia)) 
+							{
+								conductoresExtra.add(licenciaActual);
+							}
 						}
 					}
 				}
-				try 
-				{
-					sa.cargarReserva(id, categoria, fechaRecogida, sedeRecogida, sedeEntrega, rangoEntrega, sa.getCliente(nombreCliente), conductoresExtra);		
-				} 
-				catch (Exception e) 
-				{
-					e.printStackTrace();
-				}
 				
+				Vehiculo elVehiculo = sa.getVehiculo(placa);
+				if (elVehiculo == null) {
+					try 
+					{
+						sa.cargarReserva(id, categoria, fechaRecogida, sedeRecogida, sedeEntrega, rangoEntrega, sa.getCliente(nombreCliente), conductoresExtra);		
+					} 
+					catch (Exception e) 
+					{
+						e.printStackTrace();
+					}
+				}
+				else 
+				{
+					try {
+					sa.cargarAlquiler(id, categoria, fechaRecogida, sedeRecogida, sedeEntrega, rangoEntrega, sa.getCliente(nombreCliente), elVehiculo, conductoresExtra);
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
 				numReservas++;
 			}
-			
 		}
 		sa.setIdReservas(numReservas);
 	}

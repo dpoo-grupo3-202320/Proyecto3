@@ -348,6 +348,18 @@ public class SistemaAlquiler {
 		System.out.println("Alquiler creado y formalizado, guardando datos");
 		guardarDatos();
 	}
+	
+	//cargar un alquiler
+	public void cargarAlquiler(String id, String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
+		String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente, Vehiculo vehiculo,
+		ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception 
+{
+	//FIXME Crear metodo get tarifas- Mejorar encapsulamiento
+	Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
+	Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida,
+			ubicacionEntrega, rangoEntrega, cliente, vehiculo, conductoresExtra, tarifa);
+	nuevaReserva(r);
+}
 
 	// convierte alquiler en reserva; le asigna un vehiculo
 	public void formalizarAlquiler(String idReserva) throws Exception {
