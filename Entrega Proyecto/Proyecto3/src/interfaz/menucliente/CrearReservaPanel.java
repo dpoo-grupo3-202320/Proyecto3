@@ -21,7 +21,7 @@ public class CrearReservaPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1130925823047717927L;
-	
+
 	private final Navegador nav;
 	private final SistemaAlquiler sistemaAlquiler;
 
@@ -31,8 +31,8 @@ public class CrearReservaPanel extends JPanel {
 
 		setLayout(new GridLayout(0, 1));
 		setName("Reserva");
-		
-		add(new TButton("ATRAS", () ->{
+
+		add(new TButton("ATRAS", () -> {
 			nav.paginaAnterior();
 			return null;
 		}));
@@ -71,13 +71,14 @@ public class CrearReservaPanel extends JPanel {
 			Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaTemprano, fechaEntregaTarde);
 
 			try {
-				sistemaAlquiler.crearReserva(categoria.getText(), fechaRecogida, ubicacionR.getText(),
+				this.sistemaAlquiler.crearReserva(categoria.getText(), fechaRecogida, ubicacionR.getText(),
 						ubicacionE.getText(), rangoEntrega, (Cliente) sistemaAlquiler.getUsuarioActual(), null);
-				System.out.println("Reserva creada por cliente exitosamente");
-				nav.paginaAnterior();
+				this.nav.paginaAnterior();
+				this.nav.mensajeCliente("Reserva creada por cliente exitosamente", 2000);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				this.nav.mensajeCliente("La reserva no se pudo crear, error: " + e1, 3000);
 			}
 			return null;
 		});

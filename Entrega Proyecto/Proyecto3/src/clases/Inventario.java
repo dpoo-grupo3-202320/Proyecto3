@@ -13,25 +13,28 @@ public class Inventario implements Serializable {
 	/**
 	 * 
 	 */
-	public static final List<String> prioridadCategoria = Arrays.asList(new String[] { "atv", "bicicleta electrica",
-			"patineta electrica", "bicicleta", "Lujo", "SUV", "Vans", "automovil", "Pequeños", "moto", "Otros" });
 	// TODO: sedes?
-	public static final String[] sedes = new String[] { "SedeA", "SedeB", "SedeC", "SedeD", "SedeE", "SedeH" };
-	
+	public static final String[] sedes = new String[] { "SedeA", "SedeB", "SedeC", "SedeD", "SedeE", "SedeF" };
+
 	public static final String[] categorias = new String[] { "atv", "bicicleta electrica", "patineta electrica",
-			"bicicleta", "Lujo", "SUV", "Vans","Camionetas", "automovil", "Pequeños", "moto", "Otros" };
+			"bicicleta", "Lujo", "SUV", "Vans", "Camionetas", "automovil", "Pequeños", "moto", "Otros" };
+	public static final List<String> prioridadCategoria = Arrays.asList(categorias);
 
-
-	public static final String[] seguros = new String[] { "Seguro 1", "Seguro 2", "Seguro 3", "Seguro 4" };
+	public static final String[] seguros = new String[] { "Daños a terceros", "Accidentes", "Robos" };
+	@SuppressWarnings("serial")
 	public static final Map<String, Tarifa> tarifas = new HashMap<String, Tarifa>() {
-
 		{
-			//TODO toca añadir todas las categorias que se vayan a usar 
-			put("Pequeños", new Tarifa(25000L, 50000L, 25000L));
+			put("atv", new Tarifa(25000L, 50000L, 25000L));
+			put("bicicleta electrica", new Tarifa(25000L, 50000L, 25000L));
+			put("patineta electrica", new Tarifa(25000L, 50000L, 25000L));
+			put("bicicleta", new Tarifa(25000L, 50000L, 25000L));
+			put("Lujo", new Tarifa(25000L, 50000L, 25000L));
 			put("SUV", new Tarifa(25000L, 50000L, 25000L));
 			put("Vans", new Tarifa(25000L, 50000L, 25000L));
-			put("Lujo", new Tarifa(25000L, 50000L, 25000L));
-			put("Camioneta", new Tarifa(25000L, 50000L, 25000L));
+			put("Camionetas", new Tarifa(25000L, 50000L, 25000L));
+			put("automovil", new Tarifa(25000L, 50000L, 25000L));
+			put("Pequeños", new Tarifa(25000L, 50000L, 25000L));
+			put("moto", new Tarifa(25000L, 50000L, 25000L));
 			put("Otros", new Tarifa(25000L, 50000L, 25000L));
 		}
 	};

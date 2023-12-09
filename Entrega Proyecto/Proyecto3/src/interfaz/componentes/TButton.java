@@ -6,7 +6,6 @@ import java.awt.Insets;
 import java.util.concurrent.Callable;
 
 import javax.swing.JButton;
-import javax.swing.border.Border;
 
 public class TButton extends JButton {
 	/**

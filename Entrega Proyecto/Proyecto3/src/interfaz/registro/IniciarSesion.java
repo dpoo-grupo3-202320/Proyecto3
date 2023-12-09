@@ -37,12 +37,14 @@ public class IniciarSesion extends JPanel {
 		add(new TButton("Aceptar", () -> {
 
 			Usuario u = sistemaAlquiler.getUsuario(nombreUsuario.getText(), clave.getText());
-			sistemaAlquiler.establecerUsuario(u);
+			this.sistemaAlquiler.establecerUsuario(u);
 			if (u == null) {
+				this.nav.mensajeCliente("Clave o usuario incorrectos", 2000);
 				// TODO: mostrar error, clave incorrecta
 			} else {
-				nav.paginaAnterior();
-				nav.login();
+				this.nav.paginaAnterior();
+				this.nav.login();
+				this.nav.mensajeCliente("Sesion iniciada exitosamente", 1500);
 			}
 			return null;
 		}));

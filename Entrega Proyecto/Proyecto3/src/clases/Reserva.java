@@ -23,7 +23,7 @@ public class Reserva implements Serializable {
 
 	public Reserva(String id, String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente, Vehiculo vehiculo,
-			ArrayList<LicenciaDeConduccion> conductoresExtra, Tarifa tarifa, ArrayList<Seguro> seguros ) {
+			ArrayList<LicenciaDeConduccion> conductoresExtra, Tarifa tarifa, ArrayList<Seguro> seguros) {
 		this.id = id;
 		this.categoriaSolicitada = categoriaSolicitada;
 		this.fechaRecogida = fechaRecogida;
@@ -50,7 +50,7 @@ public class Reserva implements Serializable {
 		return tarifa.getPrecioCategoria() + costoSedeDiferente + costoConductoresExtra;
 	}
 
-	//Getters
+	// Getters
 	public String getId() {
 		return id;
 	}
@@ -89,12 +89,14 @@ public class Reserva implements Serializable {
 		}
 		return conductoresExtra;
 	}
-	
 
 	public Tarifa getTarifa() {
-		return tarifa;
+		if (this.tarifa == null) {
+			this.tarifa = Inventario.tarifas.get(categoriaSolicitada);
+		}
+		return this.tarifa;
 	}
-	
+
 	public ArrayList<Seguro> getSeguros() {
 		if (this.seguros == null) {
 			this.seguros = new ArrayList<Seguro>();
@@ -144,7 +146,7 @@ public class Reserva implements Serializable {
 	public void setTarifa(Tarifa tarifa) {
 		this.tarifa = tarifa;
 	}
-	
+
 	public void setSeguros(ArrayList<Seguro> seguros) {
 		this.seguros = seguros;
 	}

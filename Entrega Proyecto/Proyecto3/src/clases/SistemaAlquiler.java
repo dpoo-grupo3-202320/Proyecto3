@@ -104,9 +104,17 @@ public class SistemaAlquiler {
 	public ArrayList<Seguro> getSeguros() {
 		return new ArrayList<Seguro>(seguros.values());
 	}
-	
-	public ArrayList<Reserva> getReservas() {
+
+	public ArrayList<Reserva> getAllReservas() {
 		return new ArrayList<Reserva>(reservas.values());
+	}
+
+	public ArrayList<Reserva> getReservas() {
+		return new ArrayList<Reserva>(reservas.values().stream().filter(r -> r.getVehiculo() == null).toList());
+	}
+
+	public ArrayList<Reserva> getAlquileres() {
+		return new ArrayList<Reserva>(reservas.values().stream().filter(r -> r.getVehiculo() != null).toList());
 	}
 
 	public ArrayList<Cliente> getClientes() {
@@ -174,10 +182,10 @@ public class SistemaAlquiler {
 		clientes.put(cliente.usuario, cliente);
 	}
 
-	public Cliente registroCliente(String usuario, String clave, String nombres, String numeroTelefono, String direccion,
-			String fechaNacimiento, String nacionalidad, String imagenDocumentoIdentidad, String numeroLicencia,
-			String paisExpedicion, String fechaVencimientoLicencia, String imagenLicencia, String numeroTarjeta,
-			String fechaVencimientoTarjeta, String cvv) throws Exception {
+	public Cliente registroCliente(String usuario, String clave, String nombres, String numeroTelefono,
+			String direccion, String fechaNacimiento, String nacionalidad, String imagenDocumentoIdentidad,
+			String numeroLicencia, String paisExpedicion, String fechaVencimientoLicencia, String imagenLicencia,
+			String numeroTarjeta, String fechaVencimientoTarjeta, String cvv) throws Exception {
 		if (clienteExiste(usuario)) {
 			throw new Exception("El nombre de usuario ya esta en uso. Intenta con otro");
 		}
@@ -289,28 +297,28 @@ public class SistemaAlquiler {
 		reservas.put(r.getId(), r);
 	}
 
-	public void crearReserva(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
+	public Reserva crearReserva(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
 			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
 		// FIXME Crear metodo get tarifas- Mejorar encapsulamiento
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa,null);
+				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa, null);
 		nuevaReserva(r);
+		return r;
 	}
 
 	public void cargarReserva(String id, String categoriaSolicitada, LocalDateTime fechaRecogida,
-			String ubicacionRecogida,
-			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
+			String ubicacionRecogida, String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
 			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
 		// FIXME Crear metodo get tarifas- Mejorar encapsulamiento
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
-		Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa, null);
+		Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida, ubicacionEntrega,
+				rangoEntrega, cliente, null, conductoresExtra, tarifa, null);
 		nuevaReserva(r);
 	}
 
-	public void modificarReserva(String idReserva, LocalDateTime fechaRecogida, Range<LocalDateTime> rangoEntrega)
+	public Reserva modificarReserva(String idReserva, LocalDateTime fechaRecogida, Range<LocalDateTime> rangoEntrega)
 			throws Exception {
 		if (!reservaExiste(idReserva)) {
 			throw new Exception("La reserva seleccionada no existe");
@@ -321,6 +329,7 @@ public class SistemaAlquiler {
 		}
 		r.setFechaRecogida(fechaRecogida);
 		r.setRangoEntrega(rangoEntrega);
+		return r;
 	}
 
 	public ArrayList<Reserva> consultarHistorialVehiculoInventario(String placa) throws Exception {
@@ -334,37 +343,34 @@ public class SistemaAlquiler {
 		}
 		return historial;
 	}
-	
-	
-	
+
 	// ----------Gestion Alquileres-------------
-	public void crearAlquiler(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
+	public Reserva crearAlquiler(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
-			ArrayList<LicenciaDeConduccion> conductoresExtra,ArrayList<Seguro> seguros ) throws Exception {
+			ArrayList<LicenciaDeConduccion> conductoresExtra, ArrayList<Seguro> seguros) throws Exception {
 
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa,seguros);
+				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa, seguros);
 		nuevaReserva(r);
-		formalizarAlquiler(r.getId());
-		System.out.println("Alquiler creado y formalizado, guardando datos");
+		formalizarReserva(r.getId());
+		System.out.println("Alquiler creado y formalizado");
+		return r;
 	}
-	
-	public void cargarAlquiler(String id, String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
-		String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente, Vehiculo vehiculo,
-		ArrayList<LicenciaDeConduccion> conductoresExtra, ArrayList<Seguro> seguros) throws Exception 
-{
-	//FIXME Crear metodo get tarifas- Mejorar encapsulamiento
-	Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
-	Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-			ubicacionEntrega, rangoEntrega, cliente, vehiculo, conductoresExtra, tarifa, seguros);
-	nuevaReserva(r);
-}
 
-
+	public void cargarAlquiler(String id, String categoriaSolicitada, LocalDateTime fechaRecogida,
+			String ubicacionRecogida, String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
+			Vehiculo vehiculo, ArrayList<LicenciaDeConduccion> conductoresExtra, ArrayList<Seguro> seguros)
+			throws Exception {
+		// FIXME Crear metodo get tarifas- Mejorar encapsulamiento
+		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
+		Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida, ubicacionEntrega,
+				rangoEntrega, cliente, vehiculo, conductoresExtra, tarifa, seguros);
+		nuevaReserva(r);
+	}
 
 	// convierte alquiler en reserva; le asigna un vehiculo
-	public void formalizarAlquiler(String idReserva) throws Exception {
+	public void formalizarReserva(String idReserva) throws Exception {
 		if (!reservaExiste(idReserva)) {
 			throw new Exception("La reserva seleccionada no existe");
 		}
@@ -373,27 +379,34 @@ public class SistemaAlquiler {
 		System.out.println("reserva.getRango(): " + r.getRangoEntrega());
 		// encontrar vehiculo disponible
 		String categoria = r.getCategoriaSolicitada();
+		// indice de categoria solicitada
+		int i = Inventario.prioridadCategoria.indexOf(categoria);
 		Vehiculo vehiculoEncontrado = null;
 		while (vehiculoEncontrado == null) {
+			// si se supera limite de categorias, no hay vehiculos disponibles para las fechas escogidas
+			if (i >= Inventario.prioridadCategoria.size()) {
+				throw new Exception("No existen vehiculos disponibles en este momento para las fechas establecidas");
+			}
+			// establecer categoria en la cual se buscara un carro
+			categoria = Inventario.prioridadCategoria.get(i);
 			for (Vehiculo v : getVehiculos()) {
 				if (v.getCategoria().equals(categoria)
 						&& (v.getFechaDisponible().compareTo(r.getRangoEntrega().getLow()) <= 0)) {
-					// actualizar vehiculo
-					v.setUbicacion(null);
-					v.setEstado("Alquilado");
-					v.setFechaDisponible(r.getFechaRecogida());
-					v.addReserva(r);
-					r.setVehiculo(v);
-					return;
+					// establecer vehiculo
+					vehiculoEncontrado = v;
+					// salir de for loop
+					break;
+					// en la proxima iteracion no se cumple v == null; tambien
+					// se sale del while loop
 				}
 			}
-			int i = Inventario.prioridadCategoria.indexOf(categoria);
 			i += 1;
-			if (i >= Inventario.prioridadCategoria.size()) {
-				throw new Exception("No existen vehiculos disponibles en este momento");
-			}
-			categoria = Inventario.prioridadCategoria.get(i);
 		}
+		// actualizar vehiculo		vehiculoEncontrado.setUbicacion(null);		vehiculoEncontrado.setEstado("Alquilado");
+		vehiculoEncontrado.setFechaDisponible(r.getRangoEntrega().getHigh());
+		vehiculoEncontrado.addReserva(r);
+		r.setVehiculo(vehiculoEncontrado);
+		System.out.println("Vehiculo encontrado, asignando a reserva");
 	}
 
 	// --------------Inicio de sesion---------------

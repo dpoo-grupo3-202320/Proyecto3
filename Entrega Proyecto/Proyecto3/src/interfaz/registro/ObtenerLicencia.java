@@ -10,11 +10,8 @@ import clases.LicenciaDeConduccion;
 import interfaz.componentes.TButton;
 import interfaz.componentes.TText;
 
+@SuppressWarnings("serial")
 public class ObtenerLicencia extends JFrame {
-	/**
-	* 
-	*/
-	private static final long serialVersionUID = -9166861740552394697L;
 
 	TText numero;
 	TText pais;

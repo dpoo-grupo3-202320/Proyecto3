@@ -1,11 +1,5 @@
 package interfaz;
 
-import interfaz.menuadmin.*;
-import interfaz.menucliente.*;
-import interfaz.menuempleado.*;
-import interfaz.registro.LandingPage;
-import interfaz.registro.RegistrarCliente;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,16 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JFrame;
-import clases.Admin;
-import clases.Cliente;
-import clases.ContenedorDeDatos;
-import clases.Empleado;
 import clases.SistemaAlquiler;
-import clases.Usuario;
 
 /**
  * El login se hace aca
  */
+@SuppressWarnings("serial")
 public class PaginaPrincipal extends JFrame {
 
 	private final Navegador nav;
@@ -42,7 +32,7 @@ public class PaginaPrincipal extends JFrame {
 
 	@Override
 	public void dispose() {
-		
+		sistemaAlquiler.guardarDatos();
 		super.dispose();
 	}
 
