@@ -175,7 +175,7 @@ public class SistemaAlquiler {
 		clientes.put(cliente.usuario, cliente);
 	}
 
-	public void registroCliente(String usuario, String clave, String nombres, String numeroTelefono, String direccion,
+	public Cliente registroCliente(String usuario, String clave, String nombres, String numeroTelefono, String direccion,
 			String fechaNacimiento, String nacionalidad, String imagenDocumentoIdentidad, String numeroLicencia,
 			String paisExpedicion, String fechaVencimientoLicencia, String imagenLicencia, String numeroTarjeta,
 			String fechaVencimientoTarjeta, String cvv) throws Exception {
@@ -190,6 +190,7 @@ public class SistemaAlquiler {
 		Cliente nuevoCliente = new Cliente(usuario, clave, nombres, numeroTelefono, direccion, fechaNacimiento,
 				nacionalidad, imagenDocumentoIdentidad, licencia, tarjetaDeCredito);
 		nuevoCliente(nuevoCliente);
+		return nuevoCliente;
 	}
 
 	// -------------- Gestion de sedes--------------

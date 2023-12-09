@@ -7,7 +7,7 @@ import clases.SistemaAlquiler;
 import interfaz.Navegador;
 import interfaz.componentes.TButton;
 
-public class LoggedInMenu extends JPanel{
+public class MenuCliente extends JPanel{
 
 	/**
 	 * 
@@ -17,26 +17,26 @@ public class LoggedInMenu extends JPanel{
 	private final Navegador nav;
 	private final SistemaAlquiler sistemaAlquiler;
 
-	public LoggedInMenu(Navegador nav, SistemaAlquiler sistemaAlquiler) {
+	public MenuCliente(Navegador nav, SistemaAlquiler sistemaAlquiler) {
 		this.nav = nav;
 		this.sistemaAlquiler = sistemaAlquiler;
 		
 		setLayout(new GridLayout(0, 1));
 
 		TButton crear = new TButton("Crear Reserva", () -> {
-			nav.agregarPagina(new CrearReservaPanel(nav, sistemaAlquiler));
+			nav.agregarPagina(new CrearReservaPanel(nav, this.sistemaAlquiler));
 			return null;
 		});
 		add(crear);
 
 		TButton modificar = new TButton("Modificar Reserva", () -> {
-			nav.agregarPagina(new ModificarReservaPanel(nav, sistemaAlquiler));
+			nav.agregarPagina(new ModificarReservaPanel(nav, this.sistemaAlquiler));
 			return null;
 		});
 		add(modificar);
 
 		TButton salir = new TButton("Cerrar Sesion", () -> {
-			nav.paginaAnterior();
+			this.nav.paginaAnterior();
 			return null;
 		});
 		add(salir);

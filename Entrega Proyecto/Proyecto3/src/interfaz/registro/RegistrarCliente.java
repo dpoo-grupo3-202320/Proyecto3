@@ -9,11 +9,13 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import clases.Cliente;
 import clases.LicenciaDeConduccion;
 import clases.SistemaAlquiler;
 import clases.TarjetaDeCredito;
@@ -212,21 +214,32 @@ public class RegistrarCliente extends JPanel {
 			}
 			// mover imagen cedula a ./Peristencia/ImagenesCedula
 			File imagenCedula = escogerImagenCedula.getImage();
-			String pathImagenCedula = "./Persistencia/ImagenesCedulas/" + imagenCedula.getName();
+			String pathImagenCedula = "./Persistencia/ImagenesCedulas/" + usuario.getText()
+					+ (fileNameExtension(imagenCedula.getName()));
 			Path outCedula = new File(pathImagenCedula).toPath();
 			// mover imagen licencia a ./Peristencia/ImagenesCedula
 			File imagenLicencia = escogerImagenCedula.getImage();
-			String pathImagenLicencia = "./Persistencia/ImagenesLicencias/" + imagenLicencia.getName();
+			String pathImagenLicencia = "./Persistencia/ImagenesLicencias/" + usuario.getText()
+					+ (fileNameExtension(imagenLicencia.getName()));
 			Path outLicencia = new File(pathImagenLicencia).toPath();
 			// registrar cliente
-			sistemaAlquiler.registroCliente(usuario.getText(), clave.getText(), nombre.getText(), numero.getText(),
-					direccion.getText(), fechaNacimiento.getText(), nacionalidad.getText(), pathImagenCedula,
-					licenciaDeConduccion.getNumero(), licenciaDeConduccion.getPaisExpedicion(),
+			Cliente nuevoCliente = sistemaAlquiler.registroCliente(usuario.getText(), clave.getText(), nombre.getText(),
+					numero.getText(), direccion.getText(), fechaNacimiento.getText(), nacionalidad.getText(),
+					pathImagenCedula, licenciaDeConduccion.getNumero(), licenciaDeConduccion.getPaisExpedicion(),
 					licenciaDeConduccion.getFechaVencimiento(), pathImagenLicencia, tarjeta.getNumero(),
 					tarjeta.getFechaVencimiento(), tarjeta.getCvv());
 			// mover imagenes a almacenamiento
-			Files.copy(imagenCedula.toPath(), outCedula, StandardCopyOption.REPLACE_EXISTING);
-			Files.copy(imagenLicencia.toPath(), outLicencia, StandardCopyOption.REPLACE_EXISTING);
+			try {
+				Files.copy(imagenCedula.toPath(), outCedula, StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(imagenLicencia.toPath(), outLicencia, StandardCopyOption.REPLACE_EXISTING);
+			} catch (Exception e) {
+				System.out.println(
+						"Cliente creado pero intento de subir imagenes fallido. Iniciando sesion de todas maneras.");
+				e.printStackTrace();
+			}
+			sistemaAlquiler.establecerUsuario(nuevoCliente);
+			nav.paginaAnterior();
+			nav.login();
 			return null;
 		}));
 		return pc;
@@ -250,5 +263,11 @@ public class RegistrarCliente extends JPanel {
 			// si imagen escogida, verde
 			seleccionarLicencia.setBackground(new Color(203, 230, 201));
 		}
+	}
+
+	private String fileNameExtension(String filename) {
+		return Optional.ofNullable(filename).filter(f -> f.contains("."))
+				.map(f -> f.substring(filename.lastIndexOf(".") + 1)).toString();
+
 	}
 }
