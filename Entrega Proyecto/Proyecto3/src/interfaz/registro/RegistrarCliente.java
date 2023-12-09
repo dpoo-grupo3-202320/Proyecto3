@@ -1,14 +1,20 @@
 package interfaz.registro;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import clases.LicenciaDeConduccion;
 import clases.SistemaAlquiler;
 import clases.TarjetaDeCredito;
 import interfaz.Navegador;
@@ -27,22 +33,114 @@ public class RegistrarCliente extends JPanel {
 
 	private ObtenerTarjeta obtenerTarjeta;
 	private TarjetaDeCredito tarjeta;
+	private ObtenerLicencia obtenerLicencia;
+	private LicenciaDeConduccion licenciaDeConduccion;
+
+	private TButton seleccionarTarjetaDeCredito;
+	private TButton seleccionarLicencia;
+
+	private TText usuario;
+	private TText clave;
+	private TText nombre;
+	private TText numero;
+	private TText fechaNacimiento;
+	private TText direccion;
+	private TText nacionalidad;
+//	private TText licencia = new TText("Licencia", true);
+	private TText cedula;
+	private MostrarYEscogerImagen escogerImagenCedula;
+	private MostrarYEscogerImagen escogerImagenLicencia;
 
 	public RegistrarCliente(Navegador nav, SistemaAlquiler sistemaAlquiler) {
 		this.nav = nav;
 		this.sistemaAlquiler = sistemaAlquiler;
+		// componentes
+		usuario = new TText("", true);
+		clave = new TText("", true);
+		nombre = new TText("", true);
+		numero = new TText("", true);
+		fechaNacimiento = new TText("", true);
+		direccion = new TText("", true);
+		nacionalidad = new TText("", true);
+//		licencia = new TText("Licencia", true);
+		cedula = new TText("", true);
+		escogerImagenCedula = new MostrarYEscogerImagen("Foto Cedula");
+		escogerImagenLicencia = new MostrarYEscogerImagen("Foto Licencia");
+		//
+		seleccionarTarjetaDeCredito = new TButton("Tarjeta de Credito", () -> {
+			obtenerTarjeta = new ObtenerTarjeta(() -> {
+				tarjeta = solicitarInfoTarjeta();
+				if (tarjeta == null) {
+					// TODO: mostrar error
+				} else {
+					cerrarObtenerTarjeta();
+				}
+				establecerColorBotonTarjeta();
+				return null;
+			});
+			obtenerTarjeta.setSize(new Dimension(400, 400));
+			obtenerTarjeta.setResizable(false);
+			obtenerTarjeta.setAlwaysOnTop(true);
+			obtenerTarjeta.setVisible(true);
+			return null;
+		});
+		seleccionarLicencia = new TButton("Licencia", () -> {
+			obtenerLicencia = new ObtenerLicencia(() -> {
+				licenciaDeConduccion = solicitarInfoLicencia();
+				if (licenciaDeConduccion == null) {
+					// TODO: mostrar error
+				} else {
+					cerrarObtenerLicencia();
+				}
+				establecerColorBotonLicencia();
+				return null;
+			});
+			obtenerLicencia.setSize(new Dimension(400, 400));
+			obtenerLicencia.setResizable(false);
+			obtenerLicencia.setAlwaysOnTop(true);
+			obtenerLicencia.setVisible(true);
+			return null;
+		});
+		// actualizar
+		establecerColorBotonTarjeta();
+		establecerColorBotonLicencia();
 		// panel izquierdo
+		JPanel pi = panelIzquierda();
+		// panel centro
+		JPanel pc = panelCentro();
+		// panel derecha
+		JPanel pd = panelDerecha();
+		// organizar
+		setLayout(new GridLayout(1, 3));
+		add(pi);
+		add(pc);
+		add(pd);
+	}
+
+	TarjetaDeCredito solicitarInfoTarjeta() {
+		return obtenerTarjeta.solicitarInfo();
+	}
+
+	LicenciaDeConduccion solicitarInfoLicencia() {
+		return obtenerLicencia.solicitarInfo();
+	}
+
+	private void cerrarObtenerTarjeta() {
+		obtenerTarjeta.dispatchEvent(new WindowEvent(obtenerTarjeta, WindowEvent.WINDOW_CLOSING));
+	}
+
+	private void cerrarObtenerLicencia() {
+		obtenerLicencia.dispatchEvent(new WindowEvent(obtenerLicencia, WindowEvent.WINDOW_CLOSING));
+	}
+
+	/**
+	 * Panel izquierda se encarga de datos escritos
+	 * 
+	 * @return
+	 */
+	private JPanel panelIzquierda() {
 		JPanel pi = new JPanel();
-		TText usuario = new TText("", true);
-		TText clave = new TText("", true);
-		TText nombre = new TText("Nombre y Apellido", true);
-		TText numero = new TText("Numero Telefonico", true);
-		TText fechaNacimiento = new TText("Numero Telefonico", true);
-		TText direccion = new TText("Direccion", true);
-		TText nacionalidad = new TText("Correo", true);
-		TText licencia = new TText("Licencia", true);
-		TText cedula = new TText("Cedula", true);
-		pi.setLayout(new BoxLayout(pi, BoxLayout.Y_AXIS));
+		pi.setLayout(new GridLayout(0, 1));
 		// usuario
 		pi.add(new JLabel("Nombre de Usuario"));
 		pi.add(usuario);
@@ -64,85 +162,93 @@ public class RegistrarCliente extends JPanel {
 		// nacionalidad
 		pi.add(new JLabel("Nacionalidad"));
 		pi.add(nacionalidad);
-		// licencia
-		pi.add(new JLabel("Licencia"));
-		pi.add(licencia);
+//		// licencia
+//		pi.add(new JLabel("Licencia"));
+//		pi.add(licencia);
 		// Cedula
 		pi.add(new JLabel("Cedula"));
 		pi.add(cedula);
-		// panel derecho
+		return pi;
+	}
+
+	/**
+	 * panel centro se encarga de obtener licencia y una foto
+	 * 
+	 * @return
+	 */
+	private JPanel panelCentro() {
 		JPanel pd = new JPanel();
 		pd.setLayout(new BorderLayout());
-		pd.add(new TButton("Atras", () -> {
+		pd.add(escogerImagenLicencia, BorderLayout.CENTER);
+		JPanel box = new JPanel();
+		box.setLayout(new GridLayout(0, 1));
+		pd.add(box, BorderLayout.SOUTH);
+		box.add(seleccionarLicencia);
+		box.add(new TButton("Atras", () -> {
 			nav.paginaAnterior();
 			return null;
-		}), BorderLayout.NORTH);
-		pd.add(new MostrarYEscogerImagen("Escoger Cedula"), BorderLayout.CENTER);
-		JPanel box = new JPanel();
-		box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
-		pd.add(box, BorderLayout.SOUTH);
-		box.add(new TButton("Tarjeta de Credito", () -> {
-			obtenerTarjeta = new ObtenerTarjeta(() -> {
-				tarjeta = solicitarInfo();
-				if (tarjeta == null) {
-					// TODO: mostrar error
-				} else {
-					cerrarObtenerTarjeta();
-				}
-				return null;
-			});
-			obtenerTarjeta.setSize(new Dimension(400, 400));
-			obtenerTarjeta.setResizable(false);
-			obtenerTarjeta.setAlwaysOnTop(true);
-			obtenerTarjeta.setVisible(true);
-			return null;
 		}));
-		box.add(new TButton("Finalizar", () -> {
-			sistemaAlquiler.registroCliente(usuario.getText(), clave.getText(), nombre.getText(), numero.getText(),
-					direccion.getText(), fechaNacimiento.getText(), nacionalidad.getText(), "", "", "", "", "",
-					tarjeta.getNumero(), tarjeta.getFechaVencimiento(), tarjeta.getCvv());
-			return null;
-		}));
-		// organizar
-		setLayout(new GridLayout(1, 2));
-		add(pi);
-		add(pd);
+		return pd;
 	}
 
-	TarjetaDeCredito solicitarInfo() {
-		return obtenerTarjeta.solicitarInfo();
-	}
-
-	private void cerrarObtenerTarjeta() {
-		obtenerTarjeta.dispatchEvent(new WindowEvent(obtenerTarjeta, WindowEvent.WINDOW_CLOSING));
-	}
-}
-
-class PanelIzquierda extends JPanel {
 	/**
+	 * Panel Derecha se encarga de pedir foto cedula y tarjeta de credito
 	 * 
+	 * @return
 	 */
-	private static final long serialVersionUID = 1L;
+	private JPanel panelDerecha() {
+		JPanel pc = new JPanel();
+		pc.setLayout(new BorderLayout());
+		pc.add(escogerImagenCedula, BorderLayout.CENTER);
+		JPanel box = new JPanel();
+		box.setLayout(new GridLayout(0, 1));
+		pc.add(box, BorderLayout.SOUTH);
+		box.add(seleccionarTarjetaDeCredito);
+		box.add(new TButton("Finalizar", () -> {
+			if (tarjeta == null) {
+				throw new Exception("Tarjeta de credito no ha sido seleccionada");
+			} else if (licenciaDeConduccion == null) {
+				throw new Exception("Licencia de conduccion no ha sido seleccionada");
+			}
+			// mover imagen cedula a ./Peristencia/ImagenesCedula
+			File imagenCedula = escogerImagenCedula.getImage();
+			String pathImagenCedula = "./Persistencia/ImagenesCedulas/" + imagenCedula.getName();
+			Path outCedula = new File(pathImagenCedula).toPath();
+			// mover imagen licencia a ./Peristencia/ImagenesCedula
+			File imagenLicencia = escogerImagenCedula.getImage();
+			String pathImagenLicencia = "./Persistencia/ImagenesLicencias/" + imagenLicencia.getName();
+			Path outLicencia = new File(pathImagenLicencia).toPath();
+			// registrar cliente
+			sistemaAlquiler.registroCliente(usuario.getText(), clave.getText(), nombre.getText(), numero.getText(),
+					direccion.getText(), fechaNacimiento.getText(), nacionalidad.getText(), pathImagenCedula,
+					licenciaDeConduccion.getNumero(), licenciaDeConduccion.getPaisExpedicion(),
+					licenciaDeConduccion.getFechaVencimiento(), pathImagenLicencia, tarjeta.getNumero(),
+					tarjeta.getFechaVencimiento(), tarjeta.getCvv());
+			// mover imagenes a almacenamiento
+			Files.copy(imagenCedula.toPath(), outCedula, StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(imagenLicencia.toPath(), outLicencia, StandardCopyOption.REPLACE_EXISTING);
+			return null;
+		}));
+		return pc;
+	}
 
-	PanelIzquierda() {
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		// nombre
-		add(new TText("Nombre y Apellido", false));
-		add(new TText("Nombre y Apellido", true));
-		// numero
-		add(new TText("Numero Telefonico", false));
-		add(new TText("Numero Telefonico", true));
-		// direccion
-		add(new TText("Direccion", false));
-		add(new TText("Direccion", true));
-		// correo
-		add(new TText("Correo", false));
-		add(new TText("Correo", true));
-		// licencia
-		add(new TText("Licencia", false));
-		add(new TText("Licencia", true));
-		// Cedula
-		add(new TText("Cedula", false));
-		add(new TText("Cedula", true));
+	private void establecerColorBotonTarjeta() {
+		if (tarjeta == null) {
+			// si imagen no escogida, rojo
+			seleccionarTarjetaDeCredito.setBackground(new Color(237, 154, 154));
+		} else {
+			// si imagen escogida, verde
+			seleccionarTarjetaDeCredito.setBackground(new Color(203, 230, 201));
+		}
+	}
+
+	private void establecerColorBotonLicencia() {
+		if (licenciaDeConduccion == null) {
+			// si imagen no escogida, rojo
+			seleccionarLicencia.setBackground(new Color(237, 154, 154));
+		} else {
+			// si imagen escogida, verde
+			seleccionarLicencia.setBackground(new Color(203, 230, 201));
+		}
 	}
 }

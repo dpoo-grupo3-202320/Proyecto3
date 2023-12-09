@@ -14,10 +14,10 @@ import javax.swing.SwingConstants;
 import clases.ContenedorDeDatos;
 import clases.SistemaAlquiler;
 
-public class MenuCliente extends JPanel {
+public class MenuCliente_ANTIGUO extends JPanel {
 	private static final long serialVersionUID = -4627965134321784440L;
 
-	public MenuCliente(SistemaAlquiler SA) {
+	public MenuCliente_ANTIGUO(SistemaAlquiler SA) {
 
 		JLabel titleLabel = new JLabel("Menu Cliente", SwingConstants.CENTER);
 		titleLabel.setFont(new Font("Helvetica", Font.BOLD, 16));

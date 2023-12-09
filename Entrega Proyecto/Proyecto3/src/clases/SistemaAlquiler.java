@@ -44,7 +44,7 @@ public class SistemaAlquiler {
 	// Guardar Datos
 
 	public void guardarDatos() {
-		CSVWriter.guardarDatos(empleados, clientes, admins, sedes, inventario.getVehiculos(),reservas);
+		CSVWriter.guardarDatos(empleados, clientes, admins, sedes, inventario.getVehiculos(), reservas);
 	}
 
 	// Getters individuales
@@ -169,7 +169,7 @@ public class SistemaAlquiler {
 
 	public void registroCliente(String usuario, String clave, String nombres, String numeroTelefono, String direccion,
 			String fechaNacimiento, String nacionalidad, String imagenDocumentoIdentidad, String numeroLicencia,
-			String paisExpedicion, String fechaVencimientoLicencia, String imagen, String numeroTarjeta,
+			String paisExpedicion, String fechaVencimientoLicencia, String imagenLicencia, String numeroTarjeta,
 			String fechaVencimientoTarjeta, String cvv) throws Exception {
 		if (clienteExiste(usuario)) {
 			throw new Exception("El nombre de usuario ya esta en uso. Intenta con otro");
@@ -177,7 +177,7 @@ public class SistemaAlquiler {
 
 		// El cliente no existe, agregarlo
 		LicenciaDeConduccion licencia = new LicenciaDeConduccion(numeroLicencia, paisExpedicion,
-				fechaVencimientoLicencia, imagen);
+				fechaVencimientoLicencia, imagenLicencia);
 		TarjetaDeCredito tarjetaDeCredito = new TarjetaDeCredito(numeroTarjeta, fechaVencimientoTarjeta, cvv);
 		Cliente nuevoCliente = new Cliente(usuario, clave, nombres, numeroTelefono, direccion, fechaNacimiento,
 				nacionalidad, imagenDocumentoIdentidad, licencia, tarjetaDeCredito);
@@ -272,8 +272,7 @@ public class SistemaAlquiler {
 	}
 
 	public void nuevaReserva(Reserva r) throws Exception {
-		if (reservaExiste(r.getId()))
-		{
+		if (reservaExiste(r.getId())) {
 			throw new Exception("El id de la reserva ya esta en uso.");
 		}
 		reservas.put(r.getId(), r);
@@ -281,9 +280,8 @@ public class SistemaAlquiler {
 
 	public void crearReserva(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
-			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception 
-	{
-		//FIXME Crear metodo get tarifas- Mejorar encapsulamiento
+			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
+		// FIXME Crear metodo get tarifas- Mejorar encapsulamiento
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
