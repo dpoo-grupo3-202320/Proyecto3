@@ -363,7 +363,6 @@ public class SistemaAlquiler {
 		System.out.println("Alquiler creado y formalizado, guardando datos");
 		guardarDatos();
 	}
-<<<<<<< HEAD
 	
 	public void cargarAlquiler(String id, String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 		String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente, Vehiculo vehiculo,
@@ -375,19 +374,8 @@ public class SistemaAlquiler {
 			ubicacionEntrega, rangoEntrega, cliente, vehiculo, conductoresExtra, tarifa, seguros);
 	nuevaReserva(r);
 }
-=======
 
-	public void cargarAlquiler(String id, String categoriaSolicitada, LocalDateTime fechaRecogida,
-			String ubicacionRecogida,
-			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente, Vehiculo vehiculo,
-			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
-		// FIXME Crear metodo get tarifas- Mejorar encapsulamiento
-		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
-		Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-				ubicacionEntrega, rangoEntrega, cliente, vehiculo, conductoresExtra, tarifa);
-		nuevaReserva(r);
-	}
->>>>>>> branch 'main' of https://github.com/dpoo-grupo3-202320/Proyecto3.git
+
 
 	// convierte alquiler en reserva; le asigna un vehiculo
 	public void formalizarAlquiler(String idReserva) throws Exception {
