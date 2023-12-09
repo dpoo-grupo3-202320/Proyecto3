@@ -47,7 +47,7 @@ public class Navegador extends JPanel {
 
     add(new LandingPage(this, sistemaAlquiler));
     card.last(this);
-    login();
+    //login();
     // if (modoPruebaActivado) {
     // // TODO: aca agregar paginas que se van a probar
     // agregarPagina(new MenuEmpleado(this, sistemaAlquiler, null));

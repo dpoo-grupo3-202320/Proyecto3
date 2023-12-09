@@ -24,7 +24,7 @@ public class SistemaAlquiler {
 	// llave es id reserva
 	private HashMap<String, Reserva> reservas = new HashMap<String, Reserva>();
 
-	private ArrayList<Seguro> seguros = new ArrayList<Seguro>();
+	private HashMap<String, Seguro> seguros = new HashMap<String, Seguro>();
 
 	// se utiliza como id para las reservas
 	private int contadorReservas = 0;
@@ -44,7 +44,7 @@ public class SistemaAlquiler {
 	// Guardar Datos
 
 	public void guardarDatos() {
-		CSVWriter.guardarDatos(empleados, clientes, admins, sedes, inventario.getVehiculos(), reservas);
+		CSVWriter.guardarDatos(empleados, clientes, admins, sedes, inventario.getVehiculos(), reservas, seguros);
 	}
 
 	// Getters individuales
@@ -82,6 +82,10 @@ public class SistemaAlquiler {
 		return usuarioActual;
 	}
 
+	public Seguro getSeguro(String nomSeguro) {
+		return seguros.get(nomSeguro);
+	}
+
 	// Getters Estructuras
 
 	// Getters estruturas
@@ -99,16 +103,20 @@ public class SistemaAlquiler {
 	}
 
 	public ArrayList<Seguro> getSeguros() {
-		return seguros;
+		return new ArrayList<Seguro>(seguros.values());
 	}
 
 	public ArrayList<Reserva> getReservas() {
 		return new ArrayList<Reserva>(reservas.values());
 	}
 
+	public ArrayList<Cliente> getClientes() {
+		return new ArrayList<Cliente>(clientes.values());
+	}
+
 	// Metodos
 
-	// Registro de nuevos admins
+	// ----------------Gestion Admins-------------
 	public void nuevoAdmin(Admin admin) throws Exception {
 		if (adminExiste(admin.usuario))
 			throw new Exception("Ya existe un admin con este usuario");
@@ -128,7 +136,7 @@ public class SistemaAlquiler {
 		nuevoAdmin(nuevoAdmin);
 	}
 
-	// Registro de nuevos empleados
+	// ---------------Gestion empleados-----------
 	public boolean empleadoExiste(String usuario) {
 		return empleados.containsKey(usuario);
 	}
@@ -155,7 +163,7 @@ public class SistemaAlquiler {
 		return empleado;
 	}
 
-	// Registro nuevos clientes
+	// ---------------Registro nuevos clientes------------
 	public boolean clienteExiste(String usuario) {
 		return clientes.containsKey(usuario);
 	}
@@ -184,7 +192,7 @@ public class SistemaAlquiler {
 		nuevoCliente(nuevoCliente);
 	}
 
-	// Creacion y modificacion de sedes
+	// -------------- Gestion de sedes--------------
 	public boolean sedeExiste(String nombreSede) {
 		return sedes.containsKey(nombreSede);
 	}
@@ -232,7 +240,7 @@ public class SistemaAlquiler {
 		}
 	}
 
-	// Creacion de vehiculos
+	// -------------Gestion de vehiculos------------
 
 	public Vehiculo getVehiculo(String placa) {
 		return inventario.getVehiculo(placa);
@@ -259,10 +267,14 @@ public class SistemaAlquiler {
 		return inventario.consultarHistorialVehiculo(placa);
 	}
 
-	// Creacion y modificación de reservas
+	// ----------- Creacion y modificación de reservas------------
 
 	public boolean reservaExiste(String id) {
 		return reservas.containsKey(id);
+	}
+
+	public void setIdReservas(int numIds) {
+		this.contadorReservas = numIds;
 	}
 
 	public String nuevoIdReservas() {
@@ -284,6 +296,17 @@ public class SistemaAlquiler {
 		// FIXME Crear metodo get tarifas- Mejorar encapsulamiento
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
+				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
+		nuevaReserva(r);
+	}
+
+	public void cargarReserva(String id, String categoriaSolicitada, LocalDateTime fechaRecogida,
+			String ubicacionRecogida,
+			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
+			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
+		// FIXME Crear metodo get tarifas- Mejorar encapsulamiento
+		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
+		Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida,
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
 		nuevaReserva(r);
 	}
@@ -313,7 +336,7 @@ public class SistemaAlquiler {
 		return historial;
 	}
 
-	// Creacion Alquileres
+	// ----------Gestion Alquileres-------------
 	public void crearAlquiler(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
 			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
@@ -325,6 +348,17 @@ public class SistemaAlquiler {
 		formalizarAlquiler(r.getId());
 		System.out.println("Alquiler creado y formalizado, guardando datos");
 		guardarDatos();
+	}
+
+	public void cargarAlquiler(String id, String categoriaSolicitada, LocalDateTime fechaRecogida,
+			String ubicacionRecogida,
+			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente, Vehiculo vehiculo,
+			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
+		// FIXME Crear metodo get tarifas- Mejorar encapsulamiento
+		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
+		Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida,
+				ubicacionEntrega, rangoEntrega, cliente, vehiculo, conductoresExtra, tarifa);
+		nuevaReserva(r);
 	}
 
 	// convierte alquiler en reserva; le asigna un vehiculo
@@ -360,7 +394,7 @@ public class SistemaAlquiler {
 		}
 	}
 
-	// Inicio de sesion
+	// --------------Inicio de sesion---------------
 	public boolean sesionIniciada() {
 		return usuarioActual != null;
 	}
@@ -372,4 +406,37 @@ public class SistemaAlquiler {
 	public void cerrarSesion() {
 		this.usuarioActual = null;
 	}
+
+	// ----------------Gestion de Seguros-----------------
+
+	public boolean seguroExiste(String nomSeguro) {
+		return seguros.containsKey(nomSeguro);
+	}
+
+	public void agregarSeguro(String nomSeguro, float valor) throws Exception {
+		if (seguroExiste(nomSeguro)) {
+			throw new Exception("El seguro ya esta existe.");
+		} else {
+			Seguro elSeguro = new Seguro(nomSeguro, valor);
+			seguros.put(nomSeguro, elSeguro);
+		}
+	}
+
+	public void eliminarSeguro(String nomSeguro) throws Exception {
+		if (seguroExiste(nomSeguro)) {
+			seguros.remove(nomSeguro);
+		} else {
+			throw new Exception("El seguro no existe");
+		}
+	}
+
+	public void modificarValorSeguro(String nomSeguro, float value) throws Exception {
+		if (seguroExiste(nomSeguro)) {
+			Seguro elSeguro = getSeguro(nomSeguro);
+			elSeguro.setCostoDiario(value);
+		} else {
+			throw new Exception("El seguro no existe");
+		}
+	}
+
 }

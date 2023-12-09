@@ -18,8 +18,10 @@ public class CSVWriter {
 	static String archivoSedes = "./Persistencia/Sedes.csv";
 			//archivo carga vehiculos
 	static String archivoVehiculos = "./Persistencia/Vehiculo.csv";	
-	//archivos carga Reservas´
+			//archivos carga Reservas
 	static String archivoReservas = "./Persistencia/Reservas.csv";
+			//archivos carga Reservas
+	static String archivoSeguros = "./Persistencia/Seguros.csv";
 	
 	private static void guardarEmpleados(Map<String, Empleado> empleados) {
         
@@ -122,12 +124,10 @@ public class CSVWriter {
         }
     }
 	
-private static void guardarReservas(Map<String, Reserva> reservas) {
-		
+	private static void guardarReservas(Map<String, Reserva> reservas) 
+	{
         String rutaArchivo = archivoReservas;
-        
-        
-
+       
         try (PrintWriter writer = new PrintWriter(new FileWriter(rutaArchivo))) {
         	for (Entry<String, Reserva> entry : reservas.entrySet()) {
         		Reserva reserva = entry.getValue();
@@ -161,20 +161,46 @@ private static void guardarReservas(Map<String, Reserva> reservas) {
         }
     }
 
+	private static void guardarSeguros(Map<String, Seguro> seguros) 
+	{
+		String rutaArchivo = archivoSeguros;
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaArchivo))) {
+            for (Map.Entry<String, Seguro> entry : seguros.entrySet()) {
+                Seguro elSeguro = entry.getValue();
+                
+                String linea = String.format(
+                        "%s;%s",
+                        elSeguro.getNombre(), String.valueOf(elSeguro.getCostoDiario())
+                );
+                writer.println(linea);
+                
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+	}
+	
 	public static void guardarDatos(
 			Map<String, Empleado> empleados,
             Map<String, Cliente> clientes,
             Map<String, Admin> admins,
             Map<String, Sede> sedes,
             ArrayList<Vehiculo> vehiculos,
-            Map<String, Reserva> reservas
+            Map<String, Reserva> reservas,
+            Map<String, Seguro> seguros
     ) {
         guardarClientes(clientes);
         guardarAdmins(admins);
         guardarSedes(sedes);
         guardarVehiculos(vehiculos);
         guardarEmpleados(empleados);
+        guardarSeguros(seguros);
         guardarReservas(reservas);
         System.out.println("Datos guardados");
     }
+
+	
+	
 }

@@ -45,7 +45,7 @@ public class AgregarVehiculo extends JPanel {
         add(transmisionComboBox);
 
         add(new JLabel("Categoría:"));
-        String[] categoriaOptions = {"SUV", "Pequeños", "Lujo", "Otros"};
+        String[] categoriaOptions = {"SUV", "Pequeños", "Lujo", "automóvil", "moto", "atv", "bicicleta", "bicicleta eléctrica", "patineta eléctrica","Otros"};
         categoriaComboBox = new JComboBox<>(categoriaOptions);
         add(categoriaComboBox);
         

@@ -115,6 +115,10 @@ public class MenuCliente {
 					sistemaAlquiler.guardarDatos();
 					
 				}
+				else if(opcionSeleccionada ==0){
+					mostrarMenu();
+					opcionSeleccionada = Integer.parseInt(input("\nPor favor seleccione una opcion"));
+				}
 				else {
 					System.out.println("Por favor seleccione una opción valida.");
 				}
