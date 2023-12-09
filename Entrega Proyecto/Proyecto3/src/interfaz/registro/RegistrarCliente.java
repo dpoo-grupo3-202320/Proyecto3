@@ -22,13 +22,10 @@ import interfaz.Navegador;
 import interfaz.componentes.TButton;
 import interfaz.componentes.MostrarYEscogerImagen;
 import interfaz.componentes.TText;
+import interfaz.componentes.TMensajeUsuario;
 
+@SuppressWarnings("serial")
 public class RegistrarCliente extends JPanel {
-
-	/**
-		 * 
-		 */
-	private static final long serialVersionUID = -1203696558748837174L;
 	private final Navegador nav;
 	private final SistemaAlquiler sistemaAlquiler;
 
@@ -232,13 +229,14 @@ public class RegistrarCliente extends JPanel {
 				Files.copy(imagenCedula.toPath(), outCedula, StandardCopyOption.REPLACE_EXISTING);
 				Files.copy(imagenLicencia.toPath(), outLicencia, StandardCopyOption.REPLACE_EXISTING);
 			} catch (Exception e) {
-				System.out.println(
-						"Cliente creado pero intento de subir imagenes fallido. Iniciando sesion de todas maneras.");
+				nav.mensajeCliente("Cliente creado pero guardar imagenes fallido. Iniciando sesion de todas maneras.",
+						3000);
 				e.printStackTrace();
 			}
 			sistemaAlquiler.establecerUsuario(nuevoCliente);
 			nav.paginaAnterior();
 			nav.login();
+			nav.mensajeCliente("Cliente creado exitosamente, iniciando sesion.", 1500);
 			return null;
 		}));
 		return pc;

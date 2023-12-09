@@ -10,6 +10,7 @@ import clases.TarjetaDeCredito;
 import interfaz.componentes.TButton;
 import interfaz.componentes.TText;
 
+@SuppressWarnings("serial")
 public class ObtenerTarjeta extends JFrame {
   TText numero;
   TText fecha;
