@@ -1,4 +1,4 @@
-package interfaz;
+package interfaz.menucliente;
 
 import java.util.Map;
 
