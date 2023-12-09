@@ -214,12 +214,12 @@ public class RegistrarCliente extends JPanel {
 			}
 			// mover imagen cedula a ./Peristencia/ImagenesCedula
 			File imagenCedula = escogerImagenCedula.getImage();
-			String pathImagenCedula = "./Persistencia/ImagenesCedulas/" + usuario.getText()
+			String pathImagenCedula = "./Persistencia/ImagenesCedulas/" + usuario.getText() + "."
 					+ (fileNameExtension(imagenCedula.getName()));
 			Path outCedula = new File(pathImagenCedula).toPath();
 			// mover imagen licencia a ./Peristencia/ImagenesCedula
 			File imagenLicencia = escogerImagenCedula.getImage();
-			String pathImagenLicencia = "./Persistencia/ImagenesLicencias/" + usuario.getText()
+			String pathImagenLicencia = "./Persistencia/ImagenesLicencias/" + usuario.getText() + "."
 					+ (fileNameExtension(imagenLicencia.getName()));
 			Path outLicencia = new File(pathImagenLicencia).toPath();
 			// registrar cliente
@@ -265,9 +265,15 @@ public class RegistrarCliente extends JPanel {
 		}
 	}
 
+	/**
+	 * 
+	 * @param filename
+	 * @return extension de archivo, .jpeg por defecto
+	 */
 	private String fileNameExtension(String filename) {
-		return Optional.ofNullable(filename).filter(f -> f.contains("."))
-				.map(f -> f.substring(filename.lastIndexOf(".") + 1)).toString();
+		String ext = Optional.ofNullable(filename).filter(f -> f.contains("."))
+				.map(f -> f.substring(filename.lastIndexOf(".") + 1)).get();
+		return ext == null ? ext : "jpeg";
 
 	}
 }

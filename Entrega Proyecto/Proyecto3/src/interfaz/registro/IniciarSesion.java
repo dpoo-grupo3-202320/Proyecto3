@@ -41,6 +41,7 @@ public class IniciarSesion extends JPanel {
 			if (u == null) {
 				// TODO: mostrar error, clave incorrecta
 			} else {
+				nav.paginaAnterior();
 				nav.login();
 			}
 			return null;

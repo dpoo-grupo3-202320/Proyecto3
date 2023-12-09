@@ -121,6 +121,7 @@ public class SistemaAlquiler {
 		if (adminExiste(admin.usuario))
 			throw new Exception("Ya existe un admin con este usuario");
 		admins.put(admin.usuario, admin);
+		guardarDatos();
 	}
 
 	public boolean adminExiste(String usuario) {
@@ -134,6 +135,7 @@ public class SistemaAlquiler {
 		// El admin no existe, agregarlo
 		Admin nuevoAdmin = new Admin(usuario, clave, sede);
 		nuevoAdmin(nuevoAdmin);
+		guardarDatos();
 	}
 
 	// ---------------Gestion empleados-----------
@@ -145,6 +147,7 @@ public class SistemaAlquiler {
 		if (empleadoExiste(empleado.usuario))
 			throw new Exception("Ya existe un empleado con este usuario");
 		this.empleados.put(empleado.usuario, empleado);
+		guardarDatos();
 	}
 
 	public void eliminarEmpleado(String usuario) throws Exception {
@@ -152,6 +155,7 @@ public class SistemaAlquiler {
 			throw new Exception("El empleado seleccionado no existe");
 		}
 		this.empleados.remove(usuario);
+		guardarDatos();
 	}
 
 	public Empleado registroEmpleado(String usuario, String clave, Sede sede) throws Exception {
@@ -160,6 +164,7 @@ public class SistemaAlquiler {
 		}
 		Empleado empleado = new Empleado(usuario, clave, sede);
 		nuevoEmpleado(empleado);
+		guardarDatos();
 		return empleado;
 	}
 
@@ -173,6 +178,7 @@ public class SistemaAlquiler {
 			throw new Exception("El nombre de usuario ya esta en uso. Intenta con otro");
 		}
 		clientes.put(cliente.usuario, cliente);
+		guardarDatos();
 	}
 
 	public Cliente registroCliente(String usuario, String clave, String nombres, String numeroTelefono, String direccion,
@@ -190,6 +196,7 @@ public class SistemaAlquiler {
 		Cliente nuevoCliente = new Cliente(usuario, clave, nombres, numeroTelefono, direccion, fechaNacimiento,
 				nacionalidad, imagenDocumentoIdentidad, licencia, tarjetaDeCredito);
 		nuevoCliente(nuevoCliente);
+		guardarDatos();
 		return nuevoCliente;
 	}
 
@@ -203,6 +210,7 @@ public class SistemaAlquiler {
 			throw new Exception("Ya existe una sede con este nombre. Intenta con otro.");
 		}
 		sedes.put(sede.getNombre(), sede);
+		guardarDatos();
 	}
 
 	public void crearSede(String nomSede, String ubiSede, int hrsASede, int hrsCSede)
@@ -216,7 +224,7 @@ public class SistemaAlquiler {
 		// La sede no existe, agregarla
 		Sede nuevaSede = new Sede(nomSede, ubiSede, hrs, empleados);
 		nuevaSede(nuevaSede);
-
+		guardarDatos();
 	}
 
 	public void modificarNombreSede(String nuevoNomSede, String actNomSede) throws Exception {
@@ -228,6 +236,7 @@ public class SistemaAlquiler {
 		} else {
 			throw new Exception("La sede ingresada no fue encontrada ");
 		}
+		guardarDatos();
 	}
 
 	public void modificarHorarioSede(String nomSede, int hrsASede, int hrsCSede) throws Exception {
@@ -289,6 +298,7 @@ public class SistemaAlquiler {
 			throw new Exception("El id de la reserva ya esta en uso.");
 		}
 		reservas.put(r.getId(), r);
+		guardarDatos();
 	}
 
 	public void crearReserva(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
@@ -299,6 +309,7 @@ public class SistemaAlquiler {
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
 		nuevaReserva(r);
+		guardarDatos();
 	}
 
 	public void cargarReserva(String id, String categoriaSolicitada, LocalDateTime fechaRecogida,
@@ -323,6 +334,7 @@ public class SistemaAlquiler {
 		}
 		r.setFechaRecogida(fechaRecogida);
 		r.setRangoEntrega(rangoEntrega);
+		guardarDatos();
 	}
 
 	public ArrayList<Reserva> consultarHistorialVehiculoInventario(String placa) throws Exception {
@@ -393,6 +405,7 @@ public class SistemaAlquiler {
 			}
 			categoria = Inventario.prioridadCategoria.get(i);
 		}
+		guardarDatos();
 	}
 
 	// --------------Inicio de sesion---------------
@@ -421,6 +434,7 @@ public class SistemaAlquiler {
 			Seguro elSeguro = new Seguro(nomSeguro, valor);
 			seguros.put(nomSeguro, elSeguro);
 		}
+		guardarDatos();
 	}
 
 	public void eliminarSeguro(String nomSeguro) throws Exception {
@@ -429,6 +443,7 @@ public class SistemaAlquiler {
 		} else {
 			throw new Exception("El seguro no existe");
 		}
+		guardarDatos();
 	}
 
 	public void modificarValorSeguro(String nomSeguro, float value) throws Exception {
@@ -438,6 +453,7 @@ public class SistemaAlquiler {
 		} else {
 			throw new Exception("El seguro no existe");
 		}
+		guardarDatos();
 	}
 
 }
