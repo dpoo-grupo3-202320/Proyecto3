@@ -289,7 +289,7 @@ public class SistemaAlquiler {
 		reservas.put(r.getId(), r);
 	}
 
-	public void crearReserva(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
+	public Reserva crearReserva(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
 			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
 		// FIXME Crear metodo get tarifas- Mejorar encapsulamiento
@@ -297,6 +297,7 @@ public class SistemaAlquiler {
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa, null);
 		nuevaReserva(r);
+		return r;
 	}
 
 	public void cargarReserva(String id, String categoriaSolicitada, LocalDateTime fechaRecogida,
@@ -335,7 +336,7 @@ public class SistemaAlquiler {
 	}
 
 	// ----------Gestion Alquileres-------------
-	public void crearAlquiler(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
+	public Reserva crearAlquiler(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
 			ArrayList<LicenciaDeConduccion> conductoresExtra, ArrayList<Seguro> seguros) throws Exception {
 
@@ -345,6 +346,7 @@ public class SistemaAlquiler {
 		nuevaReserva(r);
 		formalizarAlquiler(r.getId());
 		System.out.println("Alquiler creado y formalizado, guardando datos");
+		return r;
 	}
 
 	public void cargarAlquiler(String id, String categoriaSolicitada, LocalDateTime fechaRecogida,
