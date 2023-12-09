@@ -87,9 +87,23 @@ public class MenuEmpleado {
 						}
 						agregarMas = input("Agregar mas conductores extra? (si/no)").equals("si");
 					}
+					ArrayList<Seguro> segurosExtra = new ArrayList<Seguro>();
+					boolean agregarSeguro = input("Agregar seguro? (si/no)").equals("si");
+					while (agregarSeguro) 
+					{
+						String NombreSeguro = input("Ingrese el seguro que desea aplicar");
+						Seguro seguroExtra = sistemaAlquiler.getSeguro(NombreSeguro);
+						
+						if (seguroExtra != null) {
+							segurosExtra.add(seguroExtra);
+						} else {
+							System.out.println("El seguro solicitado no existe");
+						}
+						agregarSeguro = input("Agregar mas seguros? (si/no)").equals("si");
+					}
 					try {
 						sistemaAlquiler.crearAlquiler(categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-								ubicacionEntrega, rangoEntrega, cliente, conductoresExtra);
+								ubicacionEntrega, rangoEntrega, cliente, conductoresExtra,segurosExtra);
 						System.out.println("Alquiler creado");
 					} catch (Exception e) {
 						System.out.println(e.getMessage());

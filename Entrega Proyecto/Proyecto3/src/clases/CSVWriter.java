@@ -131,16 +131,23 @@ public class CSVWriter {
         try (PrintWriter writer = new PrintWriter(new FileWriter(rutaArchivo))) {
         	for (Entry<String, Reserva> entry : reservas.entrySet()) {
         		Reserva reserva = entry.getValue();
+        		
         		String conductoresExtra = reserva.getConductoresExtra()
         		        .stream()
         		        .map(LicenciaDeConduccion::getNumero)
         		        .collect(Collectors.joining("|"));
+        		
+        		String segurosExtra = reserva.getSeguros()
+        				.stream()
+        				.map(Seguro::getNombre)
+        				.collect(Collectors.joining("|"));
+        		
         		String placa = null;
         		if (reserva.getVehiculo()!=null) {
         			placa = reserva.getVehiculo().getPlaca();
         		}
                 String linea = String.format(
-                		"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s",
+                		"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s",
                 		reserva.getId(),
                         reserva.getCategoriaSolicitada(),
                         reserva.getCliente().getUsuario(),
@@ -151,7 +158,8 @@ public class CSVWriter {
                         reserva.getFechaRecogida().toString(),
                         reserva.getRangoEntrega().getLow().toString(),
                         reserva.getRangoEntrega().getHigh().toString(),
-                        conductoresExtra
+                        conductoresExtra,
+                        segurosExtra
                  );
                 writer.println(linea);
             }
@@ -182,6 +190,8 @@ public class CSVWriter {
 		
 	}
 	
+	
+	
 	public static void guardarDatos(
 			Map<String, Empleado> empleados,
             Map<String, Cliente> clientes,
@@ -201,6 +211,4 @@ public class CSVWriter {
         System.out.println("Datos guardados");
     }
 
-	
-	
 }

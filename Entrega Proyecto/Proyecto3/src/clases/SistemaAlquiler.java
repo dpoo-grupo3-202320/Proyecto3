@@ -89,7 +89,6 @@ public class SistemaAlquiler {
 
 	// Getters Estructuras
 
-	// Getters estruturas
 	public ArrayList<Sede> getSedes() {
 		return new ArrayList<Sede>(sedes.values());
 	}
@@ -106,7 +105,7 @@ public class SistemaAlquiler {
 	public ArrayList<Seguro> getSeguros() {
 		return new ArrayList<Seguro>(seguros.values());
 	}
-
+	
 	public ArrayList<Reserva> getReservas() {
 		return new ArrayList<Reserva>(reservas.values());
 	}
@@ -300,7 +299,7 @@ public class SistemaAlquiler {
 		//FIXME Crear metodo get tarifas- Mejorar encapsulamiento
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
+				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa,null);
 		nuevaReserva(r);
 	}
 	
@@ -311,7 +310,7 @@ public class SistemaAlquiler {
 		//FIXME Crear metodo get tarifas- Mejorar encapsulamiento
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
 		Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
+				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa, null);
 		nuevaReserva(r);
 	}
 
@@ -339,15 +338,17 @@ public class SistemaAlquiler {
 		}
 		return historial;
 	}
-
+	
+	
+	
 	// ----------Gestion Alquileres-------------
 	public void crearAlquiler(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
-			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
+			ArrayList<LicenciaDeConduccion> conductoresExtra,ArrayList<Seguro> seguros ) throws Exception {
 
 		Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa);
+				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa,seguros);
 		nuevaReserva(r);
 		formalizarAlquiler(r.getId());
 		System.out.println("Alquiler creado y formalizado, guardando datos");
@@ -356,12 +357,12 @@ public class SistemaAlquiler {
 	
 	public void cargarAlquiler(String id, String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 		String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente, Vehiculo vehiculo,
-		ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception 
+		ArrayList<LicenciaDeConduccion> conductoresExtra, ArrayList<Seguro> seguros) throws Exception 
 {
 	//FIXME Crear metodo get tarifas- Mejorar encapsulamiento
 	Tarifa tarifa = Inventario.tarifas.get(categoriaSolicitada);
 	Reserva r = new Reserva(id, categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-			ubicacionEntrega, rangoEntrega, cliente, vehiculo, conductoresExtra, tarifa);
+			ubicacionEntrega, rangoEntrega, cliente, vehiculo, conductoresExtra, tarifa, seguros);
 	nuevaReserva(r);
 }
 

@@ -6,8 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class CSVReader {
 	
@@ -252,13 +251,15 @@ public class CSVReader {
 				String placa = info[3];
 				String sedeEntrega = info[4];
 				String sedeRecogida = info[5];
-				String tarifa = info[6];
+				//String tarifa = info[6];
 				LocalDateTime fechaRecogida = LocalDateTime.parse(info[7]);
 				LocalDateTime fechaEntregaMin = LocalDateTime.parse(info[8]);
 				LocalDateTime fechaEntregaMax = LocalDateTime.parse(info[9]);
 				Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaMin,fechaEntregaMax);
 				
 				ArrayList <LicenciaDeConduccion> conductoresExtra = new ArrayList<LicenciaDeConduccion>();
+				ArrayList <Seguro> segurosExistentes = new ArrayList<Seguro>();
+				
 				if (info.length>10) 
 				{
 					String[] licenciasExtra = info[10].split("\\|");
@@ -277,6 +278,18 @@ public class CSVReader {
 					}
 				}
 				
+				if (info.length>11) 
+				{
+					String[] strSeguros = info[11].split("\\|");
+					 segurosExistentes = sa.getSeguros();
+					
+					for (String seguro : strSeguros) 
+					{
+						Seguro elSeguro = sa.getSeguro(seguro);
+						segurosExistentes.add(elSeguro);
+					}
+				}
+				
 				Vehiculo elVehiculo = sa.getVehiculo(placa);
 				if (elVehiculo == null) {
 					try 
@@ -291,7 +304,7 @@ public class CSVReader {
 				else 
 				{
 					try {
-					sa.cargarAlquiler(id, categoria, fechaRecogida, sedeRecogida, sedeEntrega, rangoEntrega, sa.getCliente(nombreCliente), elVehiculo, conductoresExtra);
+					sa.cargarAlquiler(id, categoria, fechaRecogida, sedeRecogida, sedeEntrega, rangoEntrega, sa.getCliente(nombreCliente), elVehiculo, conductoresExtra,segurosExistentes);
 					}
 					catch(Exception e)
 					{
