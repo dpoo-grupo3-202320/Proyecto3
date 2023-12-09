@@ -17,7 +17,7 @@ import clases.Empleado;
 import clases.SistemaAlquiler;
 import clases.Usuario;
 import interfaz.menuadmin.MenuAdmin;
-import interfaz.menucliente.LoggedInMenu;
+import interfaz.menucliente.MenuCliente;
 import interfaz.menuempleado.MenuEmpleado;
 import interfaz.registro.LandingPage;
 
@@ -84,7 +84,7 @@ public class Navegador extends JPanel {
       } else if (usuario instanceof Empleado) {
         agregarPagina(new MenuEmpleado(this, sistemaAlquiler, (Empleado) usuario));
       } else if (usuario instanceof Cliente) {
-        agregarPagina(new LoggedInMenu(this,sistemaAlquiler));
+        agregarPagina(new MenuCliente(this,sistemaAlquiler));
       }
     } else {
       System.out.println("sesion no iniciada");

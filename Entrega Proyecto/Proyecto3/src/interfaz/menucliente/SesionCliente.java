@@ -17,49 +17,50 @@ import clases.SistemaAlquiler;
 import clases.Usuario;
 
 public class SesionCliente extends JFrame {
-	
+
 	ContenedorDeDatos CD;
-	
-	public  SesionCliente(ContenedorDeDatos CD,SistemaAlquiler SA) {
-		
-		this.CD=CD;
-		
-		JPanel panel= new JPanel();
+
+	public SesionCliente(ContenedorDeDatos CD, SistemaAlquiler SA) {
+
+		this.CD = CD;
+
+		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		panel.add(new JLabel("Usuario"));
-		JTextField usuario= new JTextField();
+		JTextField usuario = new JTextField();
 		panel.add(usuario);
-		
+
 		panel.add(new JLabel("Contraseña"));
-		JPasswordField contraseña= new JPasswordField();
+		JPasswordField contraseña = new JPasswordField();
 		panel.add(contraseña);
-		
+
 		JPanel cerrar = new JPanel();
-		JButton ingresar= new JButton("INGRESAR");
+		JButton ingresar = new JButton("INGRESAR");
 		cerrar.add(ingresar);
-		
+
 		ingresar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 
-				String user=usuario.getText();
-				char[] password=contraseña.getPassword();
-				
+				//
+				String user = usuario.getText();
+				char[] password = contraseña.getPassword();
+
 				String spassword = null;
-				for(char i:password) {
-					spassword+=String.valueOf(i);
+				for (char i : password) {
+					spassword += String.valueOf(i);
 				}
-				
-				Cliente logInUser= CD.getCliente( spassword);
-				
-				if (logInUser==null) {
-					advertenciaUsuario lookOut= new advertenciaUsuario();
-				}else {
-					LoggedInMenu menu= new LoggedInMenu(logInUser,SA);
+
+				Cliente logInUser = CD.getCliente(spassword);
+
+				if (logInUser == null) {
+					advertenciaUsuario lookOut = new advertenciaUsuario();
+				} else {
+					// LoggedInMenu menu= new LoggedInMenu(logInUser,SA);
 				}
-			}});
+			}
+		});
 	}
 
 }
