@@ -1,23 +1,15 @@
 package interfaz.menuadmin;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import clases.Admin;
-import clases.Empleado;
 import clases.SistemaAlquiler;
 import interfaz.Navegador;
-import interfaz.componentes.TButton;
-import interfaz.menuempleado.FormalizarAlquiler;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MenuAdmin extends JPanel {
 
@@ -31,7 +23,7 @@ public class MenuAdmin extends JPanel {
         this.sistemaAlquiler = sistemaAlquiler;
         setLayout(new BorderLayout());
 
-     // Etiqueta del título
+        // Etiqueta del título
         JLabel titleLabel = new JLabel("Menu Administrador", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Helvetica", Font.BOLD, 16));
 
@@ -56,64 +48,62 @@ public class MenuAdmin extends JPanel {
                     nav.agregarPagina(new AgregarVehiculo(sistemaAlquiler));
                 }
             });
-            
+
             addButton(buttonPanel, "Crear Sede", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //nav.agregarPagina(new AgregarVehiculo());
+                    // nav.agregarPagina(new AgregarVehiculo());
                 }
             });
-            
+
             addButton(buttonPanel, "Modificar Sede", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //nav.agregarPagina(new AgregarVehiculo());
+                    // nav.agregarPagina(new AgregarVehiculo());
                 }
             });
             addButton(buttonPanel, "Consultar informacion vehiculo", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                	mostrarVentanaPlaca();
+                    mostrarVentanaPlaca();
                 }
             });
             addButton(buttonPanel, "Cerrar Sesión", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   nav.cerrarSesion();
+                    nav.cerrarSesion();
                 }
             });
-            
-        } 
-        else 
-        {
-        
+
+        } else {
+
             addButton(buttonPanel, "Añadir Empleado", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   // nav.agregarPagina(new AgregarVehiculo());
+                    // nav.agregarPagina(new AgregarVehiculo());
                 }
             });
             addButton(buttonPanel, "Eliminar Empleado", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   // nav.agregarPagina(new AgregarVehiculo());
+                    // nav.agregarPagina(new AgregarVehiculo());
                 }
             });
             addButton(buttonPanel, "Consultar Informacion Vehiculo", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   // nav.agregarPagina(new AgregarVehiculo());
+                    // nav.agregarPagina(new AgregarVehiculo());
                 }
             });
             addButton(buttonPanel, "Cerrar Sesión", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   // nav.agregarPagina(new AgregarVehiculo());
+                    // nav.agregarPagina(new AgregarVehiculo());
                 }
             });
-            
+
         }
-        
+
         // Agregar componentes al panel principal
         add(titleLabel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
@@ -129,10 +119,10 @@ public class MenuAdmin extends JPanel {
         button.addActionListener(actionListener); // Agregar el ActionListener al botón
         panel.add(button, buttonConstraints);
     }
-    
+
     private void mostrarVentanaPlaca() {
         JTextField placaTextField = new JTextField();
-        Object[] message = {"Placa:", placaTextField};
+        Object[] message = { "Placa:", placaTextField };
 
         int option = JOptionPane.showOptionDialog(null, message, "Consultar Información Vehículo",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
@@ -142,7 +132,5 @@ public class MenuAdmin extends JPanel {
             nav.agregarPagina(new InformacionVehiculo());
         }
     }
-    
-    
-}
 
+}

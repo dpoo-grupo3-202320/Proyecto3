@@ -1,7 +1,6 @@
 package clases;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
 
 public class Tarifa implements Serializable {
 	private static final long serialVersionUID = 6857521008207905238L;
@@ -17,7 +16,7 @@ public class Tarifa implements Serializable {
 		this.precioSedeDiferente = precioSedeDiferente;
 		this.precioConductorExtra = precioConductorExtra;
 	}
-	
+
 	/*
 	 * getters
 	 */
@@ -33,7 +32,7 @@ public class Tarifa implements Serializable {
 	public Long getPrecioConductorExtra() {
 		return precioConductorExtra;
 	}
-	
+
 	/*
 	 * setters
 	 */

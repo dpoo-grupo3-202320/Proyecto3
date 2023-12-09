@@ -46,12 +46,12 @@ public class FormalizarAlquiler extends JPanel {
     // reserva
     add(new TButton("Asignar Vehiculo", () -> {
       try {
-        sistemaAlquiler.formalizarAlquiler(reservas.get(reserva.getSelectedIndex()).getId());
-        System.out.println("Reserva Formalizada exitosamente");
-        nav.paginaAnterior();
+        this.sistemaAlquiler.formalizarAlquiler(reservas.get(reserva.getSelectedIndex()).getId());
+        this.nav.paginaAnterior();
+        this.nav.mensajeCliente("Reserva formalizada exitosamente", 1500);
       } catch (Exception e) {
-        // TODO: handle exception
         e.printStackTrace();
+        this.nav.mensajeCliente("No se pudo formalizar reserva, error: " + e, 3000);
       }
       return null;
     }));

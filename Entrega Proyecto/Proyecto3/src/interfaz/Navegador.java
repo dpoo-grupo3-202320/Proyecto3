@@ -5,29 +5,23 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.plaf.TabbedPaneUI;
-
 import clases.Admin;
 import clases.Cliente;
-import clases.ContenedorDeDatos;
 import clases.Empleado;
 import clases.SistemaAlquiler;
 import clases.Usuario;
-import interfaz.componentes.TMensajeUsuario;
-import interfaz.menuadmin.MenuAdmin;
 import interfaz.menucliente.MenuCliente;
+import interfaz.menuadmin.MenuAdmin;
 import interfaz.menuempleado.MenuEmpleado;
 import interfaz.registro.LandingPage;
+import interfaz.componentes.TMensajeUsuario;;
 
 /**
  * se encarga de agregar y quitar paginas
  */
+@SuppressWarnings("serial")
 public class Navegador extends JPanel {
-	private final boolean modoPruebaActivado = true;
-
 	private final SistemaAlquiler sistemaAlquiler;
 
 	private ArrayList<JPanel> paneles;
@@ -86,7 +80,7 @@ public class Navegador extends JPanel {
 			if (usuario instanceof Admin) {
 				agregarPagina(new MenuAdmin(this, sistemaAlquiler, (Admin) usuario));
 			} else if (usuario instanceof Empleado) {
-				agregarPagina(new MenuEmpleado(this, sistemaAlquiler, (Empleado) usuario));
+				agregarPagina(new MenuEmpleado(this, sistemaAlquiler));
 			} else if (usuario instanceof Cliente) {
 				agregarPagina(new MenuCliente(this, sistemaAlquiler));
 			}

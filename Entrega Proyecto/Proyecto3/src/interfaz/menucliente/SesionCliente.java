@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 import clases.Cliente;
 import clases.ContenedorDeDatos;
 import clases.SistemaAlquiler;
-import clases.Usuario;
 
 public class SesionCliente extends JFrame {
 

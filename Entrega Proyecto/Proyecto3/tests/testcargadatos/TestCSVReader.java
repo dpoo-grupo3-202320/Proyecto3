@@ -1,4 +1,5 @@
 package testcargadatos;
+
 import clases.CSVReader;
 import clases.SistemaAlquiler;
 import clases.ContenedorDeDatos;
@@ -15,46 +16,34 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class TestCSVReader {
-	
+
 	private static SistemaAlquiler sa;
 	private static ContenedorDeDatos cd;
 	private static CSVReader csv;
-	
-	
-	
+
 	@BeforeAll
-	public void setUp() throws FileNotFoundException, ClassNotFoundException, IOException
-	{
+	public void setUp() throws FileNotFoundException, ClassNotFoundException, IOException {
 		cd = new ContenedorDeDatos();
-		
+
 		sa = new SistemaAlquiler();
-		
+
 		csv = new CSVReader(sa);
-		
+
 	}
-	
+
 	@AfterAll
-	public void tearDown() 
-	{
+	public void tearDown() {
 		cd = null;
-		
+
 		sa = null;
-		
+
 		csv = null;
 	}
-	
+
 	@Test
 	public void testSum() {
-		int ans = 2; 
-		assertEquals(ans,1+1);
+		int ans = 2;
+		assertEquals(ans, 1 + 1);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

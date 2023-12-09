@@ -7,20 +7,15 @@ import clases.SistemaAlquiler;
 import interfaz.Navegador;
 import interfaz.componentes.TButton;
 
-public class MenuCliente extends JPanel{
+public class MenuCliente extends JPanel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3355054884650790372L;
-	
 	private final Navegador nav;
 	private final SistemaAlquiler sistemaAlquiler;
 
 	public MenuCliente(Navegador nav, SistemaAlquiler sistemaAlquiler) {
 		this.nav = nav;
 		this.sistemaAlquiler = sistemaAlquiler;
-		
+
 		setLayout(new GridLayout(0, 1));
 
 		TButton crear = new TButton("Crear Reserva", () -> {

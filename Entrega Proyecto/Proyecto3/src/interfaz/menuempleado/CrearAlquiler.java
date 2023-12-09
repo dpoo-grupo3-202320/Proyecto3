@@ -5,11 +5,13 @@ import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import clases.Inventario;
 import clases.Range;
+import clases.Seguro;
 import clases.SistemaAlquiler;
 import clases.TarjetaDeCredito;
 import interfaz.Navegador;
@@ -89,15 +91,17 @@ public class CrearAlquiler extends JPanel {
 			System.out.println("entrega str: " + fechaEntrega.getText() + ", datetime: " + entrega);
 			System.out.println("recogida str: " + fechaRecogida.getText() + ", datetime: " + recogida);
 			try {
-				sistemaAlquiler.crearAlquiler(comboCategoria.getSelectedItem(), recogida, comboRecogida.getSelectedItem(),
-						comboEntrega.getSelectedItem(), new Range<LocalDateTime>(entrega, entrega), sistemaAlquiler.getCliente(idCliente.getText()), null);
+				ArrayList<Seguro> seguros = new ArrayList<>();
+				seguros.add(sistemaAlquiler.getSeguro(seguro.getSelectedItem()));
+				this.sistemaAlquiler.crearAlquiler(comboCategoria.getSelectedItem(), recogida, comboRecogida.getSelectedItem(),
+						comboEntrega.getSelectedItem(), new Range<LocalDateTime>(entrega, entrega),
+						sistemaAlquiler.getCliente(idCliente.getText()), null, seguros);
 				System.out.println("Alquiler Creado");
 				nav.paginaAnterior();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			
+
 			return null;
 		}));
 		add(new TButton("Atras", () -> {

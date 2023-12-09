@@ -1,16 +1,10 @@
 package interfaz.menucliente;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Stream;
-
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import clases.Cliente;
 import clases.Range;
 import clases.Reserva;
 import clases.SistemaAlquiler;
