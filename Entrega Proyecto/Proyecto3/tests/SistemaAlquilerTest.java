@@ -156,7 +156,7 @@ class SistemaAlquilerTest {
 		}
 		assertNull(r.getVehiculo());
 		try {
-			sistemaAlquiler.formalizarAlquiler(r.getId());
+			sistemaAlquiler.formalizarReserva(r.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e);

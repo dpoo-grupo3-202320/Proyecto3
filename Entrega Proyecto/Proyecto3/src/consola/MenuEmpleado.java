@@ -42,7 +42,7 @@ public class MenuEmpleado {
 					String idReserva = input("idReserva");
 					try 
 					{
-						sistemaAlquiler.formalizarAlquiler(idReserva);
+						sistemaAlquiler.formalizarReserva(idReserva);
 						System.out.println("Alquiler formalizado, se asigno un vehiculo");
 					} catch (Exception e) 
 					{

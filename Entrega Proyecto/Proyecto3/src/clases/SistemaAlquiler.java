@@ -105,8 +105,16 @@ public class SistemaAlquiler {
 		return new ArrayList<Seguro>(seguros.values());
 	}
 
-	public ArrayList<Reserva> getReservas() {
+	public ArrayList<Reserva> getAllReservas() {
 		return new ArrayList<Reserva>(reservas.values());
+	}
+
+	public ArrayList<Reserva> getReservas() {
+		return new ArrayList<Reserva>(reservas.values().stream().filter(r -> r.getVehiculo() == null).toList());
+	}
+	
+	public ArrayList<Reserva> getAlquileres() {
+		return new ArrayList<Reserva>(reservas.values().stream().filter(r -> r.getVehiculo() != null).toList());
 	}
 
 	public ArrayList<Cliente> getClientes() {
@@ -345,7 +353,7 @@ public class SistemaAlquiler {
 		Reserva r = new Reserva(nuevoIdReservas(), categoriaSolicitada, fechaRecogida, ubicacionRecogida,
 				ubicacionEntrega, rangoEntrega, cliente, null, conductoresExtra, tarifa, seguros);
 		nuevaReserva(r);
-		formalizarAlquiler(r.getId());
+		formalizarReserva(r.getId());
 		System.out.println("Alquiler creado y formalizado");
 		return r;
 	}
@@ -362,7 +370,7 @@ public class SistemaAlquiler {
 	}
 
 	// convierte alquiler en reserva; le asigna un vehiculo
-	public void formalizarAlquiler(String idReserva) throws Exception {
+	public void formalizarReserva(String idReserva) throws Exception {
 		if (!reservaExiste(idReserva)) {
 			throw new Exception("La reserva seleccionada no existe");
 		}
