@@ -54,6 +54,7 @@ public class CSVReader {
 			cargarSedes();
 			cargarAdmins();
 			cargarEmpleados();
+			cargarSeguros();
 			cargarReservas();
 			System.out.println("Datos Cargados");
 		}
@@ -225,7 +226,7 @@ public class CSVReader {
 				String[] info = line.split(";");
 				try 
 				{
-					//TODO Falta implementar logica de carga		
+					sa.agregarSeguro(info[0], Float.parseFloat(info[1]));
 				} 
 				catch (Exception e) 
 				{
@@ -234,7 +235,6 @@ public class CSVReader {
 			}
 		}
 	}
-	
 	
 	private void cargarReservas() throws FileNotFoundException, IOException
 	{

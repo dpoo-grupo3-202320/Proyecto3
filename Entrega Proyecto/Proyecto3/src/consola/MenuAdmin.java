@@ -33,9 +33,9 @@ public class MenuAdmin {
 			// cuando sede != null, es un administrador local
 			mostrarMenuLocal();
 		}
-		System.out.println("5. Consultar ubicacion vehiculo");
-		System.out.println("6. Consultar historial vehiculo");
-		System.out.println("7. Cerrar sesión");
+		System.out.println("8. Consultar ubicacion vehiculo");
+		System.out.println("9. Consultar historial vehiculo");
+		System.out.println("10. Cerrar sesión");
 
 		int opcionSeleccionada = Integer.parseInt(input("Por favor seleccione una opcion"));
 		ejecutarOpcion(opcionSeleccionada);
@@ -48,7 +48,9 @@ public class MenuAdmin {
 		System.out.println("2. Eliminar Carro");
 		System.out.println("3. Crear Sede");
 		System.out.println("4. Modificar Sede");
-
+		System.out.println("5. Agregar Seguro");
+		System.out.println("6. Modificar Seguro");
+		System.out.println("7. eliminar Seguro");
 	}
 
 	private void mostrarMenuLocal() {
@@ -58,7 +60,7 @@ public class MenuAdmin {
 		System.out.println("2. Eliminar empleado");
 	}
 
-	public void ejecutarOpcion(int opcionSeleccionada) throws FileNotFoundException, IOException, ClassNotFoundException {
+	public void ejecutarOpcion(int opcionSeleccionada) {
 		boolean continuar = true;
 		while (continuar) {
 			try {
@@ -190,10 +192,51 @@ public class MenuAdmin {
 					}
 
 					opcionSeleccionada = 0;
-					
-				
 				} 
-				//Menu admin local
+				//Agregar Seguro
+				else if (opcionSeleccionada == 5 && sedeAdmin ==null) 
+				{
+					String nomSeguro = input("Ingrese el nombre del seguro");
+					Float costoDiario = Float.parseFloat(input("Ingrese el valor del seguro"));
+					try {
+					sistemaAlquiler.agregarSeguro(nomSeguro, costoDiario);
+					} 
+					catch (Exception e) 
+					{
+						System.out.println(e.getMessage());
+					}
+					opcionSeleccionada = 0;
+				}
+				//Modificar Seguro
+				else if (opcionSeleccionada == 6 && sedeAdmin ==null) 
+				{
+					String nomSeguro = input("Ingrese el nombre del seguro que desea modificar");
+					Float costoDiario = Float.parseFloat(input("Ingrese el nuevo valor del seguro"));
+					try {
+					
+					sistemaAlquiler.modificarValorSeguro(nomSeguro, costoDiario);
+					} catch (Exception e) 
+					{
+						System.out.println(e.getMessage());
+					}
+					opcionSeleccionada = 0;
+				}
+				//eliminar Seguro
+				else if (opcionSeleccionada == 7 && sedeAdmin ==null) 
+				{
+					String nomSeguro = input("Ingrese el nombre del seguro que desea eliminar");
+					try {
+					
+					sistemaAlquiler.eliminarSeguro(nomSeguro);
+					} catch (Exception e) 
+					{
+						System.out.println(e.getMessage());
+					}
+					opcionSeleccionada = 0;
+				}
+				
+				
+				//---------------Menu admin local---------------
 				
 				// registrar empleado
 				else if (opcionSeleccionada == 1 && sedeAdmin != null) {
@@ -223,7 +266,7 @@ public class MenuAdmin {
 					opcionSeleccionada = 0;
 				} 
 				//Opciones para ambos
-				else if (opcionSeleccionada == 5) {
+				else if (opcionSeleccionada == 8) {
 					// call consultar ubicacion vehiculo (pedir parametros y llamar funcion)
 					System.out.println("Para consultar la ubicacion de un vehiculo ingrese la siguiente informacion: ");
 					String placa = input("Placa");
@@ -234,7 +277,7 @@ public class MenuAdmin {
 						System.out.println(e.getMessage());
 					}
 					opcionSeleccionada = 0;
-				} else if (opcionSeleccionada == 6) {
+				} else if (opcionSeleccionada == 9) {
 					// call consultar historial vehiculo (pedir parametros y llamar funcion)
 					System.out.println("Para consultar el historial de un vehiculo ingrese la siguiente informacion: ");
 					String placa = input("Placa");
@@ -252,7 +295,7 @@ public class MenuAdmin {
 					opcionSeleccionada = 0;
 				}
 
-				else if (opcionSeleccionada == 7) {
+				else if (opcionSeleccionada == 10) {
 					// cerrar sesion
 					System.out.println("Cerrando sesión ...");
 					this.adminActual = null;
@@ -270,9 +313,9 @@ public class MenuAdmin {
 						// cuando sede != null, es un administrador local
 						mostrarMenuLocal();
 					}
-					System.out.println("5. Consultar ubicacion vehiculo");
-					System.out.println("6. Consultar historial vehiculo");
-					System.out.println("7. Cerrar sesión");
+					System.out.println("8. Consultar ubicacion vehiculo");
+					System.out.println("9. Consultar historial vehiculo");
+					System.out.println("10. Cerrar sesión");
 					opcionSeleccionada = Integer.parseInt(input("\nPor favor seleccione una opcion"));
 				} else {
 					System.out.println("Por favor seleccione una opción valida.");
