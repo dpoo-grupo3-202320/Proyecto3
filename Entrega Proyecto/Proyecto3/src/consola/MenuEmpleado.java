@@ -30,31 +30,37 @@ public class MenuEmpleado {
 		ejecutarOpcion(opcionSeleccionada);
 	}
 
-	public void ejecutarOpcion(int opcionSeleccionada)
-			throws FileNotFoundException, IOException, ClassNotFoundException {
+	public void ejecutarOpcion(int opcionSeleccionada) throws FileNotFoundException, IOException, ClassNotFoundException 
+	{
 		boolean continuar = true;
-		while (continuar) {
+		while (continuar) 
+		{
 			try {
-				if (opcionSeleccionada == 1) {
+				if (opcionSeleccionada == 1) 
+				{
 					System.out.println("Para formalizar un alquiler ingrese la siguiente informacion: ");
 					String idReserva = input("idReserva");
-					try {
+					try 
+					{
 						sistemaAlquiler.formalizarAlquiler(idReserva);
 						System.out.println("Alquiler formalizado, se asigno un vehiculo");
-					} catch (Exception e) {
+					} catch (Exception e) 
+					{
 						System.out.println(e.getMessage());
 					}
 					opcionSeleccionada = 0;
-				} else if (opcionSeleccionada == 1) {
+				} 
+				else if (opcionSeleccionada == 2) 
+				{
 					System.out.println("Para crear un alquiler ingrese la siguiente informacion: ");
 					String categoriaSolicitada = input("Categoria solicitada");
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-					String recogida = input("Fecha recogida (yyyy-MM-dd HH:mm)");
+					String recogida = input("Fecha recogida (yyyy-MM-dd HH:mm) (Formato 24 Hrs)");
 					LocalDateTime fechaRecogida = LocalDateTime.parse(recogida, formatter);
 					String ubicacionRecogida = input("Ubicacion recogida");
 					String ubicacionEntrega = input("Ubicacion entrega");
-					String entregaTemprano = input("fecha entrega por temprano (yyyy-MM-dd HH:mm) (hora militar)");
-					String entregaTarde = input("fecha entrega por tarde (yyyy-MM-dd HH:mm) (hora militar)");
+					String entregaTemprano = input("fecha entrega por temprano (yyyy-MM-dd HH:mm) (Formato 24 Hrs)");
+					String entregaTarde = input("fecha entrega por tarde (yyyy-MM-dd HH:mm) (Formato 24 Hrs)");
 					LocalDateTime fechaEntregaTemprano = LocalDateTime.parse(entregaTemprano, formatter);
 					LocalDateTime fechaEntregaTarde = LocalDateTime.parse(entregaTarde, formatter);
 					Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaTemprano,
@@ -73,8 +79,7 @@ public class MenuEmpleado {
 					while (agregarMas) {
 						String usuarioConductorExtra = input("Usuario de conductor extra");
 						String claveConductorExtra = input("Contraseña de conductor extra");
-						Cliente conductorExtra = (Cliente) sistemaAlquiler.getUsuario(usuarioConductorExtra,
-								claveConductorExtra);
+						Cliente conductorExtra = (Cliente) sistemaAlquiler.getUsuario(usuarioConductorExtra,claveConductorExtra);
 						if (conductorExtra != null) {
 							conductoresExtra.add(conductorExtra.getLicenciaDeConduccion());
 						} else {
@@ -82,24 +87,49 @@ public class MenuEmpleado {
 						}
 						agregarMas = input("Agregar mas conductores extra? (si/no)").equals("si");
 					}
+					ArrayList<Seguro> segurosExtra = new ArrayList<Seguro>();
+					boolean agregarSeguro = input("Agregar seguro? (si/no)").equals("si");
+					while (agregarSeguro) 
+					{
+						String NombreSeguro = input("Ingrese el seguro que desea aplicar");
+						Seguro seguroExtra = sistemaAlquiler.getSeguro(NombreSeguro);
+						
+						if (seguroExtra != null) {
+							segurosExtra.add(seguroExtra);
+						} else {
+							System.out.println("El seguro solicitado no existe");
+						}
+						agregarSeguro = input("Agregar mas seguros? (si/no)").equals("si");
+					}
 					try {
 						sistemaAlquiler.crearAlquiler(categoriaSolicitada, fechaRecogida, ubicacionRecogida,
-								ubicacionEntrega, rangoEntrega, cliente, conductoresExtra);
+								ubicacionEntrega, rangoEntrega, cliente, conductoresExtra,segurosExtra);
 						System.out.println("Alquiler creado");
 					} catch (Exception e) {
 						System.out.println(e.getMessage());
 					}
 					opcionSeleccionada = 0;
-				} else if (opcionSeleccionada == 3) {
+				} 
+				else if (opcionSeleccionada == 3) 
+				{
 					// cerrar sesion
 					System.out.println("Cerrando sesión ...");
 					this.empleadoActual = null;
 					continuar = false;
 					sistemaAlquiler.guardarDatos();
-				} else {
+				} 
+				else if (opcionSeleccionada == 0) 
+				{
+					mostrarMenu();
+					opcionSeleccionada = Integer.parseInt(input("\nPor favor seleccione una opcion"));
+				} 
+				else 
+				{
 					System.out.println("Por favor seleccione una opción valida.");
 				}
-			} catch (NumberFormatException e) {
+			} 
+			catch (NumberFormatException e) 
+			{
 				System.out.println("Debe seleccionar uno de los numeros de las opciones.");
 			}
 		}

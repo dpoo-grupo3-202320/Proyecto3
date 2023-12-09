@@ -51,8 +51,9 @@ public class MenuPrincipal {
 							menuEmpleado.mostrarMenu();
 						} else if (rolUsuario.equals("Cliente")) {
 							System.out.println("Inicio de sesión como cliente exitoso");
-							// MenuCliente menuAdmin = new MenuCliente();
-							// menuCliente.mostrarMenu();
+							Cliente clienteActual = (Cliente) usuarioActual;
+							MenuCliente menuCliente = new MenuCliente(sistemaAlquiler, clienteActual);
+							menuCliente.mostrarMenu();
 						} else {
 							System.out.println("error con los credenciales");
 						}

@@ -14,6 +14,7 @@ public class MenuCliente {
 
 	private SistemaAlquiler sistemaAlquiler;
 	private Cliente clienteActual;
+	
 
 	public MenuCliente(SistemaAlquiler SA, Cliente CA) {
 		this.sistemaAlquiler = SA;
@@ -105,12 +106,20 @@ public class MenuCliente {
 					}
 
 					opcionSeleccionada = 0;
-				} else if (opcionSeleccionada == 3) {
+				} 
+				
+				else if (opcionSeleccionada == 3) {
 					System.out.println("Cerrando sesión ...");
-					this.clienteActual = null;
+					clienteActual = null;
 					continuar = false;
 					sistemaAlquiler.guardarDatos();
-				} else {
+					
+				}
+				else if(opcionSeleccionada ==0){
+					mostrarMenu();
+					opcionSeleccionada = Integer.parseInt(input("\nPor favor seleccione una opcion"));
+				}
+				else {
 					System.out.println("Por favor seleccione una opción valida.");
 				}
 			} catch (NumberFormatException e) {

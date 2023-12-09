@@ -2,15 +2,20 @@ package clases;
 
 import java.io.Serializable;
 
-public abstract class Seguro implements Serializable {
+public class Seguro implements Serializable {
 	private static final long serialVersionUID = 1975402684445611620L;
-	/**
-	 * 
-	 */
-	protected String nombre;
-	protected float costoDiario;
+	
+	//Atributos
+	private String nombre;
+	private float costoDiario;
 
-
+	//Builder 
+	
+	Seguro(String nomSeguro, float valor )
+	{
+		this.nombre = nomSeguro;
+		this.costoDiario = valor;
+	}
 	/*
 	 * getters
 	 */
@@ -30,7 +35,8 @@ public abstract class Seguro implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public void setContraseña(float costoDiario) {
+	public void setCostoDiario(float costoDiario) 
+	{
 		this.costoDiario = costoDiario;
 	}
 	

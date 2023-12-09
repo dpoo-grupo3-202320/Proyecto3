@@ -47,7 +47,7 @@ public class Navegador extends JPanel {
 
     add(new LandingPage(this, sistemaAlquiler));
     card.last(this);
-    login();
+    //login();
     // if (modoPruebaActivado) {
     // // TODO: aca agregar paginas que se van a probar
     // agregarPagina(new MenuEmpleado(this, sistemaAlquiler, null));
@@ -84,7 +84,7 @@ public class Navegador extends JPanel {
       } else if (usuario instanceof Empleado) {
         agregarPagina(new MenuEmpleado(this, sistemaAlquiler, (Empleado) usuario));
       } else if (usuario instanceof Cliente) {
-        agregarPagina(new MenuCliente(sistemaAlquiler));
+        agregarPagina(new MenuCliente(this,sistemaAlquiler));
       }
     } else {
       System.out.println("sesion no iniciada");

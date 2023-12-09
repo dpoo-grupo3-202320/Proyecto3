@@ -19,10 +19,11 @@ public class Reserva implements Serializable {
 	private Vehiculo vehiculo;
 	private ArrayList<LicenciaDeConduccion> conductoresExtra;
 	private Tarifa tarifa;
+	private ArrayList<Seguro> seguros;
 
 	public Reserva(String id, String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
 			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente, Vehiculo vehiculo,
-			ArrayList<LicenciaDeConduccion> conductoresExtra, Tarifa tarifa) {
+			ArrayList<LicenciaDeConduccion> conductoresExtra, Tarifa tarifa, ArrayList<Seguro> seguros ) {
 		this.id = id;
 		this.categoriaSolicitada = categoriaSolicitada;
 		this.fechaRecogida = fechaRecogida;
@@ -33,6 +34,7 @@ public class Reserva implements Serializable {
 		this.vehiculo = vehiculo;
 		this.conductoresExtra = conductoresExtra;
 		this.tarifa = tarifa;
+		this.seguros = seguros;
 	}
 
 	/**
@@ -48,9 +50,7 @@ public class Reserva implements Serializable {
 		return tarifa.getPrecioCategoria() + costoSedeDiferente + costoConductoresExtra;
 	}
 
-	/*
-	 * getters
-	 */
+	//Getters
 	public String getId() {
 		return id;
 	}
@@ -84,11 +84,22 @@ public class Reserva implements Serializable {
 	}
 
 	public ArrayList<LicenciaDeConduccion> getConductoresExtra() {
+		if (this.conductoresExtra == null) {
+			this.conductoresExtra = new ArrayList<LicenciaDeConduccion>();
+		}
 		return conductoresExtra;
 	}
+	
 
 	public Tarifa getTarifa() {
 		return tarifa;
+	}
+	
+	public ArrayList<Seguro> getSeguros() {
+		if (this.seguros == null) {
+			this.seguros = new ArrayList<Seguro>();
+		}
+		return seguros;
 	}
 
 	/*
@@ -132,5 +143,9 @@ public class Reserva implements Serializable {
 
 	public void setTarifa(Tarifa tarifa) {
 		this.tarifa = tarifa;
+	}
+	
+	public void setSeguros(ArrayList<Seguro> seguros) {
+		this.seguros = seguros;
 	}
 }

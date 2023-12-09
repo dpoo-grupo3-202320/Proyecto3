@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+
 
 public class CSVReader {
 	
@@ -17,6 +17,10 @@ public class CSVReader {
 	String archivoSedes;
 	//archivo carga vehiculos
 	String archivoVehiculos;
+	//archivo carga seguros
+	String archivoSeguros;
+	//archivo carga Reservas
+	String archivoReservas;
 	
 	SistemaAlquiler sa; 
 
@@ -31,6 +35,10 @@ public class CSVReader {
 		archivoSedes = "./Persistencia/Sedes.csv";
 		//archivo carga vehiculos
 		archivoVehiculos = "./Persistencia/Vehiculo.csv";
+		//archivo carga Seguros
+		archivoSeguros = "./Persistencia/Seguros.csv";
+		//archivos carga Reservas´
+		archivoReservas = "./Persistencia/Reservas.csv";
 		
 		sa = sistemaAlquiler; 
 		
@@ -45,6 +53,8 @@ public class CSVReader {
 			cargarSedes();
 			cargarAdmins();
 			cargarEmpleados();
+			cargarSeguros();
+			cargarReservas();
 			System.out.println("Datos Cargados");
 		}
 		catch (Exception e)
@@ -203,6 +213,108 @@ public class CSVReader {
 				}
 			}
 		}
+	}
+	
+	private void cargarSeguros() throws FileNotFoundException, IOException
+	{
+		try (BufferedReader br = new BufferedReader(new FileReader(archivoSeguros))) 
+		{
+			String line;
+			while ((line = br.readLine()) != null) 
+			{
+				String[] info = line.split(";");
+				try 
+				{
+					sa.agregarSeguro(info[0], Float.parseFloat(info[1]));
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	private void cargarReservas() throws FileNotFoundException, IOException
+	{
+		int numReservas = 0;
+		try (BufferedReader br = new BufferedReader(new FileReader(archivoReservas))) 
+		{
+			String line;
+			
+			while ((line = br.readLine()) != null) 
+			{
+				String[] info = line.split(";");
+				String id = info[0];
+				String categoria = info[1];
+				String nombreCliente = info[2];
+				String placa = info[3];
+				String sedeEntrega = info[4];
+				String sedeRecogida = info[5];
+				//String tarifa = info[6];
+				LocalDateTime fechaRecogida = LocalDateTime.parse(info[7]);
+				LocalDateTime fechaEntregaMin = LocalDateTime.parse(info[8]);
+				LocalDateTime fechaEntregaMax = LocalDateTime.parse(info[9]);
+				Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaMin,fechaEntregaMax);
+				
+				ArrayList <LicenciaDeConduccion> conductoresExtra = new ArrayList<LicenciaDeConduccion>();
+				ArrayList <Seguro> segurosExistentes = new ArrayList<Seguro>();
+				
+				if (info.length>10) 
+				{
+					String[] licenciasExtra = info[10].split("\\|");
+					ArrayList<Cliente> clientes = sa.getClientes();
+					
+					for (String licencia : licenciasExtra) 
+					{
+						for (Cliente cliente: clientes) 
+						{
+							LicenciaDeConduccion licenciaActual = cliente.getLicenciaDeConduccion();
+							if (licenciaActual.getNumero().equals(licencia)) 
+							{
+								conductoresExtra.add(licenciaActual);
+							}
+						}
+					}
+				}
+				
+				if (info.length>11) 
+				{
+					String[] strSeguros = info[11].split("\\|");
+					 segurosExistentes = sa.getSeguros();
+					
+					for (String seguro : strSeguros) 
+					{
+						Seguro elSeguro = sa.getSeguro(seguro);
+						segurosExistentes.add(elSeguro);
+					}
+				}
+				
+				Vehiculo elVehiculo = sa.getVehiculo(placa);
+				if (elVehiculo == null) {
+					try 
+					{
+						sa.cargarReserva(id, categoria, fechaRecogida, sedeRecogida, sedeEntrega, rangoEntrega, sa.getCliente(nombreCliente), conductoresExtra);		
+					} 
+					catch (Exception e) 
+					{
+						e.printStackTrace();
+					}
+				}
+				else 
+				{
+					try {
+					sa.cargarAlquiler(id, categoria, fechaRecogida, sedeRecogida, sedeEntrega, rangoEntrega, sa.getCliente(nombreCliente), elVehiculo, conductoresExtra,segurosExistentes);
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+				numReservas++;
+			}
+		}
+		sa.setIdReservas(numReservas);
 	}
 
 }

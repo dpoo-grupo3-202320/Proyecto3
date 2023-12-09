@@ -1,26 +1,33 @@
 package interfaz.menucliente;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import java.awt.GridLayout;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
-import clases.ContenedorDeDatos;
 import clases.SistemaAlquiler;
+import interfaz.Navegador;
+import interfaz.componentes.TButton;
 
-public class MenuCliente extends JPanel {
-	private static final long serialVersionUID = -4627965134321784440L;
+public class MenuCliente extends JPanel{
 
+<<<<<<< HEAD
 	public MenuCliente(SistemaAlquiler SA, ContenedorDeDatos CD) {
+=======
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3355054884650790372L;
+	
+	private final Navegador nav;
+	private final SistemaAlquiler sistemaAlquiler;
+>>>>>>> branch 'main' of https://github.com/dpoo-grupo3-202320/Proyecto3.git
 
-		JLabel titleLabel = new JLabel("Menu Cliente", SwingConstants.CENTER);
-		titleLabel.setFont(new Font("Helvetica", Font.BOLD, 16));
+	public MenuCliente(Navegador nav, SistemaAlquiler sistemaAlquiler) {
+		this.nav = nav;
+		this.sistemaAlquiler = sistemaAlquiler;
+		
+		setLayout(new GridLayout(0, 1));
 
+<<<<<<< HEAD
 		JPanel buttonPanel = new JPanel();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -38,25 +45,24 @@ public class MenuCliente extends JPanel {
 				//
 				SesionCliente sesion = new SesionCliente(CD , SA);
 			}
+=======
+		TButton crear = new TButton("Crear Reserva", () -> {
+			nav.agregarPagina(new CrearReservaPanel(nav, this.sistemaAlquiler));
+			return null;
+>>>>>>> branch 'main' of https://github.com/dpoo-grupo3-202320/Proyecto3.git
 		});
+		add(crear);
 
-		registro.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//
-				RegistroCliente registro = new RegistroCliente();
-			}
+		TButton modificar = new TButton("Modificar Reserva", () -> {
+			nav.agregarPagina(new ModificarReservaPanel(nav, this.sistemaAlquiler));
+			return null;
 		});
+		add(modificar);
 
-		salir.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//
-				System.exit(0);
-			}
+		TButton salir = new TButton("Cerrar Sesion", () -> {
+			this.nav.paginaAnterior();
+			return null;
 		});
+		add(salir);
 	}
-
 }
