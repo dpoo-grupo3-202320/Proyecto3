@@ -4,12 +4,14 @@ import javax.swing.*;
 
 import clases.Sede;
 import clases.SistemaAlquiler;
+import interfaz.Navegador;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class AgregarVehiculo extends JPanel {
     private JTextField placaTextField;
     private JTextField marcaTextField;
@@ -19,9 +21,10 @@ public class AgregarVehiculo extends JPanel {
     private JComboBox<String> sedeComboBox;
     
     private final SistemaAlquiler SA;
+    private final Navegador nav;
 
-    public AgregarVehiculo(SistemaAlquiler sistemaAlquiler) {
-    	
+    public AgregarVehiculo(final Navegador navegador, SistemaAlquiler sistemaAlquiler) {
+    	this.nav = navegador;
     	this.SA = sistemaAlquiler;
         setLayout(new GridLayout(7, 2, 10, 10)); // 7 filas, 2 columnas
 
@@ -45,7 +48,7 @@ public class AgregarVehiculo extends JPanel {
         add(transmisionComboBox);
 
         add(new JLabel("Categoría:"));
-        String[] categoriaOptions = {"SUV", "Pequeños", "Lujo", "automóvil", "moto", "atv", "bicicleta", "bicicleta eléctrica", "patineta eléctrica","Otros"};
+        String[] categoriaOptions = sistemaAlquiler.getCategoriasDisponibles();
         categoriaComboBox = new JComboBox<>(categoriaOptions);
         add(categoriaComboBox);
         
@@ -72,7 +75,8 @@ public class AgregarVehiculo extends JPanel {
                 // Llamar a la función agregarVehiculo del sistemaAlquiler
                 try {
                     SA.agregarVehiculo(placa, marca, color, transmision, categoria, sede, "disponible");
-                    System.out.println("Nuevo vehiculo creado");
+                    nav.mensajeCliente("Nuevo vehiculo creado", 2500);
+                    nav.paginaAnterior();
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }

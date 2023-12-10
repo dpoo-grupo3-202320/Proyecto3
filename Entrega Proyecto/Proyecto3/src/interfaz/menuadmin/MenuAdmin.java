@@ -45,7 +45,7 @@ public class MenuAdmin extends JPanel {
             addButton(buttonPanel, "Agregar Vehiculo", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    nav.agregarPagina(new AgregarVehiculo(sistemaAlquiler));
+                    nav.agregarPagina(new AgregarVehiculo(nav, sistemaAlquiler));
                 }
             });
 
@@ -129,7 +129,12 @@ public class MenuAdmin extends JPanel {
 
         if (option == JOptionPane.OK_OPTION) {
             String placa = placaTextField.getText();
-            nav.agregarPagina(new InformacionVehiculo());
+            try {
+            nav.agregarPagina(new InformacionVehiculo(nav, sistemaAlquiler, placa));
+            }
+            catch (Exception e) {
+            nav.mensajeCliente(e.getMessage(), 2500);
+            }
         }
     }
 
