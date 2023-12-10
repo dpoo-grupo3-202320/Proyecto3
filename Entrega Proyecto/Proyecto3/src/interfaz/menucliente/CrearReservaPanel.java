@@ -11,11 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import clases.Cliente;
+import clases.Inventario;
 import clases.Range;
 import clases.Reserva;
 import clases.SistemaAlquiler;
 import interfaz.Navegador;
 import interfaz.componentes.TButton;
+import interfaz.componentes.TCombo;
 import interfaz.componentes.TLabel;
 import interfaz.pagos.PaginaPago;
 import pagos.PasarelaPagos;
@@ -48,7 +50,7 @@ public class CrearReservaPanel extends JPanel {
 		}));
 
 		add(new TLabel("Categoria"));
-		JTextField categoria = new JTextField();
+		TCombo categoria = new TCombo(Inventario.categorias, false);
 		add(categoria);
 
 		add(new TLabel("Fecha recogida"));
@@ -104,7 +106,7 @@ public class CrearReservaPanel extends JPanel {
 			Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaTemprano, fechaEntregaTarde);
 
 			try {
-				Reserva r = this.sistemaAlquiler.crearReserva(categoria.getText(), fechaRecogida, ubicacionR.getText(),
+				Reserva r = this.sistemaAlquiler.crearReserva(categoria.getSelectedItem(), fechaRecogida, ubicacionR.getText(),
 						ubicacionE.getText(), rangoEntrega, (Cliente) sistemaAlquiler.getUsuarioActual(), null);
 				objPago.realizarPago();
 				try {
