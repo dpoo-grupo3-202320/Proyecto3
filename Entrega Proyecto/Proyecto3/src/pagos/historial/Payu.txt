@@ -1,1 +1,8 @@
 numeroTarjeta;fechaExpiracion;cvv;nombre;direccion;telefono;numeroTransaccion;
+Numero Tarjeta;Fecha Exp;CVV;Nombre;Direccion;Telefono;NUMERO TRANSACCION ACA
+Numero Tarjeta;Fecha Exp;CVV;Nombre;Direccion;Telefono;NUMERO TRANSACCION ACA
+Numero Tarjeta;Fecha Exp;CVV;Nombre;Direccion;Telefono;NUMERO TRANSACCION ACA
+Numero Tarjeta;Fecha Exp;CVV;Nombre;Direccion;Telefono;NUMERO TRANSACCION ACA
+Numero Tarjeta;Fecha Exp;CVV;Nombre;Direccion;Telefono;NUMERO TRANSACCION ACA
+Numero Tarjeta;Fecha Exp;CVV;Nombre;Direccion;Telefono;NUMERO TRANSACCION ACA
+Numero Tarjeta;Fecha Exp;CVV;Nombre;Direccion;Telefono;NUMERO TRANSACCION ACA
