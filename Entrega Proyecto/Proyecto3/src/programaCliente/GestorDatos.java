@@ -4,6 +4,7 @@ package programaCliente;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import clases.SistemaAlquiler;
@@ -12,6 +13,8 @@ import clases.Vehiculo;
 import clases.CSVReader;
 import clases.CSVWriter;
 import clases.Cliente;
+import clases.LicenciaDeConduccion;
+import clases.Range;
 import clases.Reserva;
 
 
@@ -31,11 +34,11 @@ public class GestorDatos {
 	}
 	
 	public Cliente nuevoCliente (String user, String contraseña, String nombre,String numero,String direccion, String nacimiento,String nacionalidad,
-			String cedula, String licencia, String numerolin,String paisExped,String fechaVen, String license, String numTarjeta, String tarvence,
+			String cedula, String numerolin,String paisExped,String fechaVen, String licencia, String numTarjeta, String tarvence,
 			String cvv) {
 		
 		try {
-			Cliente cliente= SA.registroCliente(license, fechaVen, nombre, numero, direccion, nacimiento, nacionalidad, tarvence, numerolin, paisExped, nacimiento, licencia, numTarjeta, fechaVen, cvv);
+			Cliente cliente= SA.registroCliente(user, contraseña, nombre, numero, direccion, nacimiento, nacionalidad, cedula, numerolin, paisExped, fechaVen, licencia, numTarjeta, tarvence, cvv);
 			return cliente;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -43,10 +46,19 @@ public class GestorDatos {
 		}
 		return null;
 		
+		
 	}
 	
 	public void establecerUsuario(Cliente cliente) {
 		this.SA.establecerUsuario(cliente);
+	}
+	
+	public Reserva crearReserva(String categoriaSolicitada, LocalDateTime fechaRecogida, String ubicacionRecogida,
+			String ubicacionEntrega, Range<LocalDateTime> rangoEntrega, Cliente cliente,
+			ArrayList<LicenciaDeConduccion> conductoresExtra) throws Exception {
+		Reserva nueva= this.SA.crearReserva(categoriaSolicitada, fechaRecogida, ubicacionRecogida, ubicacionEntrega, rangoEntrega, cliente, conductoresExtra);
+		return nueva;
+		
 	}
 	
 	public void nuevaReserva(Reserva reserva) {
@@ -59,6 +71,21 @@ public class GestorDatos {
 		}
 	}
 	
+	public Reserva modificarReserva(String idReserva, LocalDateTime fechaRecogida, Range<LocalDateTime> rangoEntrega) {
+		try {
+			Reserva modificar= this.SA.modificarReserva(idReserva, fechaRecogida, rangoEntrega);
+			return modificar;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public ArrayList<Reserva> getReservas(){
+		return this.SA.getReservas();
+	}
+	
 	public ArrayList<Vehiculo> getInventario(){
 		return this.SA.getVehiculos();
 	} 
@@ -69,6 +96,18 @@ public class GestorDatos {
 	
 	public void establecerUsuario(Usuario user) {
 		this.SA.establecerUsuario(user);
+	}
+	
+	public Usuario getUsuarioActual() {
+		return this.SA.getUsuarioActual();
+	}
+	
+	public void guardarDatos() {
+		this.SA.guardarDatos();
+	}
+	
+	public void cerrarSesion() {
+		this.SA.cerrarSesion();
 	}
 	
 	 public static GestorDatos obtenerInstancia() throws FileNotFoundException, ClassNotFoundException, IOException {
