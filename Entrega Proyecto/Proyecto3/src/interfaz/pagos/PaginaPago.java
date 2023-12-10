@@ -2,7 +2,6 @@ package interfaz.pagos;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.GridLayout;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
