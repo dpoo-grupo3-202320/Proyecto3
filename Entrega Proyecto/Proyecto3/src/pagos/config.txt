@@ -1,0 +1,3 @@
+pagos.PayPal;PayPal
+pagos.Payu;Payu
+pagos.Sire;Sire
