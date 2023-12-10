@@ -46,7 +46,10 @@ public class Reserva implements Serializable {
 	public Double calcularCosto() {
 		Double costoSedeDiferente = (double) (ubicacionEntrega.equals(ubicacionRecogida) ? 0D
 				: tarifa.getPrecioSedeDiferente());
-		Double costoConductoresExtra = (double) (tarifa.getPrecioConductorExtra() * conductoresExtra.size());
+		Double costoConductoresExtra = 0d;
+		if (conductoresExtra!= null) {
+			costoConductoresExtra = (double) (tarifa.getPrecioConductorExtra() * conductoresExtra.size());
+		}
 
 		return tarifa.getPrecioCategoria() + costoSedeDiferente + costoConductoresExtra;
 	}
@@ -93,6 +96,9 @@ public class Reserva implements Serializable {
 
 	private String getDatosVehiculo() {
 		Vehiculo v = getVehiculo();
+		if(v == null) {
+			return "Informacion Vehiculo:\n  - Vehiculo no ha sido establecido todavia";
+		}
 		return String.join("\r\n",
 				"Informacion Vehiculo:",
 				"  - Placa: " + v.getPlaca(),

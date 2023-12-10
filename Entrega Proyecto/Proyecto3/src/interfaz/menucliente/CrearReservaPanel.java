@@ -99,8 +99,8 @@ public class CrearReservaPanel extends JPanel {
 			}
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 			LocalDateTime fechaRecogida = LocalDateTime.parse(fechaR.getText(), formatter);
-			LocalDateTime fechaEntregaTemprano = LocalDateTime.parse((CharSequence) fechaE, formatter);
-			LocalDateTime fechaEntregaTarde = LocalDateTime.parse((CharSequence) entregaTarde, formatter);
+			LocalDateTime fechaEntregaTemprano = LocalDateTime.parse((CharSequence) fechaE.getText(), formatter);
+			LocalDateTime fechaEntregaTarde = LocalDateTime.parse((CharSequence) entregaTarde.getText(), formatter);
 			Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaTemprano, fechaEntregaTarde);
 
 			try {
@@ -108,15 +108,15 @@ public class CrearReservaPanel extends JPanel {
 						ubicacionE.getText(), rangoEntrega, (Cliente) sistemaAlquiler.getUsuarioActual(), null);
 				objPago.realizarPago();
 				try {
-					GeneradorPdf.guardarPdf("id", r.getDatosRecibo());
-					nav.mensajeCliente("Impresion de PDF exitosa.", 1000);
+					GeneradorPdf.guardarPdf(r.getId(), r.getDatosRecibo());
+					System.out.println("Impresion de PDF exitosa");
 				} catch (Exception e) {
 					nav.mensajeCliente("Impresion de pdf fallida, error: " + e, 2500);
+					e.printStackTrace();
 				}
 				this.nav.paginaAnterior();
 				this.nav.mensajeCliente("Reserva creada por cliente exitosamente", 2000);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				this.nav.mensajeCliente("La reserva no se pudo crear, error: " + e1, 3000);
 			}
