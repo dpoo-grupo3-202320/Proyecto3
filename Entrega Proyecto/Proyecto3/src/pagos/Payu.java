@@ -5,18 +5,20 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.List;
 
 public class Payu extends PasarelaPagos {
 
 	@Override
 	public void realizarPago() throws ErrorPago {
-		String numeroTarjeta = params.next();
-		String fechaExpiracion = params.next();
-		String cvv = params.next();
-		String nombre = params.next();
-		String direccion = params.next();
-		String telefono = params.next();
+		Iterator<String> paramsIter = params.iterator();
+		String numeroTarjeta = paramsIter.next();
+		String fechaExpiracion = paramsIter.next();
+		String cvv = paramsIter.next();
+		String nombre = paramsIter.next();
+		String direccion = paramsIter.next();
+		String telefono = paramsIter.next();
 		String apiKey = "API KEY ACA";
 		/**
 		 * ACA LLAMADA A API DE PAYU PARA REALIZAR PAGO
@@ -33,6 +35,11 @@ public class Payu extends PasarelaPagos {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String[] getCampos() {
+		return new String[] { "Numero Tarjeta", "Fecha Expiracion", "cvv", "Nombre", "Direccion", "Telefono", };
 	}
 
 }

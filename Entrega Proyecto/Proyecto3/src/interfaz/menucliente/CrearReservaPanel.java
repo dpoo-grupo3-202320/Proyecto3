@@ -1,7 +1,9 @@
 package interfaz.menucliente;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -14,6 +16,8 @@ import clases.SistemaAlquiler;
 import interfaz.Navegador;
 import interfaz.componentes.TButton;
 import interfaz.componentes.TLabel;
+import interfaz.pagos.PaginaPago;
+import pagos.PasarelaPagos;
 
 public class CrearReservaPanel extends JPanel {
 
@@ -24,6 +28,10 @@ public class CrearReservaPanel extends JPanel {
 
 	private final Navegador nav;
 	private final SistemaAlquiler sistemaAlquiler;
+
+	private final TButton botonPago;
+	private final PaginaPago paginaPago;
+	private PasarelaPagos objPago;
 
 	public CrearReservaPanel(Navegador nav, SistemaAlquiler sistemaAlquiler) {
 		this.nav = nav;
@@ -56,14 +64,37 @@ public class CrearReservaPanel extends JPanel {
 		add(new TLabel("Fecha Entrega"));
 		JTextField fechaE = new JTextField("yyyy-MM-dd HH:mm");
 		add(fechaE);
+
 		add(new TLabel("A más tardar"));
 		JTextField entregaTarde = new JTextField("yyyy-MM-dd HH:mm");
 		add(entregaTarde);
 
-		JPanel panelReserva = new JPanel();
-		panelReserva.setLayout(new BorderLayout());
+		paginaPago = new PaginaPago(nav, () -> {
+			obtenerObj();
+			if (objPago == null) {
+				// TODO: mostrar error
+			} else {
+				cerrarPaginaPago();
+			}
+			establecerColorBotonPago();
+			return null;
+		});
+
+		botonPago = new TButton("Establecer Metodo De Pago", () -> {
+			paginaPago.setSize(new Dimension(600, 600));
+			paginaPago.setResizable(false);
+			paginaPago.setAlwaysOnTop(true);
+			paginaPago.setVisible(true);
+			return null;
+		});
+		add(botonPago);
+		establecerColorBotonPago();
 
 		TButton reservar = new TButton("RESERVAR", () -> {
+			if (this.objPago == null) {
+				this.nav.mensajeCliente("Establecer metodo de pago primero.", 3000);
+				return null;
+			}
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 			LocalDateTime fechaRecogida = LocalDateTime.parse(fechaR.getText(), formatter);
 			LocalDateTime fechaEntregaTemprano = LocalDateTime.parse((CharSequence) fechaE, formatter);
@@ -73,6 +104,7 @@ public class CrearReservaPanel extends JPanel {
 			try {
 				this.sistemaAlquiler.crearReserva(categoria.getText(), fechaRecogida, ubicacionR.getText(),
 						ubicacionE.getText(), rangoEntrega, (Cliente) sistemaAlquiler.getUsuarioActual(), null);
+				objPago.realizarPago();
 				this.nav.paginaAnterior();
 				this.nav.mensajeCliente("Reserva creada por cliente exitosamente", 2000);
 			} catch (Exception e1) {
@@ -83,7 +115,26 @@ public class CrearReservaPanel extends JPanel {
 			return null;
 		});
 		add(reservar);
+	}
 
+	private void cerrarPaginaPago() {
+		paginaPago.dispatchEvent(new WindowEvent(paginaPago, WindowEvent.WINDOW_CLOSING));
+	}
+
+	private void obtenerObj() {
+		this.objPago = paginaPago.getObj();
+	}
+
+	private void establecerColorBotonPago() {
+		if (objPago == null) {
+			// si imagen no escogida, rojo
+			botonPago.setBackground(new Color(237, 154, 154));
+			botonPago.setText("Establecer Metodo De Pago");
+		} else {
+			// si imagen escogida, verde
+			botonPago.setBackground(new Color(203, 230, 201));
+			botonPago.setText("Metodo De Pago Establecido");
+		}
 	}
 
 }
