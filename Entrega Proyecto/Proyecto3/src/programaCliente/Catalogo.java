@@ -31,7 +31,7 @@ public class Catalogo extends JFrame{
 	private DefaultListModel<String> modeloLista;
     private JList<String> listaVehiculos;
     
-    public Catalogo(Navegador nav, GestorDatos gestor) {
+    public Catalogo(NavegadorApp nav, GestorDatos gestor) {
     	
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
     	setSize(300, 200);
