@@ -120,6 +120,11 @@ public class SistemaAlquiler {
 	public ArrayList<Cliente> getClientes() {
 		return new ArrayList<Cliente>(clientes.values());
 	}
+	
+	public String[] getCategoriasDisponibles() 
+	{
+		return Inventario.categorias;
+	}
 
 	// Metodos
 

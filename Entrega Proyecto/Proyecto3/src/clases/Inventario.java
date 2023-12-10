@@ -17,7 +17,7 @@ public class Inventario implements Serializable {
 	public static final String[] sedes = new String[] { "SedeA", "SedeB", "SedeC", "SedeD", "SedeE", "SedeF" };
 
 	public static final String[] categorias = new String[] { "atv", "bicicleta electrica", "patineta electrica",
-			"bicicleta", "Lujo", "SUV", "Vans", "Camionetas", "automovil", "Pequeños", "moto", "Otros" };
+			"bicicleta", "Lujo", "SUV", "Vans", "Camionetas", "automovil", "Pequenos", "moto", "Otros" };
 	public static final List<String> prioridadCategoria = Arrays.asList(categorias);
 
 	public static final String[] seguros = new String[] { "Daños a terceros", "Accidentes", "Robos" };
@@ -31,13 +31,14 @@ public class Inventario implements Serializable {
 			put("Lujo", new Tarifa(25000L, 50000L, 25000L));
 			put("SUV", new Tarifa(25000L, 50000L, 25000L));
 			put("Vans", new Tarifa(25000L, 50000L, 25000L));
-			put("Camionetas", new Tarifa(25000L, 50000L, 25000L));
+			put("Camioneta", new Tarifa(25000L, 50000L, 25000L));
 			put("automovil", new Tarifa(25000L, 50000L, 25000L));
-			put("Pequeños", new Tarifa(25000L, 50000L, 25000L));
+			put("Pequenos", new Tarifa(25000L, 50000L, 25000L));
 			put("moto", new Tarifa(25000L, 50000L, 25000L));
 			put("Otros", new Tarifa(25000L, 50000L, 25000L));
 		}
 	};
+	
 	private Map<String, Vehiculo> vehiculos;
 	private Map<String, Reserva> reservas;
 	private Map<String, List<Range<LocalDateTime>>> calendario;
