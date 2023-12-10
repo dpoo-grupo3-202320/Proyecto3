@@ -12,12 +12,14 @@ import javax.swing.JTextField;
 
 import clases.Cliente;
 import clases.Range;
+import clases.Reserva;
 import clases.SistemaAlquiler;
 import interfaz.Navegador;
 import interfaz.componentes.TButton;
 import interfaz.componentes.TLabel;
 import interfaz.pagos.PaginaPago;
 import pagos.PasarelaPagos;
+import pdf.GeneradorPdf;
 
 public class CrearReservaPanel extends JPanel {
 
@@ -102,9 +104,15 @@ public class CrearReservaPanel extends JPanel {
 			Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaTemprano, fechaEntregaTarde);
 
 			try {
-				this.sistemaAlquiler.crearReserva(categoria.getText(), fechaRecogida, ubicacionR.getText(),
+				Reserva r = this.sistemaAlquiler.crearReserva(categoria.getText(), fechaRecogida, ubicacionR.getText(),
 						ubicacionE.getText(), rangoEntrega, (Cliente) sistemaAlquiler.getUsuarioActual(), null);
 				objPago.realizarPago();
+				try {
+					GeneradorPdf.guardarPdf("id", r.getDatosRecibo());
+					nav.mensajeCliente("Impresion de PDF exitosa.", 1000);
+				} catch (Exception e) {
+					nav.mensajeCliente("Impresion de pdf fallida, error: " + e, 2500);
+				}
 				this.nav.paginaAnterior();
 				this.nav.mensajeCliente("Reserva creada por cliente exitosamente", 2000);
 			} catch (Exception e1) {

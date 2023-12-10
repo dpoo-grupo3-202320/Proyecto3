@@ -2,6 +2,7 @@ package clases;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Reserva implements Serializable {
@@ -81,6 +82,50 @@ public class Reserva implements Serializable {
 
 	public Vehiculo getVehiculo() {
 		return vehiculo;
+	}
+	
+	public String getDatosRecibo() {
+		return String.join("\r\n\r\n", 
+				this.getDatosCliente(),
+				this.getDatosVehiculo(),
+				this.getDatosReserva());
+	}
+
+	private String getDatosVehiculo() {
+		Vehiculo v = getVehiculo();
+		return String.join("\r\n",
+				"Informacion Vehiculo:",
+				"  - Placa: " + v.getPlaca(),
+				"  - Categoria: " + v.getCategoria(),
+				"  - Marca: " + v.getMarca(),
+				"  - Color: " + v.getColor(),
+				"  - Transmision: " + v.getTransmision(),
+				"  - Comentarios: " + v.getComentarios());
+	}
+	
+	private String getDatosCliente() {
+		Cliente c = this.getCliente();
+		return String.join("\r\n",
+				"Informacion Cliente:",
+				"  - ID Cliente: " + c.getUsuario(),
+				"  - Nombres: " + c.getNombres(),
+				"  - Numero De Telefono: " + c.getNumeroTelefono(),
+				"  - Direccion: " + c.getDireccion(),
+				"  - Fecha Nacimiento: " + c.getFechaNacimiento(),
+				"  - Nacionalidad: " + c.getNacionalidad());
+	}
+
+	private String getDatosReserva() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		return String.join("\r\n",
+				"Informacion Reserva:",
+				"  - ID Reserva: " + this.id,
+				"  - Ubicacion Entrega: " + this.ubicacionRecogida,
+				"  - Fecha Entrega: " + this.getFechaRecogida().format(formatter),
+				"  - Ubicacion Devolucion: " + this.ubicacionEntrega,
+				"  - Fecha Devolucion: entre " + this.getRangoEntrega().getLow().format(formatter) + " y "
+						+ this.getRangoEntrega().getHigh().format(formatter),
+				"  - Costo (COP): " + this.calcularCosto());
 	}
 
 	public ArrayList<LicenciaDeConduccion> getConductoresExtra() {

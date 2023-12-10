@@ -30,7 +30,9 @@ public class GeneradorPdf {
 				 "  <body>",
 				 "    <h1>Recibo con id: " + id + "</h1>",
 				 // white-space: pre-line hace que se reconozcan los \n en html
+				 "    <hr>",
 				 "    <div><p style=\"white-space: pre-line\">" + cuerpo + "</p></div>",
+				 "    <hr>",
 				 "    <p>Aprobado por:</p>",
 				 "    <div style=\"margin: auto 0;"
 						 		+ "width: 400px; height: 200px;"
