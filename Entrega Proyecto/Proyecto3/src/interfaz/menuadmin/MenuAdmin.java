@@ -3,11 +3,13 @@ package interfaz.menuadmin;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import clases.Admin;
+import clases.Sede;
 import clases.SistemaAlquiler;
 import interfaz.Navegador;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -59,7 +61,7 @@ public class MenuAdmin extends JPanel {
             addButton(buttonPanel, "Modificar Sede", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // nav.agregarPagina(new AgregarVehiculo());
+                    mostrarVentanaSede();
                 }
             });
             addButton(buttonPanel, "Consultar informacion vehiculo", new ActionListener() {
@@ -136,6 +138,38 @@ public class MenuAdmin extends JPanel {
             nav.mensajeCliente(e.getMessage(), 2500);
             }
         }
+    }
+    
+    private void mostrarVentanaSede() {
+        // Crear un JComboBox con las sedes disponibles
+        JComboBox<String> sedesComboBox = new JComboBox<>(obtenerNombresSedes());
+
+        // Crear un panel para alinear los componentes
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Seleccione Sede:"));
+        panel.add(sedesComboBox);
+
+        int option = JOptionPane.showOptionDialog(null, panel, "Consultar Información Vehículo",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+        if (option == JOptionPane.OK_OPTION) {
+            String sedeSeleccionada = (String) sedesComboBox.getSelectedItem();
+            try {
+                nav.agregarPagina(new InformacionSede(nav, sistemaAlquiler, sedeSeleccionada));
+            } catch (Exception e) {
+                nav.mensajeCliente(e.getMessage(), 2500);
+            }
+        }
+    }
+
+    private String[] obtenerNombresSedes() {
+        // Obtener las sedes disponibles del sistemaAlquiler y convertirlas a un array de Strings
+        ArrayList<Sede> sedes = sistemaAlquiler.getSedes();
+        String[] nombresSedes = new String[sedes.size()];
+        for (int i = 0; i < sedes.size(); i++) {
+            nombresSedes[i] = sedes.get(i).getNombre();
+        }
+        return nombresSedes;
     }
 
 }
