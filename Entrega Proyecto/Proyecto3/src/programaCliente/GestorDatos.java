@@ -110,6 +110,10 @@ public class GestorDatos {
 		this.SA.cerrarSesion();
 	}
 	
+	public SistemaAlquiler getSA() {
+		return this.SA;
+	}
+	
 	 public static GestorDatos obtenerInstancia() throws FileNotFoundException, ClassNotFoundException, IOException {
 	        if (instancia == null) {
 	            synchronized (GestorDatos.class) {
