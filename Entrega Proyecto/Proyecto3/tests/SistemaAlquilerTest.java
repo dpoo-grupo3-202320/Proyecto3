@@ -24,31 +24,6 @@ class SistemaAlquilerTest {
 		sistemaAlquiler = new SistemaAlquiler();
 	}
 
-//	@Test
-//	void testRegistroAdmin() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testRegistroEmpleado() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testRegistroCliente() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testModificarNombreSede() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testModificarHorarioSede() {
-//		fail("Not yet implemented");
-//	}
-
 	@Test
 	void testCrearReserva() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
