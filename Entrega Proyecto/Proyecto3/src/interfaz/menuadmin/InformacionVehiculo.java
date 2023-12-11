@@ -24,7 +24,7 @@ public class InformacionVehiculo extends JPanel {
     private final SistemaAlquiler SA;
     private final Navegador nav;
 
-    public InformacionVehiculo(final Navegador navegador,SistemaAlquiler sistemaAlquiler, String placa) throws Exception {
+    public InformacionVehiculo(final Navegador navegador,SistemaAlquiler sistemaAlquiler, String placa, boolean flag) throws Exception {
     	this.nav = navegador;
     	this.SA = sistemaAlquiler;
         setLayout(new GridLayout(1, 2, 10, 10)); // 1 fila, 2 columnas
@@ -92,10 +92,13 @@ public class InformacionVehiculo extends JPanel {
             }
         });
         
+        
 
         rightPanel.add(consultarHistorialButton);
         rightPanel.add(finalizarConsultaButton);
+        if (flag==true) {
         rightPanel.add(darDeAltaButton);
+        }
 
         // Agregar los dos paneles al panel principal
         add(leftPanel);

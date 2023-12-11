@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class MenuAdmin extends JPanel {
 
     private final Navegador nav;
@@ -67,7 +68,7 @@ public class MenuAdmin extends JPanel {
             addButton(buttonPanel, "Consultar informacion vehiculo", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    mostrarVentanaPlaca();
+                    mostrarVentanaPlaca(true);
                 }
             });
             addButton(buttonPanel, "Cerrar Sesión", new ActionListener() {
@@ -92,15 +93,15 @@ public class MenuAdmin extends JPanel {
                 }
             });
             addButton(buttonPanel, "Consultar Informacion Vehiculo", new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // nav.agregarPagina(new AgregarVehiculo());
-                }
+            	 @Override
+                 public void actionPerformed(ActionEvent e) {
+                     mostrarVentanaPlaca(false);
+                 }
             });
             addButton(buttonPanel, "Cerrar Sesión", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // nav.agregarPagina(new AgregarVehiculo());
+                	nav.cerrarSesion();
                 }
             });
 
@@ -122,7 +123,7 @@ public class MenuAdmin extends JPanel {
         panel.add(button, buttonConstraints);
     }
 
-    private void mostrarVentanaPlaca() {
+    private void mostrarVentanaPlaca(boolean flag) {
         JTextField placaTextField = new JTextField();
         Object[] message = { "Placa:", placaTextField };
 
@@ -132,7 +133,7 @@ public class MenuAdmin extends JPanel {
         if (option == JOptionPane.OK_OPTION) {
             String placa = placaTextField.getText();
             try {
-            nav.agregarPagina(new InformacionVehiculo(nav, sistemaAlquiler, placa));
+            nav.agregarPagina(new InformacionVehiculo(nav, sistemaAlquiler, placa, flag));
             }
             catch (Exception e) {
             nav.mensajeCliente(e.getMessage(), 2500);
