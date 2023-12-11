@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 
-public class GeneradorPdf {
+public abstract class GeneradorPdf {
 	
 	public static void guardarPdf(String id, String cuerpo) throws FileNotFoundException, IOException {
         File pdfDest = new File(DIR(id));
@@ -30,7 +30,9 @@ public class GeneradorPdf {
 				 "  <body>",
 				 "    <h1>Recibo con id: " + id + "</h1>",
 				 // white-space: pre-line hace que se reconozcan los \n en html
+				 "    <hr>",
 				 "    <div><p style=\"white-space: pre-line\">" + cuerpo + "</p></div>",
+				 "    <hr>",
 				 "    <p>Aprobado por:</p>",
 				 "    <div style=\"margin: auto 0;"
 						 		+ "width: 400px; height: 200px;"
@@ -40,7 +42,7 @@ public class GeneradorPdf {
 						 		+ "background-position: center center;"
 						 		+ "\">",
 				 "    </div>",
-				 "    <p>Anthony Frank Hawk</p>",
+				 "    <p>Anthony \"Tony\" Frank Hawk</p>",
 				 "    <p><i><strong>CEO de Pro Wheels Car Rentals Inc.</strong></i></p>",
 //				 "	<script src=\"index.js\"></script>",
 				 "  </body>",

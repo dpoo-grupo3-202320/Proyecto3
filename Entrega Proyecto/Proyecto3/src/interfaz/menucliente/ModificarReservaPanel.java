@@ -3,6 +3,7 @@ package interfaz.menucliente;
 import java.awt.GridLayout;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 import clases.Range;
@@ -36,10 +37,10 @@ public class ModificarReservaPanel extends JPanel {
 		this.nav = nav;
 		this.sistemaAlquiler = sistemaAlquiler;
 
-		final List<Reserva> reservas = sistemaAlquiler.getReservas();
-		final String[] reservaIds = (String[]) reservas.stream().map((Reserva r) -> {
-			return "reserva id: " + r.getId() + ", cliente: " + r.getCliente().getUsuario();
-		}).toArray();
+		final ArrayList<Reserva> reservas = sistemaAlquiler.getReservas();
+		final String[] reservaIds = reservas.stream()
+				.map(r -> "reserva id: " + r.getId() + ", cliente: " + r.getCliente().getUsuario())
+				.toArray(String[]::new);
 
 		combo = new TCombo(reservaIds, true);
 		combo.addActionListener(e -> {
@@ -73,8 +74,8 @@ public class ModificarReservaPanel extends JPanel {
 		this.reservar = new TButton("RESERVAR", () -> {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 			LocalDateTime fechaRecogida = LocalDateTime.parse(fechaR.getText(), formatter);
-			LocalDateTime fechaEntregaTemprano = LocalDateTime.parse((CharSequence) fechaE, formatter);
-			LocalDateTime fechaEntregaTarde = LocalDateTime.parse((CharSequence) entregaTarde, formatter);
+			LocalDateTime fechaEntregaTemprano = LocalDateTime.parse((CharSequence) fechaE.getText(), formatter);
+			LocalDateTime fechaEntregaTarde = LocalDateTime.parse((CharSequence) entregaTarde.getText(), formatter);
 			Range<LocalDateTime> rangoEntrega = new Range<LocalDateTime>(fechaEntregaTemprano, fechaEntregaTarde);
 
 			try {
