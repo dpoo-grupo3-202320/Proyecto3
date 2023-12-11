@@ -65,6 +65,18 @@ public class MenuAdmin extends JPanel {
                     mostrarVentanaSede();
                 }
             });
+            addButton(buttonPanel, "Crear Seguro", new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mostrarVentanaSeguro();
+                }
+            });
+            addButton(buttonPanel, "Modificar Seguro", new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mostrarVentanaElimSeguro();
+                }
+            });
             addButton(buttonPanel, "Consultar informacion vehiculo", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -188,6 +200,63 @@ public class MenuAdmin extends JPanel {
 			} catch (Exception e) {
 				nav.mensajeCliente(e.getMessage(),2500);
 			}
+        }
+    }
+    
+    private void mostrarVentanaSeguro() {
+        JTextField nombreSeguroTextField = new JTextField();
+        JTextField costoDiarioTextField = new JTextField();
+
+        // Crear un panel para alinear los componentes
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+        panel.add(new JLabel("Nombre Seguro:"));
+        panel.add(nombreSeguroTextField);
+        panel.add(new JLabel("Costo Diario:"));
+        panel.add(costoDiarioTextField);
+
+        int option = JOptionPane.showOptionDialog(null, panel, "Agregar Usuario",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+        if (option == JOptionPane.OK_OPTION) {
+            String nomSeguro = nombreSeguroTextField.getText();
+            Float costoDiario = Float.parseFloat(costoDiarioTextField.getText());
+            try {
+				sistemaAlquiler.agregarSeguro(nomSeguro, costoDiario);
+				} 
+             catch (NumberFormatException e) {
+                nav.mensajeCliente("El costo diario debe ser un número válido.", 2500);
+            } catch (Exception e) {
+                nav.mensajeCliente(e.getMessage(), 2500);
+            }
+        }
+    }
+    
+    private void mostrarVentanaElimSeguro() {
+        JTextField nombreSeguroTextField = new JTextField();
+        JTextField costoDiarioTextField = new JTextField();
+
+        // Crear un panel para alinear los componentes
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+        panel.add(new JLabel("Seguro a modificar:"));
+        panel.add(nombreSeguroTextField);
+        panel.add(new JLabel("Nuevo costo Diario:"));
+        panel.add(costoDiarioTextField);
+
+        int option = JOptionPane.showOptionDialog(null, panel, "Agregar Usuario",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+        if (option == JOptionPane.OK_OPTION) {
+            String nomSeguro = nombreSeguroTextField.getText();
+            Float costoDiario = Float.parseFloat(costoDiarioTextField.getText());
+            try {
+				
+				sistemaAlquiler.modificarValorSeguro(nomSeguro, costoDiario);
+				} 
+             catch (NumberFormatException e) {
+                nav.mensajeCliente("El costo diario debe ser un número válido.", 2500);
+            } catch (Exception e) {
+                nav.mensajeCliente(e.getMessage(), 2500);
+            }
         }
     }
 
