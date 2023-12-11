@@ -83,7 +83,7 @@ public class MenuAdmin extends JPanel {
             addButton(buttonPanel, "Añadir Empleado", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // nav.agregarPagina(new AgregarVehiculo());
+                    nav.agregarPagina(new AgregarEmpleado(nav, sistemaAlquiler, admin.getSede()));
                 }
             });
             addButton(buttonPanel, "Eliminar Empleado", new ActionListener() {
