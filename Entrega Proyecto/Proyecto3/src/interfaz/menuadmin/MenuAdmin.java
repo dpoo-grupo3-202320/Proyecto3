@@ -89,7 +89,7 @@ public class MenuAdmin extends JPanel {
             addButton(buttonPanel, "Eliminar Empleado", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // nav.agregarPagina(new AgregarVehiculo());
+                    mostrarVentanaUsuario();
                 }
             });
             addButton(buttonPanel, "Consultar Informacion Vehiculo", new ActionListener() {
@@ -171,6 +171,24 @@ public class MenuAdmin extends JPanel {
             nombresSedes[i] = sedes.get(i).getNombre();
         }
         return nombresSedes;
+    }
+    
+    private void mostrarVentanaUsuario() {
+        JTextField usuarioTextField = new JTextField();
+        Object[] message = { "Usuario:", usuarioTextField };
+
+        int option = JOptionPane.showOptionDialog(null, message, "Eliminar usuario",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+        if (option == JOptionPane.OK_OPTION) {
+            String usuario = usuarioTextField.getText();
+            try {
+				sistemaAlquiler.eliminarEmpleado(usuario);
+				nav.mensajeCliente("Empleado eliminado",2500);
+			} catch (Exception e) {
+				nav.mensajeCliente(e.getMessage(),2500);
+			}
+        }
     }
 
 }
