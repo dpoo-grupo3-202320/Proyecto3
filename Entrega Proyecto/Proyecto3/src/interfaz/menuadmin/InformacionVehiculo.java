@@ -65,6 +65,10 @@ public class InformacionVehiculo extends JPanel {
 
         // Botones
         JButton consultarHistorialButton = createGreenButton("Consultar Historial");
+        
+        //TODO implementar consulta historial
+        
+        
         JButton finalizarConsultaButton = createGreenButton("Finalizar Consulta");
         finalizarConsultaButton.addActionListener(new ActionListener() {
             @Override
@@ -72,7 +76,22 @@ public class InformacionVehiculo extends JPanel {
                nav.paginaAnterior();
             }
         });
+        
+        
         JButton darDeAltaButton = createRedButton("Dar de Alta");
+        darDeAltaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	try {
+            	SA.eliminarVehiculo(placa);
+            	}
+            	catch (Exception ex) {
+            		nav.mensajeCliente(ex.getMessage(), 2500);            		
+            	}
+               nav.paginaAnterior();
+            }
+        });
+        
 
         rightPanel.add(consultarHistorialButton);
         rightPanel.add(finalizarConsultaButton);

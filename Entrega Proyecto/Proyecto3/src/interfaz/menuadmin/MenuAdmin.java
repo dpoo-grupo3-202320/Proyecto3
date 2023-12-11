@@ -52,7 +52,7 @@ public class MenuAdmin extends JPanel {
             addButton(buttonPanel, "Crear Sede", new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // nav.agregarPagina(new AgregarVehiculo());
+                    nav.agregarPagina(new CrearSede(nav,sistemaAlquiler));
                 }
             });
 
